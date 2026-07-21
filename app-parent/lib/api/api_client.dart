@@ -50,9 +50,13 @@ class ApiClient {
     return _persist(AuthResult.fromJson(r.data as Map<String, dynamic>));
   }
 
-  Future<AuthResult> register(String email, String password) async {
-    final r = await _dio.post<dynamic>('/auth/register',
-        data: {'email': email, 'password': password});
+  Future<AuthResult> register(
+      String email, String password, String? familyName) async {
+    final r = await _dio.post<dynamic>('/auth/register', data: {
+      'email': email,
+      'password': password,
+      if (familyName != null) 'familyName': familyName,
+    });
     return _persist(AuthResult.fromJson(r.data as Map<String, dynamic>));
   }
 
@@ -84,6 +88,16 @@ class ApiClient {
       return true;
     } catch (_) {
       return false;
+    }
+  }
+
+  /// Register the parent device's FCM push token so alerts arrive instantly.
+  /// Safe to call even when Firebase is not configured (silent 404/error).
+  Future<void> setFcmToken(String token) async {
+    try {
+      await _dio.patch<dynamic>('/auth/fcm-token', data: {'fcmToken': token});
+    } catch (_) {
+      // Firebase not configured or network down — silent no-op
     }
   }
 

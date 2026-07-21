@@ -17,8 +17,8 @@ android {
         applicationId = "app.monii.managed"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.1.1"
+        versionCode = 4
+        versionName = "0.2.0"
     }
 
     buildFeatures {
@@ -51,6 +51,9 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.work:work-runtime-ktx:2.9.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+
+    // encrypted storage for device secrets
+    implementation("androidx.security:security-crypto:1.0.0")
 
     // networking + async (Phase 3: backend integration via polling)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")

@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/api_client.dart';
 import '../api/models.dart';
+import '../main.dart' show firebaseAvailable;
 
 /// Backend base URL (editable on the login screen for dev).
 final baseUrlProvider =
@@ -48,19 +50,35 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = const AuthState(loading: true);
     try {
       await ref.read(apiProvider).login(email, password);
+      await _registerFcmToken();
       _onSignedIn();
     } catch (e) {
       state = AuthState(error: _message(e));
     }
   }
 
-  Future<void> register(String email, String password) async {
+  Future<void> register(
+      String email, String password, String? familyName) async {
     state = const AuthState(loading: true);
     try {
-      await ref.read(apiProvider).register(email, password);
+      await ref.read(apiProvider).register(email, password, familyName);
+      await _registerFcmToken();
       _onSignedIn();
     } catch (e) {
       state = AuthState(error: _message(e));
+    }
+  }
+
+  /// If Firebase is available, get the FCM token and register it with the
+  /// backend so alerts (tamper, new-app, unblock requests) arrive as pushes.
+  Future<void> _registerFcmToken() async {
+    if (!firebaseAvailable) return;
+    try {
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token == null) return;
+      await ref.read(apiProvider).setFcmToken(token);
+    } catch (_) {
+      // Firebase not configured or token unavailable — silent no-op
     }
   }
 
@@ -78,7 +96,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
   String _message(Object e) {
     if (e is DioException) {
       final data = e.response?.data;
-      if (data is Map && data['message'] != null) return data['message'].toString();
+      if (data is Map && data['message'] != null) {
+        return data['message'].toString();
+      }
       return e.message ?? 'Network error';
     }
     return e.toString();

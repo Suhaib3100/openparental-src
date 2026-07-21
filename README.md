@@ -124,6 +124,48 @@ flutter run                       # set the backend URL on the login screen
 Register, create a pairing code, type it into the child app — the device appears
 on your dashboard.
 
+## 🔥 Firebase setup (optional — needed for push notifications)
+
+Push notifications (FCM) let commands arrive instantly and alerts appear on the
+parent's phone without waiting for the next poll cycle. Without Firebase, the
+system works but devices poll every 60 seconds.
+
+### 1. Create a Firebase project
+
+Go to the [Firebase Console](https://console.firebase.google.com/) and create
+a new project (or reuse an existing one).
+
+### 2. Android (child app)
+
+1. In Firebase Console → Project Settings → **Add app** → **Android**
+2. Package name: `app.monii.managed`
+3. Download `google-services.json`
+4. Place it at `android-managed/app/google-services.json`
+
+### 3. Backend
+
+1. In Firebase Console → Project Settings → **Service accounts** → **Generate
+   new private key**
+2. Download the JSON file
+3. Place it at `backend/fcm-service-account.json`
+4. Set in `backend/.env`:
+   ```
+   FCM_SERVICE_ACCOUNT_PATH=./fcm-service-account.json
+   ```
+
+### 4. Parent app (Flutter)
+
+1. In Firebase Console → Project Settings → **Add app** → **iOS** and **Android**
+   (for the parent app package)
+2. Follow the FlutterFire setup:
+   ```bash
+   cd app-parent
+   flutter pub add firebase_core firebase_messaging
+   flutterfire configure  # downloads google-services.json + GoogleService-Info.plist
+   ```
+3. The backend registers the parent's FCM token on login via
+   `PATCH /auth/fcm-token`
+
 ## 🗺️ Roadmap
 
 - [x] **v1 — enforcement, limits, tamper-evidence, location, alerts** (built, CI-green)

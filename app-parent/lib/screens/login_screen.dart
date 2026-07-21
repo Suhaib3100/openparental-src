@@ -148,7 +148,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ? null
                         : () {
                             _apply();
-                            notifier.register(_email.text.trim(), _password.text);
+                            notifier.register(
+                                _email.text.trim(), _password.text, null);
                           },
                     child: const Text('Create account'),
                   ),

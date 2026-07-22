@@ -2,13 +2,11 @@ import 'package:firebase_core/firebase_core.dart' show Firebase;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'firebase_state.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'state/providers.dart';
 import 'theme/app_theme.dart';
-
-/// Global flag so the auth notifier knows whether Firebase is available.
-bool firebaseAvailable = false;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

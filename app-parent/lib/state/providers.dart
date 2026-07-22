@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/api_client.dart';
 import '../api/models.dart';
-import '../main.dart' show firebaseAvailable;
+import '../firebase_state.dart' show firebaseAvailable;
 
 /// Backend base URL (editable on the login screen for dev).
 final baseUrlProvider =

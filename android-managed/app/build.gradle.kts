@@ -53,7 +53,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
 
     // encrypted storage for device secrets
-    implementation("androidx.security:security-crypto:1.0.0")
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
     // networking + async (Phase 3: backend integration via polling)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")

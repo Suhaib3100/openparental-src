@@ -7,6 +7,7 @@ import '../widgets/ui.dart';
 import 'keyword_detection_screen.dart';
 import 'notifications_screen.dart';
 import 'usage_logs_screen.dart';
+import 'watch_history_screen.dart';
 
 /// Read-only details for one device.
 class DeviceInfoScreen extends StatelessWidget {
@@ -135,6 +136,31 @@ class DeviceInfoScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute<void>(
                       builder: (_) => NotificationsScreen(
+                        deviceId: device.id,
+                        deviceName: device.name,
+                      ),
+                    ),
+                  ),
+                ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                ListTile(
+                  leading: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: Colors.red.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.play_circle_filled_rounded,
+                        color: Colors.red),
+                  ),
+                  title: const Text('Watch History'),
+                  subtitle: const Text('YouTube & TikTok activity'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => WatchHistoryScreen(
                         deviceId: device.id,
                         deviceName: device.name,
                       ),

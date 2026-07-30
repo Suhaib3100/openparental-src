@@ -30,12 +30,15 @@ class SocialAppNotifListener : NotificationListenerService() {
         private const val TAG = "SocialAppNotif"
         private const val CHANNEL_ID = "monii_notif_monitor"
 
-        /** Cooldown per package for the notification feed (millis). */
         private const val FEED_COOLDOWN_MS = 60_000L
-        /** Cooldown per package for keyword detection (millis). */
         private const val KEYWORD_COOLDOWN_MS = 30_000L
+        private const val MEDIA_COOLDOWN_MS = 120_000L
 
-        /** App categories we don't capture (system-level noise). */
+        private val YOUTUBE_TIKTOK_PKGS = setOf(
+            "com.google.android.apps.youtube",
+            "com.zhiliaoapp.musically",
+        )
+
         private val SKIP_CATEGORIES = setOf(
             Notification.CATEGORY_ALARM,
             Notification.CATEGORY_CALL,
@@ -50,6 +53,7 @@ class SocialAppNotifListener : NotificationListenerService() {
     /** Cooldown maps: packageName → last reported timestamp */
     private val feedCooldown = mutableMapOf<String, Long>()
     private val keywordCooldown = mutableMapOf<String, Long>()
+    private val mediaCooldown = mutableMapOf<String, Long>()
 
     override fun onCreate() {
         super.onCreate()
@@ -108,7 +112,23 @@ class SocialAppNotifListener : NotificationListenerService() {
             ContentBuffer.add(this, feedItem)
         }
 
-        // ── 2. Run keyword detection (social apps only, rate-limited) ──
+        // ── 2. YouTube / TikTok watch history (separate cooldown) ──
+        if (pkg in YOUTUBE_TIKTOK_PKGS) {
+            val mediaSource = if (pkg == "com.google.android.apps.youtube") "youtube" else "tiktok"
+            val mediaLast = mediaCooldown[pkg] ?: 0L
+            if (now - mediaLast >= MEDIA_COOLDOWN_MS) {
+                mediaCooldown[pkg] = now
+                val mediaItem = ContentBuffer.createItem(
+                    source = mediaSource,
+                    body = allText.take(512),
+                    matched = null,
+                    counterparty = pkg,
+                )
+                ContentBuffer.add(this, mediaItem)
+            }
+        }
+
+        // ── 3. Run keyword detection (social apps only, rate-limited) ──
         if (pkg !in KeywordDetector.MONITORED_PACKAGES) return
         val kwLast = keywordCooldown[pkg] ?: 0L
         if (now - kwLast < KEYWORD_COOLDOWN_MS) return

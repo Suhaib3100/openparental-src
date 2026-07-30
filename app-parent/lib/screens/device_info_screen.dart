@@ -5,6 +5,7 @@ import '../theme/app_theme.dart';
 import '../theme/status.dart';
 import '../widgets/ui.dart';
 import 'keyword_detection_screen.dart';
+import 'usage_logs_screen.dart';
 
 /// Read-only details for one device.
 class DeviceInfoScreen extends StatelessWidget {
@@ -63,29 +64,58 @@ class DeviceInfoScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Card(
-            child: ListTile(
-              leading: Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  color: AppColors.alert.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(Icons.warning_amber_rounded,
-                    color: AppColors.alert),
-              ),
-              title: const Text('Keyword Detection'),
-              subtitle: const Text('Scan social media for safety keywords'),
-              trailing: const Icon(Icons.chevron_right_rounded),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (_) => KeywordDetectionScreen(
-                    deviceId: device.id,
-                    deviceName: device.name,
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: AppColors.alert.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.warning_amber_rounded,
+                        color: AppColors.alert),
+                  ),
+                  title: const Text('Keyword Detection'),
+                  subtitle: const Text('Social media safety keywords'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => KeywordDetectionScreen(
+                        deviceId: device.id,
+                        deviceName: device.name,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                ListTile(
+                  leading: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: AppColors.offline.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.history_rounded,
+                        color: AppColors.offline),
+                  ),
+                  title: const Text('Usage Logs'),
+                  subtitle: const Text('Screen events & app timeline'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => UsageLogsScreen(
+                        deviceId: device.id,
+                        deviceName: device.name,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

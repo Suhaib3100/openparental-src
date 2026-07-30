@@ -183,4 +183,16 @@ class ApiClient {
         .map((e) => ContentItem.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  // ---- usage logs / events ----
+
+  Future<List<EventLog>> getEvents(String deviceId, {int limit = 100}) async {
+    final r = await _dio.get<dynamic>(
+      '/devices/$deviceId/events',
+      queryParameters: {'limit': limit.toString()},
+    );
+    return (r.data as List)
+        .map((e) => EventLog.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
 }

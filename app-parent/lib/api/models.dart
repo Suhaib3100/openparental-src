@@ -158,3 +158,26 @@ class ContentItem {
             : null,
       );
 }
+
+class EventLog {
+  final String id;
+  final String type;
+  final Map<String, dynamic> data;
+  final DateTime occurredAt;
+
+  EventLog({
+    required this.id,
+    required this.type,
+    required this.data,
+    required this.occurredAt,
+  });
+
+  factory EventLog.fromJson(Map<String, dynamic> j) => EventLog(
+        id: j['id'] as String,
+        type: (j['type'] as String?) ?? '',
+        data: (j['data'] as Map<String, dynamic>?) ?? <String, dynamic>{},
+        occurredAt: j['occurredAt'] != null
+            ? DateTime.parse(j['occurredAt'] as String)
+            : DateTime.now(),
+      );
+}

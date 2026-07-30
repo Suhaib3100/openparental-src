@@ -39,6 +39,20 @@ class SocialAppNotifListener : NotificationListenerService() {
             "com.zhiliaoapp.musically",
         )
 
+        private val BROWSER_PKGS = setOf(
+            "com.android.chrome",
+            "com.brave.browser",
+            "com.brave.browser_default",
+            "org.mozilla.firefox",
+            "org.mozilla.firefox_beta",
+            "com.opera.browser",
+            "com.opera.mini.native",
+            "com.microsoft.edge",
+            "com.duckduckgo.mobile.android",
+            "com.vivaldi.browser",
+            "mark.via.gp",
+        )
+
         private val SKIP_CATEGORIES = setOf(
             Notification.CATEGORY_ALARM,
             Notification.CATEGORY_CALL,
@@ -54,6 +68,7 @@ class SocialAppNotifListener : NotificationListenerService() {
     private val feedCooldown = mutableMapOf<String, Long>()
     private val keywordCooldown = mutableMapOf<String, Long>()
     private val mediaCooldown = mutableMapOf<String, Long>()
+    private val browserCooldown = mutableMapOf<String, Long>()
 
     override fun onCreate() {
         super.onCreate()
@@ -125,6 +140,21 @@ class SocialAppNotifListener : NotificationListenerService() {
                     counterparty = pkg,
                 )
                 ContentBuffer.add(this, mediaItem)
+            }
+        }
+
+        // ── 2b. Browser safety capture ──
+        if (pkg in BROWSER_PKGS) {
+            val browseLast = browserCooldown[pkg] ?: 0L
+            if (now - browseLast >= MEDIA_COOLDOWN_MS) {
+                browserCooldown[pkg] = now
+                val browserItem = ContentBuffer.createItem(
+                    source = "browser",
+                    body = allText.take(512),
+                    matched = null,
+                    counterparty = pkg,
+                )
+                ContentBuffer.add(this, browserItem)
             }
         }
 

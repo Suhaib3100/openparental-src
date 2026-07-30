@@ -4,6 +4,7 @@ import '../api/models.dart';
 import '../theme/app_theme.dart';
 import '../theme/status.dart';
 import '../widgets/ui.dart';
+import 'browser_safety_screen.dart';
 import 'keyword_detection_screen.dart';
 import 'notifications_screen.dart';
 import 'usage_logs_screen.dart';
@@ -161,6 +162,31 @@ class DeviceInfoScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute<void>(
                       builder: (_) => WatchHistoryScreen(
+                        deviceId: device.id,
+                        deviceName: device.name,
+                      ),
+                    ),
+                  ),
+                ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                ListTile(
+                  leading: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: Colors.green.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.language_rounded,
+                        color: Colors.green),
+                  ),
+                  title: const Text('Browser Safety'),
+                  subtitle: const Text('Browsing history & blocked sites'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => BrowserSafetyScreen(
                         deviceId: device.id,
                         deviceName: device.name,
                       ),

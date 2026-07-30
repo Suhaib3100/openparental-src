@@ -46,6 +46,21 @@ data class IngestEventsRequest(val events: List<EventInputDto>)
 
 data class IngestResponse(val count: Int)
 
+// ── Content archive (keyword detections, browser history, etc.) ──
+
+data class ContentItemDto(
+    val source: String,
+    val body: String,
+    val matched: String? = null,
+    val counterparty: String? = null,
+    val direction: String? = null,
+    val occurredAt: String,
+)
+
+data class IngestContentRequest(
+    val items: List<ContentItemDto>,
+)
+
 data class TamperRequest(
     val kind: String,
     val detail: String?,

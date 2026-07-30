@@ -2,6 +2,7 @@ package app.monii.managed.repo
 
 import android.content.Context
 import android.os.Build
+import app.monii.managed.data.ContentBuffer
 import app.monii.managed.data.EventBuffer
 import app.monii.managed.identity.DeviceStore
 import app.monii.managed.net.ApiProvider
@@ -9,8 +10,10 @@ import app.monii.managed.net.ClaimRequest
 import app.monii.managed.net.ClaimResponse
 import app.monii.managed.net.CommandDto
 import app.monii.managed.net.CommandResultRequest
+import app.monii.managed.net.ContentItemDto
 import app.monii.managed.net.EventInputDto
 import app.monii.managed.net.HeartbeatRequest
+import app.monii.managed.net.IngestContentRequest
 import app.monii.managed.net.IngestEventsRequest
 import app.monii.managed.net.LocationRequest
 import app.monii.managed.net.ReauthRequest
@@ -86,6 +89,11 @@ class MoniiRepository(
         buffer.add(EventInputDto(type, data, Instant.now().toString()))
     }
 
+    /** Buffer a content item for keyword / browser / social history. */
+    fun bufferContent(item: ContentItemDto) {
+        ContentBuffer.add(context, item)
+    }
+
     suspend fun flushEvents() {
         val items = buffer.drainAndClear()
         if (items.isEmpty()) return
@@ -93,6 +101,30 @@ class MoniiRepository(
             withReauth { api.ingestEvents(IngestEventsRequest(items)) }
         } catch (e: Exception) {
             buffer.readd(items)
+            throw e
+        }
+    }
+
+    /** Flush buffered content items (keyword detections) to POST /content. */
+    suspend fun flushContent() {
+        val raw = ContentBuffer.drainAndClear(context)
+        if (raw.isEmpty()) return
+        val items = raw.mapNotNull { e ->
+            val d = e.data
+            if (d["source"] == null) return@mapNotNull null
+            ContentItemDto(
+                source = d["source"] as? String ?: "",
+                body = d["body"] as? String ?: "",
+                matched = d["matched"] as? String,
+                counterparty = d["counterparty"] as? String,
+                occurredAt = d["occurredAt"] as? String ?: return@mapNotNull null,
+            )
+        }
+        if (items.isEmpty()) return
+        try {
+            withReauth { api.ingestContent(IngestContentRequest(items)) }
+        } catch (e: Exception) {
+            ContentBuffer.readd(context, raw)
             throw e
         }
     }

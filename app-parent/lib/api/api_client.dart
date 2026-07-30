@@ -168,4 +168,19 @@ class ApiClient {
     if (data is Map<String, dynamic>) return DeviceLocation.fromJson(data);
     return null;
   }
+
+  // ---- content / keyword detection ----
+
+  Future<List<ContentItem>> getContent(String deviceId,
+      {String? source}) async {
+    final query = <String, dynamic>{};
+    if (source != null) query['source'] = source;
+    final r = await _dio.get<dynamic>(
+      '/devices/$deviceId/content',
+      queryParameters: query.isNotEmpty ? query : null,
+    );
+    return (r.data as List)
+        .map((e) => ContentItem.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
 }

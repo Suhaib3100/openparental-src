@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../api/models.dart';
+import '../theme/app_theme.dart';
 import '../theme/status.dart';
 import '../widgets/ui.dart';
+import 'keyword_detection_screen.dart';
 
 /// Read-only details for one device.
 class DeviceInfoScreen extends StatelessWidget {
@@ -57,6 +59,33 @@ class DeviceInfoScreen extends StatelessWidget {
                 const Divider(height: 1),
                 row('Manufacturer', Text(device.manufacturer ?? '—')),
               ],
+            ),
+          ),
+          const SizedBox(height: 12),
+          Card(
+            child: ListTile(
+              leading: Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: AppColors.alert.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.warning_amber_rounded,
+                    color: AppColors.alert),
+              ),
+              title: const Text('Keyword Detection'),
+              subtitle: const Text('Scan social media for safety keywords'),
+              trailing: const Icon(Icons.chevron_right_rounded),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (_) => KeywordDetectionScreen(
+                    deviceId: device.id,
+                    deviceName: device.name,
+                  ),
+                ),
+              ),
             ),
           ),
         ],

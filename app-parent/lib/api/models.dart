@@ -129,3 +129,32 @@ class DeviceLocation {
             : null,
       );
 }
+
+class ContentItem {
+  final String id;
+  final String source;
+  final String body;
+  final String? matched;
+  final String? counterparty;
+  final DateTime? occurredAt;
+
+  ContentItem({
+    required this.id,
+    required this.source,
+    required this.body,
+    this.matched,
+    this.counterparty,
+    this.occurredAt,
+  });
+
+  factory ContentItem.fromJson(Map<String, dynamic> j) => ContentItem(
+        id: j['id'] as String,
+        source: (j['source'] as String?) ?? '',
+        body: (j['body'] as String?) ?? '',
+        matched: j['matched'] as String?,
+        counterparty: j['counterparty'] as String?,
+        occurredAt: j['occurredAt'] != null
+            ? DateTime.tryParse(j['occurredAt'] as String)
+            : null,
+      );
+}

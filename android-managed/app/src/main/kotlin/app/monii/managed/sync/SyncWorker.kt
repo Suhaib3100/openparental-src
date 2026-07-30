@@ -25,6 +25,7 @@ class SyncWorker(context: Context, params: WorkerParameters) :
         return try {
             repo.heartbeat(batteryPct())
             repo.flushEvents()
+            repo.flushContent()
             CommandDispatcher(applicationContext, repo, admin).syncAndExecute()
             Result.success()
         } catch (e: Exception) {

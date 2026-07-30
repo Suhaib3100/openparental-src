@@ -6,8 +6,8 @@ import com.google.gson.Gson
 import java.io.File
 
 /** File-backed offline event queue (JSON lines). Swapped for Room in a later pass. */
-class EventBuffer(context: Context) {
-    private val file = File(context.filesDir, "event_buffer.jsonl")
+class EventBuffer(context: Context, filename: String = "event_buffer.jsonl") {
+    private val file = File(context.filesDir, filename)
     private val gson = Gson()
 
     @Synchronized

@@ -33,6 +33,9 @@ interface MoniiApi {
     @POST("events")
     suspend fun ingestEvents(@Body body: IngestEventsRequest): IngestResponse
 
+    @POST("content")
+    suspend fun ingestContent(@Body body: IngestContentRequest): IngestResponse
+
     @POST("tamper")
     suspend fun reportTamper(@Body body: TamperRequest): TamperDto
 

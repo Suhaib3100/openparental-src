@@ -55,4 +55,9 @@
     <string name="chip_done">✓ Done</string>
     <string name="chip_setup">Set up</string>
     <string name="chip_optional">Optional</string>
+
+    <!-- Snapshot & Recording consent strings -->
+    <string name="snapshot_consent">A snapshot is being taken for your parent. This is visible to you.</string>
+    <string name="screen_rec_consent">Your parent has requested a screen recording. You will be asked to confirm.</string>
+    <string name="mirror_consent">Your parent wants to view your screen. You must approve to start sharing.</string>
 </resources>

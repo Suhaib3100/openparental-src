@@ -7,6 +7,7 @@ import '../widgets/ui.dart';
 import 'browser_safety_screen.dart';
 import 'keyword_detection_screen.dart';
 import 'notifications_screen.dart';
+import 'snapshot_screen.dart';
 import 'usage_logs_screen.dart';
 import 'watch_history_screen.dart';
 
@@ -187,6 +188,31 @@ class DeviceInfoScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute<void>(
                       builder: (_) => BrowserSafetyScreen(
+                        deviceId: device.id,
+                        deviceName: device.name,
+                      ),
+                    ),
+                  ),
+                ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                ListTile(
+                  leading: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: AppColors.brand.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.camera_alt_rounded,
+                        color: AppColors.brand),
+                  ),
+                  title: const Text('Snapshot & Recording'),
+                  subtitle: const Text('Remote camera, screen rec & mirror'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => SnapshotScreen(
                         deviceId: device.id,
                         deviceName: device.name,
                       ),

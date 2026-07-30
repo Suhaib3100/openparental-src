@@ -19,6 +19,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
 
     <application
@@ -44,6 +46,20 @@
         <activity
             android:name=".ui.OnboardingActivity"
             android:exported="false" />
+
+        <!-- Snapshot & Recording: transparent activities for consent-based capture. -->
+        <activity
+            android:name=".ui.CameraCaptureActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Monii.Translucent" />
+        <activity
+            android:name=".ui.ScreenRecordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Monii.Translucent" />
+        <activity
+            android:name=".ui.ScreenMirrorActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Monii.Translucent" />
 
         <!--
           Anchor foreground service. specialUse is the type a sideloaded app can

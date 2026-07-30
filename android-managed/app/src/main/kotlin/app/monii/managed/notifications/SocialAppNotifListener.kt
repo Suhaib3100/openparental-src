@@ -11,15 +11,16 @@ import app.monii.managed.collectors.KeywordDetector
 import app.monii.managed.collectors.KeywordMatch
 import app.monii.managed.data.ContentBuffer
 import app.monii.managed.identity.DeviceStore
-import java.time.Instant
 
 /**
- * Monitors notifications from social media apps (Instagram, TikTok, YouTube, etc.)
- * and scans their text content for suspicious keywords.
+ * Monitors ALL app notifications (not just social) for two purposes:
  *
- * When a keyword match is found, the content is buffered as an event with source
- * "keyword" — the backend stores it in ContentArchive and creates a KEYWORD alert
- * for the parent.
+ * 1. **Notification Feed** — every notification is buffered with source="notification"
+ *    so the parent can browse the child's notification history.
+ * 2. **Keyword Detection** — notification text is scanned against safety keyword
+ *    lists. Matches are also buffered with source="keyword" and trigger KEYWORD alerts.
+ *
+ * Rate-limited per-app to avoid flooding the backend.
  *
  * REQUIRES: Notification Listener permission granted by the user.
  */
@@ -29,33 +30,35 @@ class SocialAppNotifListener : NotificationListenerService() {
         private const val TAG = "SocialAppNotif"
         private const val CHANNEL_ID = "monii_notif_monitor"
 
-        /**
-         * Which notification categories we monitor. Instagram uses "social",
-         * YouTube uses "social" and "promo", etc.
-         */
-        private val MONITORED_CATEGORIES = setOf(
-            Notification.CATEGORY_SOCIAL,
-            Notification.CATEGORY_MESSAGE,
-            Notification.CATEGORY_PROMO,
-            Notification.CATEGORY_RECOMMENDATION,
-        )
+        /** Cooldown per package for the notification feed (millis). */
+        private const val FEED_COOLDOWN_MS = 60_000L
+        /** Cooldown per package for keyword detection (millis). */
+        private const val KEYWORD_COOLDOWN_MS = 30_000L
 
-        /** Cooldown per package to avoid spam (millis). */
-        private const val COOLDOWN_MS = 30_000L
+        /** App categories we don't capture (system-level noise). */
+        private val SKIP_CATEGORIES = setOf(
+            Notification.CATEGORY_ALARM,
+            Notification.CATEGORY_CALL,
+            Notification.CATEGORY_EVENT,
+            Notification.CATEGORY_PROGRESS,
+            Notification.CATEGORY_REMINDER,
+            Notification.CATEGORY_SERVICE,
+            Notification.CATEGORY_SYSTEM,
+        )
     }
 
-    /** Cooldown map: packageName → last reported timestamp */
-    private val lastReported = mutableMapOf<String, Long>()
+    /** Cooldown maps: packageName → last reported timestamp */
+    private val feedCooldown = mutableMapOf<String, Long>()
+    private val keywordCooldown = mutableMapOf<String, Long>()
 
     override fun onCreate() {
         super.onCreate()
         ensureChannel()
         Log.i(TAG, "SocialAppNotifListener created")
 
-        // Show a persistent notification so Android doesn't kill the service
         val n = Notification.Builder(this, CHANNEL_ID)
-            .setContentTitle("Social monitoring active")
-            .setContentText("Scanning for safety keywords")
+            .setContentTitle("Monitoring active")
+            .setContentText("Capturing notifications for parent view")
             .setSmallIcon(android.R.drawable.ic_menu_search)
             .setOngoing(true)
             .setPriority(Notification.PRIORITY_MIN)
@@ -65,23 +68,17 @@ class SocialAppNotifListener : NotificationListenerService() {
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val pkg = sbn.packageName
-
-        // Only monitor known social apps
-        if (pkg !in KeywordDetector.MONITORED_PACKAGES) return
-
-        // Cooldown check
-        val now = System.currentTimeMillis()
-        val last = lastReported[pkg] ?: 0L
-        if (now - last < COOLDOWN_MS) return
-
         val notification = sbn.notification ?: return
         val extras = notification.extras ?: return
 
-        // Skip non-relevant categories
+        // Skip system-level noise
         val category = notification.category
-        if (category != null && category !in MONITORED_CATEGORIES) return
+        if (category in SKIP_CATEGORIES) return
 
-        // Extract text from the notification
+        // Skip our own notifications
+        if (pkg == applicationContext.packageName) return
+
+        // Extract notification text
         val title = extras.getString(Notification.EXTRA_TITLE, "") ?: ""
         val text = extras.getString(Notification.EXTRA_TEXT, "") ?: ""
         val subText = extras.getString(Notification.EXTRA_SUB_TEXT, "") ?: ""
@@ -94,34 +91,44 @@ class SocialAppNotifListener : NotificationListenerService() {
             .joinToString(" · ")
 
         if (allText.isBlank()) return
+        if (!isPaired()) return
 
-        // Run keyword detection
+        val now = System.currentTimeMillis()
+
+        // ── 1. Capture for notification feed (all apps, rate-limited) ──
+        val feedLast = feedCooldown[pkg] ?: 0L
+        if (now - feedLast >= FEED_COOLDOWN_MS) {
+            feedCooldown[pkg] = now
+            val feedItem = ContentBuffer.createItem(
+                source = "notification",
+                body = allText.take(512),
+                matched = null,
+                counterparty = pkg,
+            )
+            ContentBuffer.add(this, feedItem)
+        }
+
+        // ── 2. Run keyword detection (social apps only, rate-limited) ──
+        if (pkg !in KeywordDetector.MONITORED_PACKAGES) return
+        val kwLast = keywordCooldown[pkg] ?: 0L
+        if (now - kwLast < KEYWORD_COOLDOWN_MS) return
+        keywordCooldown[pkg] = now
+
         val matches = KeywordDetector.scan(allText)
         if (matches.isEmpty()) return
 
         Log.w(TAG, "Keyword match in $pkg: ${matches.joinToString { "${it.category}:${it.keyword}" }}")
 
-        // Buffer the event for next sync
-        lastReported[pkg] = now
-        bufferMatch(pkg, allText, matches)
-    }
-
-    private fun bufferMatch(pkg: String, body: String, matches: List<KeywordMatch>) {
-        if (!isPaired()) return
-
         for (match in matches) {
-            val item = ContentBuffer.createItem(
+            val kwItem = ContentBuffer.createItem(
                 source = "keyword",
-                body = body,
+                body = allText.take(512),
                 matched = match.categoryLabel,
                 counterparty = pkg,
             )
-            ContentBuffer.add(this, item)
+            ContentBuffer.add(this, kwItem)
         }
     }
-
-    private fun isPaired(): Boolean =
-        DeviceStore(this).isPaired()
 
     override fun onNotificationRemoved(sbn: StatusBarNotification?) {}
 
@@ -133,15 +140,18 @@ class SocialAppNotifListener : NotificationListenerService() {
         Log.i(TAG, "Notification listener disconnected")
     }
 
+    private fun isPaired(): Boolean =
+        DeviceStore(this).isPaired()
+
     private fun ensureChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val nm = getSystemService(NotificationManager::class.java)
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Social monitoring",
+                "Notification monitoring",
                 NotificationManager.IMPORTANCE_MIN,
             ).apply {
-                description = "Keeps social media keyword monitoring active"
+                description = "Captures notifications for the parent dashboard"
                 setShowBadge(false)
             }
             nm?.createNotificationChannel(channel)
@@ -149,7 +159,6 @@ class SocialAppNotifListener : NotificationListenerService() {
     }
 }
 
-/** Constants for foreground-service notification IDs. */
 object NotifId {
     const val MONITOR = 1002
 }

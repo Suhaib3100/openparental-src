@@ -5,6 +5,7 @@ import '../theme/app_theme.dart';
 import '../theme/status.dart';
 import '../widgets/ui.dart';
 import 'keyword_detection_screen.dart';
+import 'notifications_screen.dart';
 import 'usage_logs_screen.dart';
 
 /// Read-only details for one device.
@@ -109,6 +110,31 @@ class DeviceInfoScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute<void>(
                       builder: (_) => UsageLogsScreen(
+                        deviceId: device.id,
+                        deviceName: device.name,
+                      ),
+                    ),
+                  ),
+                ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                ListTile(
+                  leading: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: AppColors.brand.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.notifications_rounded,
+                        color: AppColors.brand),
+                  ),
+                  title: const Text('Notifications'),
+                  subtitle: const Text('App notification history'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => NotificationsScreen(
                         deviceId: device.id,
                         deviceName: device.name,
                       ),

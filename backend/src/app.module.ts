@@ -17,6 +17,7 @@ import { PhotosModule } from './photos/photos.module';
 import { PoliciesModule } from './policies/policies.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { RedisModule } from './redis/redis.module';
+import { ScreenSessionsModule } from './screen-sessions/screen-sessions.module';
 import { TamperModule } from './tamper/tamper.module';
 
 @Module({
@@ -38,7 +39,9 @@ import { TamperModule } from './tamper/tamper.module';
     LocationsModule,
     ContentModule,
     PhotosModule,
+    ScreenSessionsModule,
   ],
   controllers: [AppController],
 })
 export class AppModule {}
+

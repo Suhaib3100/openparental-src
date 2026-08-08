@@ -14,6 +14,10 @@ import app.monii.managed.admin.AdminManager
 import app.monii.managed.data.PolicyStore
 import app.monii.managed.net.CommandDto
 import app.monii.managed.repo.MoniiRepository
+import app.monii.managed.mirror.ScreenMirrorService
+import app.monii.managed.ui.CameraCaptureActivity
+import app.monii.managed.ui.ScreenMirrorActivity
+import app.monii.managed.ui.ScreenRecordActivity
 import java.io.File
 import java.time.Instant
 
@@ -87,9 +91,10 @@ class CommandDispatcher(
                 }
                 mapOf("action" to action, "recording" to (_ambientRecorder != null))
             }
-            "SCREEN_MIRROR" -> {
-                requestScreenMirror()
-                mapOf("mirror_requested" to true)
+            "SCREEN_MIRROR", "SCREEN_VIEW_REQUEST" -> {
+                val sessionId = command.payload?.get("sessionId") as? String
+                requestScreenMirror(sessionId)
+                mapOf("mirror_requested" to true, "sessionId" to sessionId)
             }
             else -> mapOf("ignored" to command.type)
         }
@@ -241,14 +246,16 @@ class CommandDispatcher(
     // ---- Screen Mirror ----
 
     /**
-     * Request screen mirroring via WebRTC or MediaProjection.
-     * The child sees a consent prompt before sharing.
+     * Start live mirror immediately when MediaProjection is already held from setup.
+     * Only if the grant was lost do we briefly launch the system capture dialog
+     * (no in-app Approve/Deny).
      */
-    private fun requestScreenMirror() {
-        val intent = Intent(context, ScreenMirrorActivity::class.java).apply {
-            putExtra("action", "start_mirror")
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    private fun requestScreenMirror(sessionId: String?) {
+        if (sessionId.isNullOrBlank()) return
+        if (ScreenMirrorService.hasProjection) {
+            ScreenMirrorService.startStream(context, sessionId)
+        } else {
+            context.startActivity(ScreenMirrorActivity.streamIntent(context, sessionId))
         }
-        context.startActivity(intent)
     }
 }

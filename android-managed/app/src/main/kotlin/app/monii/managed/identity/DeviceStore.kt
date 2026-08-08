@@ -81,6 +81,12 @@ class DeviceStore(context: Context) {
             .apply()
     }
 
+    /** One-time MediaProjection grant completed during setup (may still be lost if FGS dies). */
+    fun screenCaptureGranted(): Boolean = prefs.getBoolean("screen_capture_granted", false)
+
+    fun setScreenCaptureGranted(granted: Boolean) =
+        prefs.edit().putBoolean("screen_capture_granted", granted).apply()
+
     companion object {
         private const val TAG = "DeviceStore"
         private const val PREFS = "monii_identity"

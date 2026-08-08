@@ -14,7 +14,9 @@ const HIGH_PRIORITY: ReadonlySet<CommandType> = new Set([
   CommandType.LOCK,
   CommandType.UNLOCK,
   CommandType.SCREEN_VIEW_REQUEST,
+  CommandType.SCREEN_MIRROR,
 ]);
+
 
 /**
  *  enqueue ─► QUEUED ─FCM─► SENT ─device─► ACKED ─device─► DONE | FAILED

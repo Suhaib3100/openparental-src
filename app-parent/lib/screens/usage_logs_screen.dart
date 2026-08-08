@@ -351,7 +351,7 @@ class _EventCard extends StatelessWidget {
       default:
         return (
           icon: Icons.circle_rounded,
-          color: muted,
+          color: AppColors.offline,
           title: e.type,
         );
     }

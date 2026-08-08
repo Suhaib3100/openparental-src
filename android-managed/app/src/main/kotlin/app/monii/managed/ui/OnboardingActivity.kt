@@ -18,6 +18,8 @@ import app.monii.managed.R
 import app.monii.managed.admin.AdminManager
 import app.monii.managed.databinding.ActivityOnboardingBinding
 import app.monii.managed.databinding.ItemPermissionBinding
+import app.monii.managed.identity.DeviceStore
+import app.monii.managed.mirror.ScreenMirrorService
 import app.monii.managed.permissions.SpecialAccess
 import app.monii.managed.vpn.VpnFilterService
 
@@ -91,6 +93,16 @@ class OnboardingActivity : AppCompatActivity() {
                 "Lets OpenParental lock the device remotely.",
                 { admin.isActive() },
                 { startSafe(admin.enableIntent()) },
+            ),
+            Step(
+                "📺",
+                getString(R.string.onb_screen_title),
+                getString(R.string.onb_screen_desc),
+                {
+                    ScreenMirrorService.hasProjection ||
+                        DeviceStore(this).screenCaptureGranted()
+                },
+                { startActivity(ScreenMirrorActivity.setupIntent(this)) },
             ),
             Step(
                 "🌐",

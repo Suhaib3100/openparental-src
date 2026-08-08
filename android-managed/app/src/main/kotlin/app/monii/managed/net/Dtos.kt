@@ -86,3 +86,12 @@ data class SelfUpdateRequest(
 )
 
 data class DeviceDto(val id: String, val status: String?)
+
+data class ConsentSessionRequest(val approved: Boolean)
+
+data class ScreenSessionDto(
+    val id: String,
+    val deviceId: String,
+    val consented: Boolean,
+    val status: String? = null,
+)

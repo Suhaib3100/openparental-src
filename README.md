@@ -57,6 +57,7 @@ teenager can verify beats spyware they'll route around.**
 | 📍 | **Location** | Periodic location reporting to the parent dashboard |
 | 📊 | **Usage visibility** | Daily per-app usage reported to the backend |
 | 🔔 | **Alert feed** | Tamper, went-dark, new-app and unblock-request alerts in the parent app |
+| 📺 | **Live screen** | MediaProjection granted once at child setup → parent taps Live Screen → JPEG frames over Socket.IO (no per-view kid popup) |
 
 ## 🏗️ Architecture
 
@@ -173,8 +174,9 @@ a new project (or reuse an existing one).
 - [x] **Guided onboarding** — per-permission grant flow in the child app (incl. OEM auto-start)
 - [x] **DNS content filter** — DNS-only `VpnService`, domain blocklists
 - [ ] **Filter lists** — maintained blocklist sources + per-family categories for the content filter
+- [x] **Live screen (clip)** — setup-time MediaProjection grant + Socket.IO JPEG relay; parent tap streams with no kid popup
 - [ ] **v1.1 — live painting overlay**
-- [ ] **v1.5 — consented WebRTC screen-view + AMBER mode** (text archive + on-device photo screening)
+- [ ] **v1.5 — WebRTC upgrade for screen-view** (replace `clip` transport) + AMBER mode hardening
 
 ## 🧰 Tech stack
 

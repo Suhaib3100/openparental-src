@@ -11,6 +11,7 @@ import '../widgets/gradient_header.dart';
 import '../widgets/ui.dart';
 import 'blocked_apps_screen.dart';
 import 'device_info_screen.dart';
+import 'live_mirror_screen.dart';
 import 'location_screen.dart';
 import 'pairing_screen.dart';
 
@@ -146,31 +147,34 @@ class DevicesTab extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               children: [
                 FeatureSection(
-                  title: 'Remote control',
+                  title: 'Live view',
                   tiles: [
+                    FeatureTile(
+                      icon: Icons.screen_share_rounded,
+                      label: 'Live screen',
+                      color: AppColors.online,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                            builder: (_) => LiveMirrorScreen(device: device)),
+                      ),
+                    ),
+                    FeatureTile(
+                      icon: Icons.location_on_rounded,
+                      label: 'Locate',
+                      color: AppColors.brand,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                            builder: (_) => LocationScreen(device: device)),
+                      ),
+                    ),
                     FeatureTile(
                       icon: Icons.lock_rounded,
                       label: 'Lock now',
                       color: AppColors.alert,
                       onTap: () =>
                           _command(context, ref, device.id, 'LOCK', 'Lock'),
-                    ),
-                    FeatureTile(
-                      icon: Icons.wifi_tethering_rounded,
-                      label: 'Ping',
-                      color: AppColors.brand,
-                      onTap: () =>
-                          _command(context, ref, device.id, 'PING', 'Ping'),
-                    ),
-                    FeatureTile(
-                      icon: Icons.location_on_rounded,
-                      label: 'Locate',
-                      color: AppColors.online,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                            builder: (_) => LocationScreen(device: device)),
-                      ),
                     ),
                   ],
                 ),
@@ -208,7 +212,7 @@ class DevicesTab extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Visible by design — your child sees everything this app does.',
+                  'Monitoring stays quiet on the child phone after setup.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 12.5,

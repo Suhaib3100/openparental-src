@@ -42,7 +42,8 @@ src/
   alerts/        alert feed + FCM to parent                             [next]
   locations/     location ingest + query                               [next]
   fcm/           push abstraction (firebase-admin)                      [next]
-  realtime/      WebSocket gateway (presence, screen-view signaling)    [next]
+  screen-sessions/ consented live screen session lifecycle + commands
+  realtime/      Socket.IO /screen gateway (JPEG frame relay)
 ```
 
 ## Token model

@@ -181,3 +181,37 @@ class EventLog {
             : DateTime.now(),
       );
 }
+
+class ScreenSession {
+  final String id;
+  final String deviceId;
+  final bool consented;
+  final String transport;
+  final String status;
+  final DateTime startedAt;
+  final DateTime? endedAt;
+
+  ScreenSession({
+    required this.id,
+    required this.deviceId,
+    required this.consented,
+    required this.transport,
+    required this.status,
+    required this.startedAt,
+    this.endedAt,
+  });
+
+  factory ScreenSession.fromJson(Map<String, dynamic> j) => ScreenSession(
+        id: j['id'] as String,
+        deviceId: j['deviceId'] as String,
+        consented: j['consented'] as bool? ?? false,
+        transport: (j['transport'] as String?) ?? 'clip',
+        status: (j['status'] as String?) ?? 'pending',
+        startedAt: j['startedAt'] != null
+            ? DateTime.parse(j['startedAt'] as String)
+            : DateTime.now(),
+        endedAt: j['endedAt'] != null
+            ? DateTime.tryParse(j['endedAt'] as String)
+            : null,
+      );
+}

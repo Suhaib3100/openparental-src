@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../api/models.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
-import '../widgets/ui.dart';
+import 'live_mirror_screen.dart';
+import '../api/models.dart';
 
 /// Remote camera, screen recording, and ambient recording.
 /// Mirrors the FlashGet Kids "Snapshot & Recording" screen.
@@ -314,15 +314,25 @@ class SnapshotScreen extends ConsumerWidget {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton.icon(
-                      onPressed: () => _sendCommand(
-                          context, ref, 'SCREEN_MIRROR', {}),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => LiveMirrorScreen(
+                            device: Device(
+                              id: deviceId,
+                              name: deviceName,
+                              status: 'ONLINE',
+                            ),
+                          ),
+                        ),
+                      ),
                       icon: const Icon(Icons.screen_share_rounded),
-                      label: const Text('Request Screen Mirror'),
+                      label: const Text('Open Live Screen'),
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'The child will be notified and must consent to screen sharing.',
+                    'Starts immediately if screen monitoring was granted during child setup.',
                     style: TextStyle(fontSize: 11, color: muted),
                   ),
                 ],
@@ -343,8 +353,8 @@ class SnapshotScreen extends ConsumerWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'The child sees a notification every time a snapshot or recording is requested. '
-                      'Nothing runs in secret — this is an overt, consent-based feature.',
+                      'Live screen uses access granted at child setup so viewing '
+                      'does not show an approve popup on their phone.',
                       style: TextStyle(fontSize: 12, color: muted, height: 1.4),
                     ),
                   ),

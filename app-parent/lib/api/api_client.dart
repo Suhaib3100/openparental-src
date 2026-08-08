@@ -72,6 +72,8 @@ class ApiClient {
   Future<bool> hasSession() async =>
       (await _storage.read(key: 'access')) != null;
 
+  Future<String?> accessToken() => _storage.read(key: 'access');
+
   Future<AuthResult> _persist(AuthResult r) async {
     await _storage.write(key: 'access', value: r.accessToken);
     await _storage.write(key: 'refresh', value: r.refreshToken);
@@ -194,5 +196,22 @@ class ApiClient {
     return (r.data as List)
         .map((e) => EventLog.fromJson(e as Map<String, dynamic>))
         .toList();
+  }
+
+  // ---- live screen sessions ----
+
+  Future<ScreenSession> createScreenSession(String deviceId) async {
+    final r = await _dio.post<dynamic>('/devices/$deviceId/screen-sessions');
+    return ScreenSession.fromJson(r.data as Map<String, dynamic>);
+  }
+
+  Future<ScreenSession> getScreenSession(String sessionId) async {
+    final r = await _dio.get<dynamic>('/screen-sessions/$sessionId');
+    return ScreenSession.fromJson(r.data as Map<String, dynamic>);
+  }
+
+  Future<ScreenSession> endScreenSession(String sessionId) async {
+    final r = await _dio.post<dynamic>('/screen-sessions/$sessionId/end');
+    return ScreenSession.fromJson(r.data as Map<String, dynamic>);
   }
 }

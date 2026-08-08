@@ -139,7 +139,7 @@ class _CallLogTab extends StatelessWidget {
                         fontWeight: FontWeight.w600, fontSize: 14)),
                 const Spacer(),
                 Text(deviceName,
-                    style: TextStyle(fontSize: 12, color: AppColors.muted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.mutedLight)),
               ],
             ),
           ),
@@ -225,7 +225,7 @@ class _SmsTab extends StatelessWidget {
                         fontWeight: FontWeight.w600, fontSize: 14)),
                 const Spacer(),
                 Text(deviceName,
-                    style: TextStyle(fontSize: 12, color: AppColors.muted)),
+                    style: TextStyle(fontSize: 12, color: AppColors.mutedLight)),
               ],
             ),
           ),
@@ -258,7 +258,7 @@ class _DateGroup extends StatelessWidget {
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.muted)),
+                  color: AppColors.mutedLight)),
         ),
         ...children,
       ],
@@ -355,7 +355,7 @@ class _CallCard extends StatelessWidget {
             style: const TextStyle(fontSize: 14),
           ),
           subtitle: Text(
-            body.take(60),
+            body.length > 60 ? body.substring(0, 60) : body,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant),
@@ -414,7 +414,7 @@ class _CallCard extends StatelessWidget {
             width: 70,
             child: Text(label,
                 style: TextStyle(
-                    fontSize: 12, color: AppColors.muted)),
+                    fontSize: 12, color: AppColors.mutedLight)),
           ),
           Expanded(
             child: SelectableText(value,
@@ -509,7 +509,7 @@ class _SmsCard extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               item.occurredAt?.toLocal().toString() ?? '',
-              style: TextStyle(fontSize: 11, color: AppColors.muted),
+              style: TextStyle(fontSize: 11, color: AppColors.mutedLight),
             ),
           ],
         ),
@@ -526,7 +526,7 @@ class _SmsCard extends StatelessWidget {
           SizedBox(
             width: 70,
             child: Text(label,
-                style: TextStyle(fontSize: 12, color: AppColors.muted)),
+                style: TextStyle(fontSize: 12, color: AppColors.mutedLight)),
           ),
           Expanded(
             child: SelectableText(value,

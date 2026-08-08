@@ -64,4 +64,9 @@ dependencies {
     // FCM (instant command wake)
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-messaging")
+
+    // Live screen mirror: Socket.IO frame relay
+    implementation("io.socket:socket.io-client:2.1.1") {
+        exclude(group = "org.json", module = "json")
+    }
 }

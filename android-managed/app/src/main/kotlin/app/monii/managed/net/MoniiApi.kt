@@ -44,4 +44,13 @@ interface MoniiApi {
 
     @PATCH("devices/me")
     suspend fun selfUpdate(@Body body: SelfUpdateRequest): DeviceDto
+
+    @POST("screen-sessions/{id}/consent")
+    suspend fun consentScreenSession(
+        @Path("id") id: String,
+        @Body body: ConsentSessionRequest,
+    ): ScreenSessionDto
+
+    @POST("screen-sessions/{id}/stop")
+    suspend fun stopScreenSession(@Path("id") id: String): ScreenSessionDto
 }

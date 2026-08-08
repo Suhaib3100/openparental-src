@@ -10,6 +10,7 @@ import app.monii.managed.net.ClaimRequest
 import app.monii.managed.net.ClaimResponse
 import app.monii.managed.net.CommandDto
 import app.monii.managed.net.CommandResultRequest
+import app.monii.managed.net.ConsentSessionRequest
 import app.monii.managed.net.ContentItemDto
 import app.monii.managed.net.EventInputDto
 import app.monii.managed.net.HeartbeatRequest
@@ -84,6 +85,12 @@ class MoniiRepository(
 
     suspend fun reportLocation(lat: Double, lng: Double, accuracyM: Double?) =
         withReauth { api.reportLocation(LocationRequest(lat, lng, accuracyM)) }
+
+    suspend fun consentScreenSession(sessionId: String, approved: Boolean) =
+        withReauth { api.consentScreenSession(sessionId, ConsentSessionRequest(approved)) }
+
+    suspend fun stopScreenSession(sessionId: String) =
+        withReauth { api.stopScreenSession(sessionId) }
 
     fun bufferEvent(type: String, data: Map<String, Any?>) {
         buffer.add(EventInputDto(type, data, Instant.now().toString()))

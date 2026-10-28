@@ -78,7 +78,8 @@ Three components, one monorepo:
 
 ```
 openparental/
-├── research/flashget/ Reference monorepo: FlashGet APKs (LFS), JADX decompile, REA JSON — **not** shipped product code
+├── research/flashget/ Reference monorepo: APKs (LFS), JADX decompile — drives UI/flow parity ([`docs/FLASHGET_REFERENCE_BUILD.md`](docs/FLASHGET_REFERENCE_BUILD.md))
+├── android-installer/   Kids bootstrap APK (`app.monii.installer`), FlashGet installer UX ref
 ├── backend/           NestJS + Postgres (Prisma) + Redis + FCM
 │   ├── src/           auth · pairing · devices · policies · commands ·
 │   │                  events · heartbeats · tamper · alerts · locations

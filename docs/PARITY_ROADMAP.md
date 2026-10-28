@@ -1,8 +1,8 @@
 # OpenParental × FlashGet Kids parity roadmap
 
-**Goal:** Same product shape and technology *class* as FlashGet Kids, branded **OpenParental** — implemented in **this repo** (MIT), not by copying FlashGet’s proprietary APK, assets, or decompiled source.
+**Goal:** Same product shape and UX as FlashGet Kids, branded **OpenParental** — built using **`research/flashget/decompiled/`** as the reference (layouts, strings, flows). Product code stays in `android-managed/`, `app-parent/`, `web/`, `backend/`.
 
-REA research: [`research/FLASHGET_REA.md`](../research/FLASHGET_REA.md).
+References: [`research/FLASHGET_REA.md`](../research/FLASHGET_REA.md), [`FLASHGET_REFERENCE_BUILD.md`](FLASHGET_REFERENCE_BUILD.md).
 
 ## Product architecture (target)
 
@@ -20,7 +20,7 @@ REA research: [`research/FLASHGET_REA.md`](../research/FLASHGET_REA.md).
 - [x] FlashGet-style **setup wizard** (parent installed → child APK → pair → permissions checklist)
 - [x] Device hub sections renamed to FlashGet categories (Live Monitoring, Location, Rules)
 - [ ] Hosted **child APK** URL (GitHub Releases / your CDN) wired in `ProductConfig`
-- [ ] Optional **`android-installer`** module (like `kidsdownloader`) for OTA child updates
+- [x] **`android-installer`** module (FlashGet `kidsdownloader`-class bootstrap; UI from decompile ref)
 
 ### Phase 2 — Live monitoring (FlashGet-grade)
 

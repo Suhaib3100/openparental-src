@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${site.name} — parent dashboard & downloads`,
+  title: `${site.name} — setup, apps & parent dashboard`,
   description:
-    'Download the OpenParental child app (Android) and manage devices from the Android parent app or web dashboard — including iPhone and iPad.',
+    'Install OpenParental child and parent apps, follow the setup guide, and manage devices from web or Android — including iPhone and iPad.',
 };
 
 export default function RootLayout({

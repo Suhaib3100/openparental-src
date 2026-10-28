@@ -13,8 +13,9 @@ Project **`openparental`** is linked to `abuzar310/openparental` with root direc
 Production URLs (team):
 
 - https://openparental-abuzaarfirooz-4986s-projects.vercel.app
+- **Setup guide (on-site):** `/setup`
 - **iPhone dashboard:** `/login` then `/dashboard`
-- **Android downloads:** `/download`
+- **Android downloads (same origin, not GitHub):** `/download` → `/api/apk/child|parent|installer`
 
 ## 3. Vercel environment variables
 

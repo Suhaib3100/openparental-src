@@ -1,45 +1,69 @@
 import Link from 'next/link';
-import { downloads, site } from '@/lib/config';
+import { DownloadCard } from '@/components/marketing/download-card';
+import { SiteShell } from '@/components/site/site-chrome';
+import { apkDownloadMeta, downloads, site } from '@/lib/config';
+
+export const metadata = {
+  title: 'Download apps — OpenParental',
+  description: 'Install child and parent Android apps directly from OpenParental — no GitHub redirects.',
+};
 
 export default function DownloadPage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-lg flex-col gap-8 px-6 py-16">
-      <div>
-        <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-800">
-          ← {site.name}
-        </Link>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight">Download apps</h1>
-        <p className="mt-2 text-zinc-600">
-          Install the child app on the phone you supervise, and the parent app on your
-          Android device. iPhone parents can use the web dashboard after login.
+    <SiteShell>
+      <main className="mx-auto max-w-3xl px-5 py-14">
+        <p className="text-sm text-brand font-medium">Install</p>
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight">Download from us</h1>
+        <p className="mt-4 text-lg text-muted">
+          APKs are served from this website ({site.name}). If a build is not uploaded yet, the button
+          will tell you — use the{' '}
+          <Link href="/setup" className="text-brand underline underline-offset-2">
+            setup guide
+          </Link>{' '}
+          in the meantime.
         </p>
-      </div>
-      <ul className="flex flex-col gap-4">
-        <li className="rounded-xl border border-zinc-200 p-4">
-          <h2 className="font-medium">Child (managed device)</h2>
-          <a
+
+        <div className="mt-10 space-y-4">
+          <DownloadCard
+            title={apkDownloadMeta.child.title}
+            description={apkDownloadMeta.child.description}
             href={downloads.childApkUrl}
-            className="mt-2 inline-block text-blue-600 underline"
-          >
-            Download child APK
-          </a>
-        </li>
-        <li className="rounded-xl border border-zinc-200 p-4">
-          <h2 className="font-medium">Parent (Android)</h2>
-          <a
+            cta="Download child APK"
+          />
+          <DownloadCard
+            title={apkDownloadMeta.parent.title}
+            description={apkDownloadMeta.parent.description}
             href={downloads.parentApkUrl}
-            className="mt-2 inline-block text-blue-600 underline"
+            cta="Download parent APK"
+          />
+          <DownloadCard
+            title={apkDownloadMeta.installer.title}
+            description={apkDownloadMeta.installer.description}
+            href={downloads.installerApkUrl}
+            cta="Download installer APK"
+          />
+        </div>
+
+        <section className="mt-12 rounded-3xl border border-line bg-white p-6">
+          <h2 className="font-semibold text-lg">iPhone or iPad parent?</h2>
+          <p className="mt-2 text-muted text-sm">
+            Skip the APK — use the web dashboard in Safari. Same login, pairing, devices, and alerts.
+          </p>
+          <Link
+            href="/login"
+            className="inline-block mt-4 rounded-xl bg-brand text-white px-5 py-2.5 text-sm font-medium"
           >
-            Download parent APK
-          </a>
-        </li>
-        <li className="rounded-xl border border-zinc-200 p-4">
-          <h2 className="font-medium">Parent (iPhone / any browser)</h2>
-          <Link href="/login" className="mt-2 inline-block text-blue-600 underline">
-            Open web dashboard
+            Open parent dashboard
           </Link>
-        </li>
-      </ul>
-    </main>
+        </section>
+
+        <p className="mt-10 text-sm text-muted text-center">
+          New to OpenParental?{' '}
+          <Link href="/setup" className="text-brand font-medium underline underline-offset-2">
+            Read the full setup guide
+          </Link>
+        </p>
+      </main>
+    </SiteShell>
   );
 }

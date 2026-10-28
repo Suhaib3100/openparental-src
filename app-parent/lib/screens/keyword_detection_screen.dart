@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/models.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
-import '../theme/status.dart';
 import '../widgets/ui.dart';
 
 /// Displays keyword detections from social apps for a specific device.
@@ -181,8 +180,6 @@ class _CategoryBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final muted = Theme.of(context).colorScheme.onSurfaceVariant;
-
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
       child: SingleChildScrollView(

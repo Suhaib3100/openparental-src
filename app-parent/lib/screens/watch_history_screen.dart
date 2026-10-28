@@ -3,9 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/models.dart';
 import '../state/providers.dart';
-import '../theme/app_theme.dart';
-import '../widgets/ui.dart';
-
 /// Shows watch history from YouTube & TikTok — video titles, channel names,
 /// and timestamps. Mirrors the FlashGet Kids \"TikTok & YouTube History\" screen.
 class WatchHistoryScreen extends ConsumerStatefulWidget {

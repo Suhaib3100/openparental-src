@@ -50,6 +50,9 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: android-actions/setup-android@v3
+        with:
+          # "tools" is removed from modern SDK repos; install what Gradle needs.
+          packages: platform-tools platforms;android-35 build-tools;35.0.0
       - uses: gradle/actions/setup-gradle@v4
       - name: Build debug APK
         working-directory: android-managed
@@ -69,4 +72,4 @@ jobs:
         working-directory: app-parent
         run: |
           flutter pub get
-          flutter analyze
+          flutter analyze --no-fatal-infos

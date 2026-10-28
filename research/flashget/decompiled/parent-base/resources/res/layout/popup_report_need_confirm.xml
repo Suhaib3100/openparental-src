@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flashget.kid.common.ui.base.dialog.BottomPopupContentLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bp_container"
+    android:tag="layout/popup_report_need_confirm_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:bp_scrollable="false"
+    app:bp_title="@string/ReportAnalysis_NotFullySynced_Status">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/color_text_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="@string/NotFullySynced_PopUp_Des"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            style="@style/TextStyle.Start"/>
+        <TextView
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="@string/Common_Continue"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            style="@style/ButtonStyle"/>
+        <TextView
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_36"
+            android:text="@string/Common_Cancel"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            style="@style/BorderButtonStyle"/>
+    </LinearLayout>
+</com.flashget.kid.common.ui.base.dialog.BottomPopupContentLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:id="@+id/ll_container"
+    android:tag="layout/item_doodle_action_0"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_58">
+    <ImageView
+        android:id="@+id/iv_action"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
+        android:src="@drawable/icon_close"
+        android:scaleType="center"/>
+</LinearLayout>

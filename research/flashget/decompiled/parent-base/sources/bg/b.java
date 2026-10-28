@@ -1,0 +1,21 @@
+package bg;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/* compiled from: Pure.java */
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+/* loaded from: classes3.dex */
+public @interface b {
+
+    /* compiled from: Pure.java */
+    public enum a {
+        SIDE_EFFECT_FREE,
+        DETERMINISTIC
+    }
+}

@@ -1,0 +1,16 @@
+package android.content.preferences.protobuf;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/* compiled from: ExperimentalApi.java */
+@Target({ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.METHOD, ElementType.PACKAGE, ElementType.TYPE})
+@Documented
+@Retention(RetentionPolicy.SOURCE)
+/* loaded from: classes.dex */
+public @interface p0 {
+    String value() default "";
+}

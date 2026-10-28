@@ -1,0 +1,88 @@
+package org.apache.log4j;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+
+/* loaded from: classes6.dex */
+public class Level extends Priority implements Serializable {
+    static final long serialVersionUID = 3491141966387921974L;
+    public static final Level OFF = new Level(Integer.MAX_VALUE, "OFF", 0);
+    public static final Level FATAL = new Level(Priority.FATAL_INT, "FATAL", 0);
+    public static final Level ERROR = new Level(Priority.ERROR_INT, "ERROR", 3);
+    public static final Level WARN = new Level(Priority.WARN_INT, "WARN", 4);
+    public static final Level INFO = new Level(Priority.INFO_INT, "INFO", 6);
+    public static final Level DEBUG = new Level(10000, "DEBUG", 7);
+    public static final int TRACE_INT = 5000;
+    public static final Level TRACE = new Level(TRACE_INT, "TRACE", 7);
+    public static final Level ALL = new Level(Integer.MIN_VALUE, "ALL", 7);
+
+    protected Level(int i5, String str, int i6) {
+        super(i5, str, i6);
+    }
+
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
+        objectInputStream.defaultReadObject();
+        this.level = objectInputStream.readInt();
+        this.syslogEquivalent = objectInputStream.readInt();
+        String readUTF = objectInputStream.readUTF();
+        this.levelStr = readUTF;
+        if (readUTF == null) {
+            this.levelStr = "";
+        }
+    }
+
+    private Object readResolve() throws ObjectStreamException {
+        return getClass() == Level.class ? toLevel(this.level) : this;
+    }
+
+    public static Level toLevel(String str) {
+        return toLevel(str, DEBUG);
+    }
+
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        objectOutputStream.defaultWriteObject();
+        objectOutputStream.writeInt(this.level);
+        objectOutputStream.writeInt(this.syslogEquivalent);
+        objectOutputStream.writeUTF(this.levelStr);
+    }
+
+    public static Level toLevel(int i5) {
+        return toLevel(i5, DEBUG);
+    }
+
+    public static Level toLevel(int i5, Level level) {
+        if (i5 == Integer.MIN_VALUE) {
+            return ALL;
+        }
+        if (i5 == 5000) {
+            return TRACE;
+        }
+        if (i5 == 10000) {
+            return DEBUG;
+        }
+        if (i5 == 20000) {
+            return INFO;
+        }
+        if (i5 == 30000) {
+            return WARN;
+        }
+        if (i5 == 40000) {
+            return ERROR;
+        }
+        if (i5 != 50000) {
+            return i5 != Integer.MAX_VALUE ? level : OFF;
+        }
+        return FATAL;
+    }
+
+    public static Level toLevel(String str, Level level) {
+        if (str == null) {
+            return level;
+        }
+        String upperCase = str.toUpperCase();
+        return upperCase.equals("ALL") ? ALL : upperCase.equals("DEBUG") ? DEBUG : upperCase.equals("INFO") ? INFO : upperCase.equals("WARN") ? WARN : upperCase.equals("ERROR") ? ERROR : upperCase.equals("FATAL") ? FATAL : upperCase.equals("OFF") ? OFF : upperCase.equals("TRACE") ? TRACE : upperCase.equals("İNFO") ? INFO : level;
+    }
+}

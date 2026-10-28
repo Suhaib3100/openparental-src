@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    app:startDestination="@+id/parentDeviceFragment">
+    <action
+        android:id="@+id/action_to_parentDeviceFragment"
+        app:destination="@+id/parentDeviceFragment"
+        app:popUpToInclusive="true"/>
+    <action
+        android:id="@+id/action_to_noticeFragment"
+        app:destination="@+id/noticeFragment"
+        app:popUpToInclusive="true"/>
+    <action
+        android:id="@+id/action_to_parentSettingFragment"
+        app:destination="@+id/parentSettingFragment"
+        app:popUpToInclusive="true"/>
+    <fragment
+        android:label="ParentDeviceFragment"
+        android:name="com.flashget.parentalcontrol.ui.main.ParentDeviceFragment2"
+        android:id="@+id/parentDeviceFragment"/>
+    <fragment
+        android:label="MapFragment"
+        android:name="com.flashget.parentalcontrol.ui.notice.ParentNoticesFragment"
+        android:id="@+id/noticeFragment"/>
+    <fragment
+        android:label="ParentSettingFragment"
+        android:name="com.flashget.parentalcontrol.ui.main.ParentSettingFragment"
+        android:id="@+id/parentSettingFragment"/>
+</navigation>

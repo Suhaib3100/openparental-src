@@ -1,0 +1,23 @@
+package com.google.android.gms.common;
+
+import androidx.annotation.o0;
+
+/* compiled from: com.google.android.gms:play-services-basement@@18.9.0 */
+/* loaded from: classes5.dex */
+final class zzac {
+    private final String zza;
+    private final PackageVerificationResult zzb;
+
+    zzac(@o0 String str, @o0 PackageVerificationResult packageVerificationResult) {
+        this.zza = str;
+        this.zzb = packageVerificationResult;
+    }
+
+    final /* synthetic */ String zza() {
+        return this.zza;
+    }
+
+    final /* synthetic */ PackageVerificationResult zzb() {
+        return this.zzb;
+    }
+}

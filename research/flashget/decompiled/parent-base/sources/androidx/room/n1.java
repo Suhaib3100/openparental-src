@@ -1,0 +1,40 @@
+package androidx.room;
+
+import androidx.room.c2;
+import f3.e;
+import java.util.concurrent.Executor;
+import kotlin.Metadata;
+
+/* compiled from: QueryInterceptorOpenHelperFactory.kt */
+@Metadata(d1 = {"\u0000&\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\b\b\u0000\u0018\u00002\u00020\u0001B\u001f\u0012\u0006\u0010\u0002\u001a\u00020\u0001\u0012\u0006\u0010\u0004\u001a\u00020\u0003\u0012\u0006\u0010\u0006\u001a\u00020\u0005¢\u0006\u0004\b\u0007\u0010\bJ\u0017\u0010\f\u001a\u00020\u000b2\u0006\u0010\n\u001a\u00020\tH\u0016¢\u0006\u0004\b\f\u0010\rR\u0014\u0010\u0002\u001a\u00020\u00018\u0002X\u0082\u0004¢\u0006\u0006\n\u0004\b\f\u0010\u000eR\u0014\u0010\u0004\u001a\u00020\u00038\u0002X\u0082\u0004¢\u0006\u0006\n\u0004\b\u000f\u0010\u0010R\u0014\u0010\u0006\u001a\u00020\u00058\u0002X\u0082\u0004¢\u0006\u0006\n\u0004\b\u0011\u0010\u0012¨\u0006\u0013"}, d2 = {"Landroidx/room/n1;", "Lf3/e$c;", "delegate", "Ljava/util/concurrent/Executor;", "queryCallbackExecutor", "Landroidx/room/c2$g;", "queryCallback", "<init>", "(Lf3/e$c;Ljava/util/concurrent/Executor;Landroidx/room/c2$g;)V", "Lf3/e$b;", "configuration", "Lf3/e;", "a", "(Lf3/e$b;)Lf3/e;", "Lf3/e$c;", "b", "Ljava/util/concurrent/Executor;", "c", "Landroidx/room/c2$g;", "room-runtime_release"}, k = 1, mv = {1, 8, 0}, xi = 48)
+/* loaded from: classes3.dex */
+public final class n1 implements e.c {
+
+    /* renamed from: a, reason: collision with root package name and from kotlin metadata */
+    @fg.l
+    private final e.c delegate;
+
+    /* renamed from: b, reason: collision with root package name and from kotlin metadata */
+    @fg.l
+    private final Executor queryCallbackExecutor;
+
+    /* renamed from: c, reason: collision with root package name and from kotlin metadata */
+    @fg.l
+    private final c2.g queryCallback;
+
+    public n1(@fg.l e.c delegate, @fg.l Executor queryCallbackExecutor, @fg.l c2.g queryCallback) {
+        kotlin.jvm.internal.l0.p(delegate, "delegate");
+        kotlin.jvm.internal.l0.p(queryCallbackExecutor, "queryCallbackExecutor");
+        kotlin.jvm.internal.l0.p(queryCallback, "queryCallback");
+        this.delegate = delegate;
+        this.queryCallbackExecutor = queryCallbackExecutor;
+        this.queryCallback = queryCallback;
+    }
+
+    @Override // f3.e.c
+    @fg.l
+    public f3.e a(@fg.l e.b configuration) {
+        kotlin.jvm.internal.l0.p(configuration, "configuration");
+        return new m1(this.delegate.a(configuration), this.queryCallbackExecutor, this.queryCallback);
+    }
+}

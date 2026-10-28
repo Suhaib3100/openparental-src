@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/corners_recetangle_stroke_222027_11"
+    android:paddingLeft="@dimen/dp_12"
+    android:paddingTop="@dimen/dp_3"
+    android:paddingRight="@dimen/dp_12"
+    android:paddingBottom="@dimen/dp_4"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dp_4"
+    android:paddingHorizontal="@dimen/dp_12">
+    <TextView
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/color_text_secondary"
+        android:id="@+id/tv_category_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="聊天记录"
+        android:includeFontPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/parent_geofence_search_bar_layout_0"
+    android:background="@android:color/transparent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View
+        android:id="@+id/viewSearch"
+        android:background="@drawable/corners_rectangle_redlight"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+        android:id="@+id/ivSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_input_box_search"
+        android:contentDescription="@null"
+        android:layout_marginStart="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="@+id/viewSearch"
+        app:layout_constraintStart_toStartOf="@+id/viewSearch"
+        app:layout_constraintTop_toTopOf="@+id/viewSearch"/>
+    <com.flashget.parentalcontrol.ui.base.NewCleanableEditText
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_text_primary"
+        android:textColorHint="@color/color_text_tertiary"
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="@string/common_search"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:layout_marginStart="@dimen/dp_6"
+        app:layout_constraintBottom_toBottomOf="@+id/viewSearch"
+        app:layout_constraintEnd_toEndOf="@+id/viewSearch"
+        app:layout_constraintStart_toEndOf="@+id/ivSearch"
+        app:layout_constraintTop_toTopOf="@+id/viewSearch"
+        app:showBackground="false"
+        app:textPassword="false"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

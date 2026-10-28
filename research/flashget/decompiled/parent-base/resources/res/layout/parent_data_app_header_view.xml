@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:textSize="@dimen/sp_16"
+    android:textStyle="bold"
+    android:textColor="@color/color_text_primary"
+    android:id="@+id/tvStickyHeader"
+    android:background="@drawable/corners_rectangle_white_top_16dp"
+    android:paddingLeft="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_16"
+    android:paddingRight="@dimen/dp_16"
+    android:paddingBottom="@dimen/dp_8"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/dp_16"
+    app:layout_constraintTop_toTopOf="parent"
+    style="@style/TextStyle.Start"/>

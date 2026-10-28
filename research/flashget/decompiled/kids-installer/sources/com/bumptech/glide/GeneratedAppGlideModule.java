@@ -1,0 +1,20 @@
+package com.bumptech.glide;
+
+import androidx.annotation.o0;
+import androidx.annotation.q0;
+import com.bumptech.glide.manager.q;
+import java.util.Set;
+
+/* loaded from: classes3.dex */
+abstract class GeneratedAppGlideModule extends com.bumptech.glide.module.a {
+    GeneratedAppGlideModule() {
+    }
+
+    @o0
+    abstract Set<Class<?>> d();
+
+    @q0
+    q.b e() {
+        return null;
+    }
+}

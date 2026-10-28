@@ -5,7 +5,7 @@
 **Environment:** Cursor Cloud Agent VM (browser download + CLI analysis)  
 **Date:** 2026-10-28  
 
-Artifacts live under `research/apks/` (large binaries — not committed; see `research/apks/README.md`).
+Artifacts live under **`research/flashget/`** (monorepo: `binaries/` + `decompiled/` + `rea/`). See [`flashget/README.md`](flashget/README.md) and [`flashget/LEGAL.md`](flashget/LEGAL.md).
 
 ---
 
@@ -28,16 +28,16 @@ That matches your experience: **parent app on your phone**, **installer (+ downl
 
 | File | Subject |
 |------|---------|
-| `research/rea-parent-base-package.json` | `base.apk` from parent APKM — manifest, permissions, components |
-| `research/rea-installer-package.json` | `flashget-installer.apk` |
-| `research/rea-search-flashget.json` | Class name search sample |
+| `research/flashget/rea/rea-parent-base-package.json` | `base.apk` from parent APKM — manifest, permissions, components |
+| `research/flashget/rea/rea-installer-package.json` | `flashget-installer.apk` |
+| `research/flashget/rea/rea-search-flashget.json` | Class name search sample |
 
 Regenerate:
 
 ```bash
 export REA_JADX_MCP_JAR="$HOME/.local/share/rea/android/jadx-headless-mcp-0.7.1-all.jar"
-npx rea-agents@6.8.0 inspect-android-package research/apks/extracted/base.apk --format json > research/rea-parent-base-package.json
-npx rea-agents@6.8.0 inspect-android-package research/apks/flashget-installer.apk --format json > research/rea-installer-package.json
+npx rea-agents@6.8.0 inspect-android-package research/flashget/binaries/parent-base.apk --format json > research/flashget/rea/rea-parent-base-package.json
+npx rea-agents@6.8.0 inspect-android-package research/flashget/binaries/flashget-installer.apk --format json > research/flashget/rea/rea-installer-package.json
 ```
 
 ---

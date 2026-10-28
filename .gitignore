@@ -12,9 +12,11 @@ android-managed/captures/
 *.apk
 *.apkm
 *.aab
-research/apks/extracted/
-research/apks/*.apk
-research/apks/*.apkm
+# FlashGet reference binaries are tracked under research/flashget/binaries/ (Git LFS)
+!research/flashget/binaries/
+!research/flashget/binaries/**
+# Legacy download folder (local only)
+research/apks/
 *.keystore
 *.jks
 
@@ -54,5 +56,3 @@ backend/fcm-service-account.json
 .agents/
 skills-lock.json
 Archive.zip
-research/apks/*.apkm
-research/apks/*.apk

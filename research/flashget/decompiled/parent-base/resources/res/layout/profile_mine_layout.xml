@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/parent_profile_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.flashget.parentalcontrol.ui.component.ProfileItemPreference
+        android:id="@+id/itemSubscribe"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_free_trial"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mainText="@string/Payment_Sub_Will_Expire"
+        app:mode="twoLine"
+        app:subText="@string/Payment_Subscribe"
+        app:title="@string/Payment_Trial"/>
+    <com.flashget.parentalcontrol.ui.component.ProfileItemPreference
+        android:id="@+id/itemDevice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_device"
+        app:isShowDivider="false"
+        app:layout_constraintTop_toBottomOf="@+id/itemSubscribe"
+        app:mode="oneLine"
+        app:subText="3"
+        app:title="@string/Parent_Setting_My_Devices"/>
+    <com.flashget.parentalcontrol.ui.component.ProfileItemPreference
+        android:id="@+id/itemAudioRecording"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_record"
+        app:isShowDivider="false"
+        app:layout_constraintTop_toBottomOf="@+id/itemDevice"
+        app:mode="oneLine"
+        app:title="@string/Parent_Setting_My_Recordings"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

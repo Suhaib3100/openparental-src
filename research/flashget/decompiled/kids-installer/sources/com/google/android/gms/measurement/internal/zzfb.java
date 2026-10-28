@@ -1,0 +1,74 @@
+package com.google.android.gms.measurement.internal;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import androidx.annotation.l0;
+import androidx.annotation.n1;
+import com.flashget.kidsdownloader.ProtectedSandApp;
+import com.google.android.gms.common.internal.Preconditions;
+import com.google.android.gms.common.util.VisibleForTesting;
+
+/* compiled from: com.google.android.gms:play-services-measurement@@21.3.0 */
+/* loaded from: classes2.dex */
+final class zzfb extends BroadcastReceiver {
+
+    @VisibleForTesting
+    static final String zza = ProtectedSandApp.s("ཾ");
+    private final zzlh zzb;
+    private boolean zzc;
+    private boolean zzd;
+
+    zzfb(zzlh zzlhVar) {
+        Preconditions.checkNotNull(zzlhVar);
+        this.zzb = zzlhVar;
+    }
+
+    @Override // android.content.BroadcastReceiver
+    @l0
+    public final void onReceive(Context context, Intent intent) {
+        this.zzb.zzB();
+        String action = intent.getAction();
+        this.zzb.zzaA().zzj().zzb(ProtectedSandApp.s("ཿ"), action);
+        if (!ProtectedSandApp.s("ྀ").equals(action)) {
+            this.zzb.zzaA().zzk().zzb(ProtectedSandApp.s("ཱྀ"), action);
+            return;
+        }
+        boolean zza2 = this.zzb.zzj().zza();
+        if (this.zzd != zza2) {
+            this.zzd = zza2;
+            this.zzb.zzaB().zzp(new zzfa(this, zza2));
+        }
+    }
+
+    @n1
+    public final void zzb() {
+        this.zzb.zzB();
+        this.zzb.zzaB().zzg();
+        if (this.zzc) {
+            return;
+        }
+        this.zzb.zzaw().registerReceiver(this, new IntentFilter(ProtectedSandApp.s("ྂ")));
+        this.zzd = this.zzb.zzj().zza();
+        this.zzb.zzaA().zzj().zzb(ProtectedSandApp.s("ྃ"), Boolean.valueOf(this.zzd));
+        this.zzc = true;
+    }
+
+    @n1
+    public final void zzc() {
+        this.zzb.zzB();
+        this.zzb.zzaB().zzg();
+        this.zzb.zzaB().zzg();
+        if (this.zzc) {
+            this.zzb.zzaA().zzj().zza(ProtectedSandApp.s("྄"));
+            this.zzc = false;
+            this.zzd = false;
+            try {
+                this.zzb.zzaw().unregisterReceiver(this);
+            } catch (IllegalArgumentException e6) {
+                this.zzb.zzaA().zzd().zzb(ProtectedSandApp.s("྅"), e6);
+            }
+        }
+    }
+}

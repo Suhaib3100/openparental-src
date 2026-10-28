@@ -1,0 +1,58 @@
+package androidx.compose.foundation.lazy.staggeredgrid;
+
+import kotlin.Metadata;
+
+/* compiled from: LazyStaggeredGridSpan.kt */
+@androidx.compose.runtime.internal.u(parameters = 1)
+@Metadata(d1 = {"\u0000\u0010\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\u0010\b\n\u0002\b\t\b\u0007\u0018\u0000 \n2\u00020\u0001:\u0001\u0006B\u0011\b\u0002\u0012\u0006\u0010\u0003\u001a\u00020\u0002¢\u0006\u0004\b\u0004\u0010\u0005R\u001a\u0010\u0003\u001a\u00020\u00028\u0000X\u0080\u0004¢\u0006\f\n\u0004\b\u0006\u0010\u0007\u001a\u0004\b\b\u0010\t¨\u0006\u000b"}, d2 = {"Landroidx/compose/foundation/lazy/staggeredgrid/n0;", "", "", "value", "<init>", "(I)V", "a", "I", "c", "()I", "b", "foundation_release"}, k = 1, mv = {1, 8, 0}, xi = 48)
+/* loaded from: classes.dex */
+public final class n0 {
+
+    /* renamed from: c, reason: collision with root package name */
+    public static final int f6431c = 0;
+
+    /* renamed from: a, reason: collision with root package name and from kotlin metadata */
+    private final int value;
+
+    /* renamed from: b, reason: collision with root package name and from kotlin metadata */
+    @fg.l
+    public static final Companion INSTANCE = new Companion();
+
+    /* renamed from: d, reason: collision with root package name */
+    @fg.l
+    private static final n0 f6432d = new n0(0);
+
+    /* renamed from: e, reason: collision with root package name */
+    @fg.l
+    private static final n0 f6433e = new n0(1);
+
+    /* compiled from: LazyStaggeredGridSpan.kt */
+    @Metadata(d1 = {"\u0000\u0014\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0007\b\u0086\u0003\u0018\u00002\u00020\u0001B\t\b\u0002¢\u0006\u0004\b\u0002\u0010\u0003R\u0017\u0010\u0005\u001a\u00020\u00048\u0006¢\u0006\f\n\u0004\b\u0005\u0010\u0006\u001a\u0004\b\u0007\u0010\bR\u0017\u0010\t\u001a\u00020\u00048\u0006¢\u0006\f\n\u0004\b\t\u0010\u0006\u001a\u0004\b\n\u0010\b¨\u0006\u000b"}, d2 = {"Landroidx/compose/foundation/lazy/staggeredgrid/n0$a;", "", "<init>", "()V", "Landroidx/compose/foundation/lazy/staggeredgrid/n0;", "FullLine", "Landroidx/compose/foundation/lazy/staggeredgrid/n0;", "a", "()Landroidx/compose/foundation/lazy/staggeredgrid/n0;", "SingleLane", "b", "foundation_release"}, k = 1, mv = {1, 8, 0}, xi = 48)
+    /* renamed from: androidx.compose.foundation.lazy.staggeredgrid.n0$a, reason: from kotlin metadata */
+    public static final class Companion {
+        private Companion() {
+        }
+
+        @fg.l
+        public final n0 a() {
+            return n0.f6432d;
+        }
+
+        @fg.l
+        public final n0 b() {
+            return n0.f6433e;
+        }
+
+        public Companion(kotlin.jvm.internal.w wVar) {
+        }
+    }
+
+    private n0(int i4) {
+        this.value = i4;
+    }
+
+    /* renamed from: c, reason: from getter */
+    public final int getValue() {
+        return this.value;
+    }
+}

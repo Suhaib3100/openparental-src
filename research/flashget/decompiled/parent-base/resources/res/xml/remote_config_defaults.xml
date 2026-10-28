@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaults>
+    <entry>
+        <key>trial_ad_enable
+        </key>
+        <value>default
+        </value>
+    </entry>
+    <entry>
+        <key>TestGroupName
+        </key>
+        <value>TestGroupDefault
+        </value>
+    </entry>
+</defaults>

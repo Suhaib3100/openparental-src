@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="end"
+    android:orientation="horizontal"
+    android:id="@+id/llBtnPane"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp">
+    <TextView
+        android:textColor="@color/ad_dlg_btn_text_cancel"
+        android:id="@+id/tvCancel"
+        android:background="@drawable/ad_dlg_btn_color_bg"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:text="@string/Common_Cancel"
+        android:textDirection="locale"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_marginEnd="3dp"
+        style="@style/ad_dlg_base_btn"/>
+    <TextView
+        android:textColor="@color/color_primary"
+        android:id="@+id/tvOK"
+        android:background="@drawable/ad_dlg_btn_color_bg"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:text="@string/Common_Confirm"
+        android:textDirection="locale"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        style="@style/ad_dlg_base_btn"/>
+</LinearLayout>

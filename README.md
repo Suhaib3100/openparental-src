@@ -78,6 +78,7 @@ Three components, one monorepo:
 
 ```
 openparental/
+├── research/flashget/ Reference monorepo: FlashGet APKs (LFS), JADX decompile, REA JSON — **not** shipped product code
 ├── backend/           NestJS + Postgres (Prisma) + Redis + FCM
 │   ├── src/           auth · pairing · devices · policies · commands ·
 │   │                  events · heartbeats · tamper · alerts · locations

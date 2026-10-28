@@ -1,0 +1,19 @@
+package com.google.android.gms.internal.fido;
+
+/* compiled from: com.google.android.gms:play-services-fido@@21.0.0 */
+/* loaded from: classes5.dex */
+public final class zzej implements zzek {
+    private final String zza;
+    private final zzdn zzb;
+
+    public zzej() {
+        zzdo zzdoVar = zzdo.zzb;
+        this.zza = "";
+        this.zzb = zzdoVar;
+    }
+
+    @Override // com.google.android.gms.internal.fido.zzek
+    public final zzdp zza(String str) {
+        return new zzes(this.zza, str, true, this.zzb, true, true);
+    }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaults>
+    <entry>
+        <key>trial_ad_enable
+        </key>
+        <value>default
+        </value>
+    </entry>
+    <entry>
+        <key>ABTestString
+        </key>
+        <value>A
+        </value>
+    </entry>
+</defaults>

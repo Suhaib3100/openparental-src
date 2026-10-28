@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BottomSheetBodyStyle" parent="@style/CenterHorizontal">
+        <item name="android:tag">@string/BottomSheetBodyStyle</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="autoRefreshStyleRes">@style/BottomSheetBodyStyle</item>
+    </style>
+    <style name="CardBodyStyle" parent="@style/CenterHorizontal">
+        <item name="android:tag">@string/CardBodyStyle</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="autoRefreshStyleRes">@style/CardBodyStyle</item>
+    </style>
+    <style name="CenterDialogBodyStyle" parent="">
+        <item name="android:tag">@string/CenterDialogBodyStyle</item>
+        <item name="android:layout_width">320dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="autoRefreshStyleRes">@style/CenterDialogBodyStyle</item>
+    </style>
+    <style name="ContentBodyStyle" parent="@style/CenterHorizontal">
+        <item name="android:tag">@string/ContentBodyStyle</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="autoRefreshStyleRes">@style/ContentBodyStyle</item>
+    </style>
+</resources>

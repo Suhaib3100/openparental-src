@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/icon_nav_photo_download_disabled"
+        android:enabled="true"
+        android:id="@+id/download"
+        android:title="Selected_device"
+        app:showAsAction="always"/>
+    <item
+        android:icon="@drawable/icon_nav_delete_black"
+        android:enabled="true"
+        android:id="@+id/delete"
+        android:title="More"
+        app:showAsAction="always"/>
+</menu>

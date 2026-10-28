@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/icon_ai_analysis"
+        android:id="@+id/img_ai"
+        android:visible="false"
+        android:title="Ai"
+        app:showAsAction="always"/>
+    <item
+        android:icon="@drawable/btn_refresh_black"
+        android:id="@+id/img_refresh"
+        android:title="@string/Parent_UsageReport_Title"
+        app:showAsAction="always"/>
+</menu>

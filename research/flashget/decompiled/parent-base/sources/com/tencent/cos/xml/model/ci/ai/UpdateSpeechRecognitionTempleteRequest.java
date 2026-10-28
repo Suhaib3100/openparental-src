@@ -1,0 +1,46 @@
+package com.tencent.cos.xml.model.ci.ai;
+
+import androidx.annotation.o0;
+import com.flashget.parentalcontrol.ProtectedSandApp;
+import com.tencent.cos.xml.CosXmlServiceConfig;
+import com.tencent.cos.xml.exception.CosXmlClientException;
+import com.tencent.cos.xml.model.bucket.BucketRequest;
+import com.tencent.cos.xml.utils.QCloudXmlUtils;
+import com.tencent.qcloud.core.http.RequestBodySerializer;
+import java.io.IOException;
+import org.xmlpull.v1.XmlPullParserException;
+
+/* loaded from: classes7.dex */
+public class UpdateSpeechRecognitionTempleteRequest extends BucketRequest {
+    protected final String templateId;
+    private UpdateSpeechRecognitionTemplete updateSpeechRecognitionTemplete;
+
+    public UpdateSpeechRecognitionTempleteRequest(@o0 String str, @o0 String str2) {
+        super(str);
+        this.templateId = str2;
+    }
+
+    @Override // com.tencent.cos.xml.model.CosXmlRequest
+    public String getMethod() {
+        return ProtectedSandApp.s("㻲\u0001");
+    }
+
+    @Override // com.tencent.cos.xml.model.bucket.BucketRequest, com.tencent.cos.xml.model.CosXmlRequest
+    public String getPath(CosXmlServiceConfig cosXmlServiceConfig) {
+        return ProtectedSandApp.s("㻳\u0001") + this.templateId;
+    }
+
+    @Override // com.tencent.cos.xml.model.CosXmlRequest
+    public String getRequestHost(CosXmlServiceConfig cosXmlServiceConfig) {
+        return cosXmlServiceConfig.getRequestHost(this.region, this.bucket, ProtectedSandApp.s("㻴\u0001"));
+    }
+
+    public void setUpdateSpeechRecognitionTemplete(@o0 UpdateSpeechRecognitionTemplete updateSpeechRecognitionTemplete) {
+        this.updateSpeechRecognitionTemplete = updateSpeechRecognitionTemplete;
+    }
+
+    @Override // com.tencent.cos.xml.model.CosXmlRequest
+    protected RequestBodySerializer xmlBuilder() throws XmlPullParserException, IOException, CosXmlClientException {
+        return RequestBodySerializer.bytes(ProtectedSandApp.s("㻶\u0001"), QCloudXmlUtils.toXml(this.updateSpeechRecognitionTemplete).getBytes(ProtectedSandApp.s("㻵\u0001")));
+    }
+}

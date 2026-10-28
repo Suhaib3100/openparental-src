@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/fragment_parent_report_screen_low_version_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/dp_20"
+    app:cardElevation="0dp">
+    <RelativeLayout
+        android:background="@drawable/pic_screen_time_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_408">
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/img_error"
+                android:tag="binding_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pic_pop_software_version_low"/>
+            <TextView
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/color_text_primary"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_40"
+                android:text="@string/Common_KidsForChildOutdated_Des"
+                android:layout_centerInParent="true"
+                android:layout_marginHorizontal="@dimen/dp_40"/>
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

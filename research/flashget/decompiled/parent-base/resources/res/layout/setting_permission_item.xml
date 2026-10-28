@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/device_fragment_item_bg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.Guideline
+        android:orientation="vertical"
+        android:id="@+id/glStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.046"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:orientation="horizontal"
+        android:id="@+id/glTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.102"/>
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/feature_item_title_color"
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Parent_Setting_And_Permission_Title"
+        app:layout_constraintStart_toStartOf="@+id/glStart"
+        app:layout_constraintTop_toTopOf="@+id/glTop"
+        style="@style/TextStyle.Start"/>
+    <com.flashget.parentalcontrol.ui.component.FeatureItemPreference
+        android:id="@+id/fipPermission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/device_ic_exam"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:notifyVisible="false"
+        app:title="@string/Parent_Permission_Check_Title"/>
+    <com.flashget.parentalcontrol.ui.component.FeatureItemPreference
+        android:id="@+id/fipOpenKidGuide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dividerVisible="false"
+        app:icon="@drawable/device_ic_tips"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fipPermission"
+        app:title="@string/Parent_Bind_Open_Kid_Text"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

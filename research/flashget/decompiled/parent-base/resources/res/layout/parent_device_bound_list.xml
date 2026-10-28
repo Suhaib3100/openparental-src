@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flashget.kid.common.ui.base.dialog.BottomPopupContentLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bp_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:bp_title="@string/Parent_Device_Select_Title">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <View
+            android:id="@+id/vDeviceListDivider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/dp_200"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/ivAddDevices"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/icon_add_device_black"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:scrollbarSize="3dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:id="@+id/rvDeviceBoundList"
+            android:background="@android:color/transparent"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:scrollbars="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:fadeScrollbars="false"
+            android:paddingVertical="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.flashget.kid.common.ui.base.dialog.BottomPopupContentLayout>

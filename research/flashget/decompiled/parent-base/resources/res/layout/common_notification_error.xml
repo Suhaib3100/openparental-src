@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/common_notification_error_0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/img_error"
+        android:tag="binding_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_120"
+        android:src="@drawable/pic_nonews"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/color_text_secondary"
+        android:id="@+id/tv_error_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:text="@string/Common_LoadingFailed"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_error"
+        style="@style/TextStyle.Center"/>
+    <TextView
+        android:id="@+id/btn_retry"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/dp_40"
+        android:text="@string/Common_Settings"
+        android:paddingStart="@dimen/dp_70"
+        android:paddingEnd="@dimen/dp_70"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_error_title"
+        style="@style/ButtonStyle"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

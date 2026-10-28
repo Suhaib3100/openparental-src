@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/color_bg_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.Toolbar
+        android:theme="@style/CommonAppTheme.FeedBackToolBarStyle"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="1dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/nav_ic_back_black"
+        app:title="@string/RecentlyInstalled_Title"
+        app:titleTextAppearance="@style/toolbar_style_bold"
+        app:titleTextColor="@color/color_text_primary"/>
+    <com.flashget.kid.common.ui.base.views.MultiStateView
+        android:id="@+id/multi_state_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:emptyDrawableId="@drawable/pic_blankpage_app_info_failed"
+        app:emptyResId="@layout/parent_data_empty"
+        app:emptyTitle="@string/Parent_UsageLimit_Select_None"
+        app:networkErrorResId="@layout/default_network_error">
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/xrvList"
+            android:tag="@string/CardBodyStyle"
+            android:background="@android:color/transparent"
+            android:paddingBottom="25dp"
+            android:clipToPadding="false"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            style="@style/CardBodyStyle"/>
+    </com.flashget.kid.common.ui.base.views.MultiStateView>
+</LinearLayout>

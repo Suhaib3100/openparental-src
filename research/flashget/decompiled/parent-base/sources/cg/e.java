@@ -1,0 +1,24 @@
+package cg;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/* compiled from: DefaultFor.java */
+@Target({ElementType.ANNOTATION_TYPE})
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+/* loaded from: classes3.dex */
+public @interface e {
+    String[] names() default {};
+
+    String[] namesExceptions() default {};
+
+    h0[] typeKinds() default {};
+
+    Class<?>[] types() default {};
+
+    i0[] value() default {};
+}

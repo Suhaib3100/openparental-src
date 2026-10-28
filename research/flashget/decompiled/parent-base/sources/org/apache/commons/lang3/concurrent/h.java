@@ -1,0 +1,7 @@
+package org.apache.commons.lang3.concurrent;
+
+/* compiled from: Computable.java */
+/* loaded from: classes6.dex */
+public interface h<I, O> {
+    O a(I i4) throws InterruptedException;
+}

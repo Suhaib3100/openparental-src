@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="26dp"
+    android:width="26dp"
+    android:viewportWidth="26"
+    android:viewportHeight="26">
+    <group>
+        <clip-path android:pathData="M2,2l22,0l0,11l-5,0l0,-1l-6,0l0,6l1,0l0,6l-12,0z"/>
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M16.224,4.017L19.167,5.716L19.257,8.303C19.28,8.968 19.632,9.578 20.196,9.93L22.392,11.302L22.392,14.697L20.196,16.07C19.632,16.422 19.28,17.032 19.257,17.697L19.167,20.284L16.224,21.982L13.939,20.767C13.352,20.455 12.648,20.455 12.061,20.767L9.774,21.983L6.832,20.284L6.743,17.697C6.72,17.032 6.368,16.422 5.804,16.07L3.608,14.698L3.608,11.301L5.804,9.93C6.368,9.578 6.72,8.968 6.743,8.303L6.832,5.715L9.775,4.017L12.061,5.233C12.648,5.545 13.352,5.545 13.94,5.233L16.224,4.017Z"
+            android:strokeColor="@color/color_primary"
+            android:strokeWidth="2"
+            android:fillType="evenOdd"/>
+    </group>
+    <group>
+        <clip-path android:pathData="M2,2l22,0l0,11l-5,0l0,-1l-6,0l0,6l1,0l0,6l-12,0z"/>
+        <path
+            android:fillColor="#00000000"
+            android:pathData="M13,13m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"
+            android:strokeColor="@color/color_primary"
+            android:strokeWidth="2"
+            android:fillType="evenOdd"/>
+    </group>
+    <path
+        android:fillColor="@color/color_yellow"
+        android:pathData="M15,15L22,15A1,1 0,0 1,23 16L23,16A1,1 0,0 1,22 17L15,17A1,1 0,0 1,14 16L14,16A1,1 0,0 1,15 15z"
+        android:fillType="evenOdd"/>
+    <path
+        android:fillColor="@color/color_yellow"
+        android:pathData="M22,15L22,15A1,1 0,0 1,23 16L23,23A1,1 0,0 1,22 24L22,24A1,1 0,0 1,21 23L21,16A1,1 0,0 1,22 15z"
+        android:fillType="evenOdd"/>
+    <path
+        android:fillColor="@color/color_yellow"
+        android:pathData="M17,13L17,13A1,1 0,0 1,18 14L18,21A1,1 0,0 1,17 22L17,22A1,1 0,0 1,16 21L16,14A1,1 0,0 1,17 13z"
+        android:fillType="evenOdd"/>
+    <path
+        android:fillColor="@color/color_yellow"
+        android:pathData="M17,20L24,20A1,1 0,0 1,25 21L25,21A1,1 0,0 1,24 22L17,22A1,1 0,0 1,16 21L16,21A1,1 0,0 1,17 20z"
+        android:fillType="evenOdd"/>
+</vector>

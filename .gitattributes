@@ -1,0 +1,2 @@
+# FlashGet proprietary binaries — store in Git LFS (large files)
+research/flashget/binaries/** filter=lfs diff=lfs merge=lfs -text

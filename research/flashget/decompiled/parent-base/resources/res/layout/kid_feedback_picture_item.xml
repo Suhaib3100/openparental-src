@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/ivAddPic"
+        android:background="@drawable/ad_actionbar_item_selector"
+        android:padding="2dp"
+        android:focusable="true"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:src="@drawable/ad_feedback_add_selector"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:maxWidth="52dp"
+        android:maxHeight="52dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+        android:id="@+id/ivRemovePic"
+        android:background="@android:color/transparent"
+        android:padding="2dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/contact_edit_del_selector"
+        app:layout_constraintEnd_toEndOf="@+id/ivAddPic"
+        app:layout_constraintTop_toTopOf="@+id/ivAddPic"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

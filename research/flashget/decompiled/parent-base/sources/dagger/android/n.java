@@ -1,0 +1,7 @@
+package dagger.android;
+
+/* loaded from: classes7.dex */
+public final class n {
+    private n() {
+    }
+}

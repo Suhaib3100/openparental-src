@@ -1,0 +1,47 @@
+package com.coremedia.iso.boxes;
+
+import com.flashget.parentalcontrol.ProtectedSandApp;
+import com.googlecode.mp4parser.AbstractFullBox;
+import com.googlecode.mp4parser.g;
+import java.nio.ByteBuffer;
+import org.mp4parser.aspectj.lang.c;
+import org.mp4parser.aspectj.runtime.reflect.e;
+
+/* loaded from: classes3.dex */
+public class DataEntryUrlBox extends AbstractFullBox {
+    public static final String TYPE = ProtectedSandApp.s("\u0fcd");
+    private static final /* synthetic */ c.b ajc$tjp_0 = null;
+
+    static {
+        ajc$preClinit();
+    }
+
+    public DataEntryUrlBox() {
+        super(ProtectedSandApp.s("\u0fcd"));
+    }
+
+    private static /* synthetic */ void ajc$preClinit() {
+        e eVar = new e(ProtectedSandApp.s("࿎"), DataEntryUrlBox.class);
+        ajc$tjp_0 = eVar.H(ProtectedSandApp.s("࿓"), eVar.E(ProtectedSandApp.s("࿐"), ProtectedSandApp.s("࿑"), ProtectedSandApp.s("࿒"), "", "", "", ProtectedSandApp.s("࿏")), 51);
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    public void _parseDetails(ByteBuffer byteBuffer) {
+        parseVersionAndFlags(byteBuffer);
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected void getContent(ByteBuffer byteBuffer) {
+        writeVersionAndFlags(byteBuffer);
+    }
+
+    @Override // com.googlecode.mp4parser.AbstractBox
+    protected long getContentSize() {
+        return 4L;
+    }
+
+    public String toString() {
+        g.b().c(e.v(ajc$tjp_0, this, this));
+        return ProtectedSandApp.s("࿔");
+    }
+}

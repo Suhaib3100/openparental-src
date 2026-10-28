@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/ad_dlg2">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ad_dlg_padding">
+        <TextView
+            android:textSize="18sp"
+            android:textColor="@color/ad_checkbox_text_color"
+            android:id="@+id/tvMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AirDroid"
+            style="@style/TextStyle.Start"/>
+    </LinearLayout>
+    <include layout="@layout/ad_dlg_bottom_btn_bar2"/>
+</LinearLayout>

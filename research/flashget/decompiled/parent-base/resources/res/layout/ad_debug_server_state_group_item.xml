@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:background="@color/color_bg_2"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:paddingStart="@dimen/ad_settings_pref_padding_left">
+    <TextView
+        android:textColor="@color/color_text_primary"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preference Title"
+        android:textDirection="locale"
+        style="@style/ad_settings_pref_title"/>
+</LinearLayout>

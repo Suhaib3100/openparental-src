@@ -1,0 +1,6 @@
+package androidx.compose.foundation.layout;
+
+/* compiled from: R8$$SyntheticClass */
+/* loaded from: classes.dex */
+public final /* synthetic */ class z2 {
+}

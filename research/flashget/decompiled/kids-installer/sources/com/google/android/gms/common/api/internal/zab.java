@@ -1,0 +1,26 @@
+package com.google.android.gms.common.api.internal;
+
+import androidx.annotation.m1;
+import com.flashget.kidsdownloader.ProtectedSandApp;
+import java.lang.ref.WeakReference;
+
+/* compiled from: com.google.android.gms:play-services-base@@18.0.1 */
+/* loaded from: classes3.dex */
+public final class zab extends ActivityLifecycleObserver {
+    private final WeakReference<zaa> zaa;
+
+    @m1(otherwise = 2)
+    zab(zaa zaaVar) {
+        this.zaa = new WeakReference<>(zaaVar);
+    }
+
+    @Override // com.google.android.gms.common.api.internal.ActivityLifecycleObserver
+    public final ActivityLifecycleObserver onStopCallOnce(Runnable runnable) {
+        zaa zaaVar = this.zaa.get();
+        if (zaaVar == null) {
+            throw new IllegalStateException(ProtectedSandApp.s("⇑"));
+        }
+        zaaVar.zac(runnable);
+        return this;
+    }
+}

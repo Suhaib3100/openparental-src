@@ -112,6 +112,6 @@ Accessibility enforcement is **not** declared as a simple `uses-permission` line
 
 ---
 
-## Legal / ethics
+## Legal / scope
 
-REA was used for **interoperability and product research** to inform your **open-source** OpenParental app. Do not redistribute FlashGet APKs; keep analysis local. FlashGet is proprietary (FlashGet Network Technology).
+REA + JADX support **private parity research**. Binaries and decompile are **committed** under [`research/flashget/`](flashget/README.md) (see [`flashget/LEGAL.md`](flashget/LEGAL.md)). Product modules reimplement behavior in OpenParental code — they do not embed FlashGet DEX or assets.

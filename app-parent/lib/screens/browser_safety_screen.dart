@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/models.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
-import '../widgets/ui.dart';
 
 /// Shows browsing history captured from browser notifications.
 /// Has History and Blocked tabs.

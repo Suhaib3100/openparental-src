@@ -85,10 +85,12 @@ openparental/
 ├── android-managed/   Kotlin child app (sideloaded APK)
 │   └── app/           FGS supervisor · accessibility enforcement ·
 │                      tamper watchers · heartbeat · visibility reporters
-├── app-parent/        Flutter parent app (Play-store track)
+├── app-parent/        Flutter parent app (Android APK today)
 │   └── lib/           login · pairing · dashboard · lock/ping ·
 │                      policy editor · alert feed
-└── .github/           CI: backend build+test, Android assemble, Flutter analyze
+├── web/               Next.js marketing site + **parent web dashboard**
+│   └── app/           landing (both app downloads) · /login · /dashboard
+└── .github/           CI: backend, web, Android assemble, Flutter analyze
 ```
 
 **The flow, end-to-end:** parent registers → creates a pairing code → child app
@@ -114,7 +116,16 @@ npm run start:dev                 # → http://localhost:3000/health
 Open `android-managed/` in Android Studio and run it on a device. In the app, set
 the backend URL (`http://10.0.2.2:3000` from an emulator) and enter a pairing code.
 
-**3. Parent app** — Flutter 3.22+
+**3. Parent** — Flutter Android app **or web dashboard (iPhone-friendly)**
+
+```bash
+cd web && cp .env.example .env.local && npm install && npm run dev
+# Landing + dashboard → http://localhost:3000 (set NEXT_PUBLIC_API_URL to your API)
+```
+
+See [`docs/WEB_AND_IOS.md`](docs/WEB_AND_IOS.md) for iPhone/Safari and deploy notes.
+
+**3b. Parent Android app** — Flutter 3.22+
 
 ```bash
 cd app-parent

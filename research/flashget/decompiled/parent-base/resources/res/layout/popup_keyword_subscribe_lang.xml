@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flashget.kid.common.ui.base.dialog.BottomPopupContentLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bp_container"
+    android:tag="layout/popup_keyword_subscribe_lang_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:bp_desc="@string/KeywordManagementPage_SubscribeLanguage_Des"
+    app:bp_desc_gravity="center"
+    app:bp_scrollable="false"
+    app:bp_title="@string/Common_Language">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/btn_submit"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:enabled="false"
+            android:id="@+id/btn_submit"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_36"
+            android:text="@string/Common_Complete"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/ButtonStyle"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.flashget.kid.common.ui.base.dialog.BottomPopupContentLayout>

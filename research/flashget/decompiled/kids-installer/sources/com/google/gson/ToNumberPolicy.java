@@ -1,0 +1,61 @@
+package com.google.gson;
+
+import androidx.appcompat.view.g;
+import com.flashget.kidsdownloader.ProtectedSandApp;
+import com.google.gson.internal.LazilyParsedNumber;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.MalformedJsonException;
+import java.io.IOException;
+import java.math.BigDecimal;
+
+/* loaded from: classes3.dex */
+public enum ToNumberPolicy implements ToNumberStrategy {
+    DOUBLE { // from class: com.google.gson.ToNumberPolicy.1
+        @Override // com.google.gson.ToNumberStrategy
+        public Double readNumber(JsonReader jsonReader) throws IOException {
+            return Double.valueOf(jsonReader.nextDouble());
+        }
+    },
+    LAZILY_PARSED_NUMBER { // from class: com.google.gson.ToNumberPolicy.2
+        @Override // com.google.gson.ToNumberStrategy
+        public Number readNumber(JsonReader jsonReader) throws IOException {
+            return new LazilyParsedNumber(jsonReader.nextString());
+        }
+    },
+    LONG_OR_DOUBLE { // from class: com.google.gson.ToNumberPolicy.3
+        @Override // com.google.gson.ToNumberStrategy
+        public Number readNumber(JsonReader jsonReader) throws IOException, JsonParseException {
+            String s5 = ProtectedSandApp.s("⯝");
+            String s6 = ProtectedSandApp.s("⯞");
+            String nextString = jsonReader.nextString();
+            try {
+                try {
+                    return Long.valueOf(Long.parseLong(nextString));
+                } catch (NumberFormatException unused) {
+                    Double valueOf = Double.valueOf(nextString);
+                    if ((!valueOf.isInfinite() && !valueOf.isNaN()) || jsonReader.isLenient()) {
+                        return valueOf;
+                    }
+                    throw new MalformedJsonException(s6 + valueOf + s5 + jsonReader.getPreviousPath());
+                }
+            } catch (NumberFormatException e6) {
+                StringBuilder a6 = g.a(ProtectedSandApp.s("⯟"), nextString, s5);
+                a6.append(jsonReader.getPreviousPath());
+                throw new JsonParseException(a6.toString(), e6);
+            }
+        }
+    },
+    BIG_DECIMAL { // from class: com.google.gson.ToNumberPolicy.4
+        @Override // com.google.gson.ToNumberStrategy
+        public BigDecimal readNumber(JsonReader jsonReader) throws IOException {
+            String nextString = jsonReader.nextString();
+            try {
+                return new BigDecimal(nextString);
+            } catch (NumberFormatException e6) {
+                StringBuilder a6 = g.a(ProtectedSandApp.s("⯠"), nextString, ProtectedSandApp.s("⯡"));
+                a6.append(jsonReader.getPreviousPath());
+                throw new JsonParseException(a6.toString(), e6);
+            }
+        }
+    }
+}

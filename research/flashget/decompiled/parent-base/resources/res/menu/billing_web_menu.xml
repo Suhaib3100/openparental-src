@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/ic_baseline_bug_report"
+        android:id="@+id/menuDebugOption"
+        android:title="Debug option"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:icon="@drawable/icon_nav_customer_service"
+        android:id="@+id/menuContact"
+        android:title="Debug option"
+        app:showAsAction="ifRoom"/>
+</menu>

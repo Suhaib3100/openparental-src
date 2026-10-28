@@ -1,0 +1,153 @@
+{
+  "lang": "en",
+  "AllowButtonTemplateList": [
+    {
+      "ButtonType": 1,
+      "OptionList": [
+        {
+          "OptionType": "view",
+          "OptionId": "view_url",
+          "OptionText": "Access this URL",
+          "OptionValue": "",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "setting",
+          "OptionId": "add_url_whitelist",
+          "OptionText": "Add URL to the Whitelist",
+          "OptionValue": "",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_today",
+          "OptionText": "Available today",
+          "OptionValue": "-1",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_30min",
+          "OptionText": "Available 30 minutes",
+          "OptionValue": "1800",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_15min",
+          "OptionText": "Available 15 minutes",
+          "OptionValue": "900",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_1min",
+          "OptionText": "Available 1 minutes",
+          "OptionValue": "60",
+          "feedback_function": 0
+        }
+      ]
+    },
+    {
+      "ButtonType": 2,
+      "OptionList": [
+        {
+          "OptionType": "setting",
+          "OptionId": "allow_always",
+          "OptionText": "Set as \"Allowed Apps\"",
+          "OptionValue": "-1",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_today",
+          "OptionText": "Available today",
+          "OptionValue": "-1",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_1hour",
+          "OptionText": "Available 1 hour(s)",
+          "OptionValue": "3600",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_45min",
+          "OptionText": "Available 45 minutes",
+          "OptionValue": "2700",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_30min",
+          "OptionText": "Available 30 minutes",
+          "OptionValue": "1800",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_15min",
+          "OptionText": "Available 15 minutes",
+          "OptionValue": "900",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_1min",
+          "OptionText": "Available 1 minutes",
+          "OptionValue": "60",
+          "feedback_function": 0
+        }
+      ]
+    },
+    {
+      "ButtonType": 3,
+      "OptionList": [
+        {
+          "OptionType": "time",
+          "OptionId": "allow_today",
+          "OptionText": "Available today",
+          "OptionValue": "-1",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_1hour",
+          "OptionText": "Available 1 hour(s)",
+          "OptionValue": "3600",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_45min",
+          "OptionText": "Available 45 minutes",
+          "OptionValue": "2700",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_30min",
+          "OptionText": "Available 30 minutes",
+          "OptionValue": "1800",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_15min",
+          "OptionText": "Available 15 minutes",
+          "OptionValue": "900",
+          "feedback_function": 0
+        },
+        {
+          "OptionType": "time",
+          "OptionId": "allow_1min",
+          "OptionText": "Available 1 minutes",
+          "OptionValue": "60",
+          "feedback_function": 0
+        }
+      ]
+    }
+  ]
+}

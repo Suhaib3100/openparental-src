@@ -1,0 +1,6 @@
+package org.apache.log4j.or;
+
+/* loaded from: classes3.dex */
+public interface ObjectRenderer {
+    String doRender(Object obj);
+}

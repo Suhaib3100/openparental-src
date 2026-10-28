@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:gravity="top"
+        android:orientation="horizontal"
+        android:id="@+id/item_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_item_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="1dp"
+            android:importantForAccessibility="no"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:textSize="12sp"
+            android:textColor="@color/color_text_primary"
+            android:id="@+id/tv_item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            app:lineHeight="17sp"
+            style="@style/TextStyle.Start"/>
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:textSize="12sp"
+        android:textColor="@color/color_text_secondary"
+        android:id="@+id/tv_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:includeFontPadding="false"
+        app:lineHeight="17sp"
+        style="@style/TextStyle.Start"/>
+</LinearLayout>

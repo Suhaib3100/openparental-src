@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:tag="layout/popup_snapshot_more_setting_0"
+    android:background="@drawable/corners_rectangle_white_12dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:maxWidth="260dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/ll_edit"
+        android:tag="binding_1"
+        android:padding="@dimen/dp_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="132dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_nav_edit"/>
+        <TextView
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/color_text_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/KeyMapping_Button_Edit"
+            android:layout_marginStart="@dimen/dp_8"/>
+    </LinearLayout>
+</LinearLayout>

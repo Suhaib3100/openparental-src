@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="https://schemas.android.com/apk/res/android">
+    <cache-path
+        name="cache"
+        path="/"/>
+    <external-path
+        name="AirDroidKidRecord"
+        path="/"/>
+    <external-path
+        name="/"
+        path="/"/>
+    <root-path
+        name="/"
+        path="/"/>
+</paths>

@@ -1,0 +1,67 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.DeadObjectException;
+import android.os.RemoteException;
+import androidx.annotation.o0;
+import androidx.annotation.q0;
+import com.flashget.parentalcontrol.ProtectedSandApp;
+import com.google.android.gms.common.Feature;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.TaskCompletionSource;
+
+/* compiled from: com.google.android.gms:play-services-base@@18.4.0 */
+/* loaded from: classes5.dex */
+public final class zag extends zac {
+    private final TaskApiCall zaa;
+    private final TaskCompletionSource zab;
+    private final StatusExceptionMapper zad;
+
+    public zag(int i4, TaskApiCall taskApiCall, TaskCompletionSource taskCompletionSource, StatusExceptionMapper statusExceptionMapper) {
+        super(i4);
+        this.zab = taskCompletionSource;
+        this.zaa = taskApiCall;
+        this.zad = statusExceptionMapper;
+        if (i4 == 2 && taskApiCall.shouldAutoResolveMissingFeatures()) {
+            throw new IllegalArgumentException(ProtectedSandApp.s("쩾"));
+        }
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zac
+    public final boolean zaa(zabq zabqVar) {
+        return this.zaa.shouldAutoResolveMissingFeatures();
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zac
+    @q0
+    public final Feature[] zab(zabq zabqVar) {
+        return this.zaa.zab();
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final void zad(@o0 Status status) {
+        this.zab.trySetException(this.zad.getException(status));
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final void zae(@o0 Exception exc) {
+        this.zab.trySetException(exc);
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final void zaf(zabq zabqVar) throws DeadObjectException {
+        try {
+            this.zaa.doExecute(zabqVar.zaf(), this.zab);
+        } catch (DeadObjectException e4) {
+            throw e4;
+        } catch (RemoteException e5) {
+            zad(zai.zah(e5));
+        } catch (RuntimeException e6) {
+            this.zab.trySetException(e6);
+        }
+    }
+
+    @Override // com.google.android.gms.common.api.internal.zai
+    public final void zag(@o0 zaad zaadVar, boolean z4) {
+        zaadVar.zad(this.zab, z4);
+    }
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_focused="false"
+        android:state_checked="true"
+        android:drawable="@drawable/authority_btn_switch_on"/>
+    <item
+        android:state_focused="false"
+        android:drawable="@drawable/authority_btn_switch_off"/>
+</selector>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/color_bg_2"/>
+    <item
+        android:gravity="top|center_horizontal"
+        android:height="200dp"
+        android:drawable="@drawable/gradient_up2down"
+        android:top="0dp"/>
+    <item
+        android:gravity="top|center_horizontal"
+        android:drawable="@drawable/pic_start_logo_title"
+        android:top="@dimen/splash_logo_top_margin"/>
+    <item
+        android:gravity="bottom|center_horizontal"
+        android:height="@dimen/dp_58"
+        android:drawable="@drawable/pic_start_kidsafe"
+        android:bottom="@dimen/dp_40"/>
+</layer-list>

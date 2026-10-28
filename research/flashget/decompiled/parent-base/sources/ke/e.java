@@ -1,0 +1,33 @@
+package ke;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import ke.b;
+import kotlin.Metadata;
+import kotlin.jvm.internal.n1;
+
+/* compiled from: TypeParceler.kt */
+@Target({ElementType.TYPE})
+@dd.d
+@dd.e(dd.a.SOURCE)
+@Retention(RetentionPolicy.SOURCE)
+@dd.f(allowedTargets = {dd.b.CLASS, dd.b.PROPERTY})
+@Metadata(d1 = {"\u0000\u0014\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u001b\n\u0002\b\u0003\b\u0087\u0002\u0018\u0000*\u0004\b\u0000\u0010\u0001*\u0010\b\u0001\u0010\u0003*\n\u0012\u0006\b\u0000\u0012\u00028\u00000\u00022\u00020\u0004B\u0007¢\u0006\u0004\b\u0005\u0010\u0006¨\u0006\u0007"}, d2 = {"Lke/e;", "T", "Lke/b;", "P", "", "<init>", "()V", "kotlin-android-extensions-runtime"}, k = 1, mv = {1, 9, 0}, xi = 48)
+@Repeatable(a.class)
+/* loaded from: classes7.dex */
+public @interface e<T, P extends b<? super T>> {
+
+    /* compiled from: TypeParceler.kt */
+    @Target({ElementType.TYPE})
+    @Metadata(k = 3, mv = {1, 9, 0}, xi = 48)
+    @n1
+    @dd.e(dd.a.SOURCE)
+    @Retention(RetentionPolicy.SOURCE)
+    @dd.f(allowedTargets = {dd.b.CLASS, dd.b.PROPERTY})
+    public @interface a {
+        e[] value();
+    }
+}

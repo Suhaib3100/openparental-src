@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.flashget.parentalcontrol.widget.GoEditText
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_text_primary"
+        android:textColorHint="@color/color_text_tertiary"
+        android:id="@+id/edit_keyword"
+        android:tag="tag"
+        android:background="@null"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/dp_52"
+        android:text=""
+        android:hint="@string/Common_PleaseEnterContent"
+        android:selectAllOnFocus="true"
+        android:maxLength="50"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        android:layout_marginEnd="@dimen/dp_52"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextStyle.Start"/>
+    <ImageView
+        android:id="@+id/img_add"
+        android:padding="@dimen/dp_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/selector_add_keyword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <View
+        android:id="@+id/divider"
+        android:background="@color/color_border_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        app:layout_constraintTop_toBottomOf="@+id/edit_keyword"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

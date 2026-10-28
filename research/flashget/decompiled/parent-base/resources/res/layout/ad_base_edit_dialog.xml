@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/ad_dlg4">
+    <LinearLayout
+        android:orientation="vertical"
+        android:tag="@string/CenterDialogBodyStyle"
+        android:paddingTop="@dimen/dp_24"
+        android:paddingBottom="@dimen/dp_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_24"
+        android:paddingEnd="@dimen/dp_24"
+        style="@style/CenterDialogBodyStyle">
+        <include layout="@layout/ad_dlg_top_title_bar"/>
+        <EditText
+            android:orientation="vertical"
+            android:id="@+id/edit_text"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+        <ImageView
+            android:id="@+id/ivBottomDivider"
+            android:background="@color/ad_base_divider"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="12dp"/>
+    </LinearLayout>
+    <include layout="@layout/ad_dlg_bottom_btn_bar2"/>
+</LinearLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@color/color_bg_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.Toolbar
+        android:theme="@style/CommonAppTheme.FeedBackToolBarStyle"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="1dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/nav_ic_back_black"
+        app:title="@string/PricingPage_Kids_Feature5"
+        app:titleTextAppearance="@style/toolbar_style_bold"
+        app:titleTextColor="@color/color_text_primary"/>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fv_container"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        style="@style/CardBodyStyle"/>
+</LinearLayout>

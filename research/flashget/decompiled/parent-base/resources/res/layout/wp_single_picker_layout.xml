@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.flashget.parentalcontrol.widget.wheel.BasePicker
+        android:id="@+id/wp_single"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:wheel_atmospheric="true"
+        app:wheel_curtain="false"
+        app:wheel_curved="true"
+        app:wheel_data="@array/wp_WheelArrayDefault"
+        app:wheel_item_align="center"
+        app:wheel_item_text_size="@dimen/dp_20"
+        app:wheel_selected_item_text_color="@color/c_282832"
+        app:wheel_visible_item_count="7"/>
+    <TextView
+        android:textSize="@dimen/sp_18"
+        android:textColor="@color/color_text_primary"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/tv_single_unit"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"/>
+</LinearLayout>

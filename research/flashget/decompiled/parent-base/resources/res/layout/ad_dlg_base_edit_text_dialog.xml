@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/ad_dlg2">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ad_dlg_padding">
+        <include layout="@layout/ad_dlg_top_title_bar"/>
+        <LinearLayout
+            android:id="@+id/llMsg"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+            <TextView
+                android:textSize="18sp"
+                android:textColor="@color/ad_dlg_content"
+                android:gravity="center_vertical"
+                android:id="@+id/text_msg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="msg"
+                android:layout_weight="1"
+                style="@style/TextStyle.Start"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+            <EditText
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:textColorHighlight="#ffb4df88"
+                android:textColorHint="@color/ad_dlg_et_hint_color"
+                android:gravity="center_vertical"
+                android:id="@+id/edit_text"
+                android:background="@drawable/ad_base_textfield_green_selected_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="textMultiLine"
+                style="@style/TextStyle.Start"/>
+        </LinearLayout>
+    </LinearLayout>
+    <include layout="@layout/ad_dlg_bottom_btn_bar2"/>
+</LinearLayout>

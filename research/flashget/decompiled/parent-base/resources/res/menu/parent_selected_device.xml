@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/icon_nav_device"
+        android:id="@+id/select_device"
+        android:title="Selected_device"
+        app:showAsAction="always"/>
+    <item
+        android:icon="@drawable/icon_nav_notice_set"
+        android:id="@+id/notice_setting"
+        android:title="Notice"
+        app:showAsAction="always"/>
+</menu>

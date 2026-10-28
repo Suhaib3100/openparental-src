@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/corners_rectangle_white_16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RadioGroup
+        android:id="@+id/rgLimitDays"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/radio_group_divider"
+        android:showDividers="middle"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <RadioButton
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/color_text_primary"
+            android:id="@+id/rbEveryday"
+            android:background="@color/ad_transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:button="@null"
+            android:text="@string/common_everyday"
+            android:drawableEnd="@drawable/select_app_box_style"/>
+        <RadioButton
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/color_text_primary"
+            android:id="@+id/rbCustomDefine"
+            android:background="@color/ad_transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:text="@string/Parent_UsageLimit_EveryDay_Custom_Time"
+            android:drawableEnd="@drawable/select_app_box_style"/>
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

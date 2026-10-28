@@ -1,0 +1,120 @@
+package kotlin.collections;
+
+import com.flashget.kidsdownloader.ProtectedSandApp;
+import java.util.Collection;
+import java.util.Iterator;
+import kotlin.Metadata;
+import kotlin.jvm.internal.SourceDebugExtension;
+
+/* compiled from: Collections.kt */
+@Metadata(d1 = {"\u0000.\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u001e\n\u0000\n\u0002\u0010\u0011\n\u0000\n\u0002\u0010\u000b\n\u0002\b\u0003\n\u0002\u0010\b\n\u0002\b\f\n\u0002\u0010(\n\u0000\n\u0002\u0010\u0000\n\u0000\b\u0002\u0018\u0000*\u0004\b\u0000\u0010\u00012\b\u0012\u0004\u0012\u0002H\u00010\u0002B\u001d\u0012\u000e\u0010\u0003\u001a\n\u0012\u0006\b\u0001\u0012\u00028\u00000\u0004\u0012\u0006\u0010\u0005\u001a\u00020\u0006¢\u0006\u0002\u0010\u0007J\u0016\u0010\u0010\u001a\u00020\u00062\u0006\u0010\u0011\u001a\u00028\u0000H\u0096\u0002¢\u0006\u0002\u0010\u0012J\u0016\u0010\u0013\u001a\u00020\u00062\f\u0010\u0014\u001a\b\u0012\u0004\u0012\u00028\u00000\u0002H\u0016J\b\u0010\u0015\u001a\u00020\u0006H\u0016J\u000f\u0010\u0016\u001a\b\u0012\u0004\u0012\u00028\u00000\u0017H\u0096\u0002J\u0015\u0010\u0018\u001a\f\u0012\b\b\u0001\u0012\u0004\u0018\u00010\u00190\u0004¢\u0006\u0002\u0010\u000eR\u0011\u0010\u0005\u001a\u00020\u0006¢\u0006\b\n\u0000\u001a\u0004\b\u0005\u0010\bR\u0014\u0010\t\u001a\u00020\n8VX\u0096\u0004¢\u0006\u0006\u001a\u0004\b\u000b\u0010\fR\u001b\u0010\u0003\u001a\n\u0012\u0006\b\u0001\u0012\u00028\u00000\u0004¢\u0006\n\n\u0002\u0010\u000f\u001a\u0004\b\r\u0010\u000e¨\u0006\u001a"}, d2 = {"Lkotlin/collections/ArrayAsCollection;", "T", "", "values", "", "isVarargs", "", "([Ljava/lang/Object;Z)V", "()Z", "size", "", "getSize", "()I", "getValues", "()[Ljava/lang/Object;", "[Ljava/lang/Object;", "contains", "element", "(Ljava/lang/Object;)Z", "containsAll", "elements", "isEmpty", "iterator", "", "toArray", "", "kotlin-stdlib"}, k = 1, mv = {1, 9, 0}, xi = 48)
+@SourceDebugExtension({"SMAP\nCollections.kt\nKotlin\n*S Kotlin\n*F\n+ 1 Collections.kt\nkotlin/collections/ArrayAsCollection\n+ 2 _Collections.kt\nkotlin/collections/CollectionsKt___CollectionsKt\n*L\n1#1,522:1\n1726#2,3:523\n*S KotlinDebug\n*F\n+ 1 Collections.kt\nkotlin/collections/ArrayAsCollection\n*L\n62#1:523,3\n*E\n"})
+/* renamed from: kotlin.collections.j, reason: from Kotlin metadata */
+/* loaded from: classes5.dex */
+final class ArrayAsCollection<T> implements Collection<T>, r3.a {
+
+    /* renamed from: o, reason: collision with root package name */
+    @d5.d
+    private final T[] f23148o;
+
+    /* renamed from: p, reason: collision with root package name */
+    private final boolean f23149p;
+
+    public ArrayAsCollection(@d5.d T[] tArr, boolean z5) {
+        kotlin.jvm.internal.l0.p(tArr, ProtectedSandApp.s("㟇"));
+        this.f23148o = tArr;
+        this.f23149p = z5;
+    }
+
+    @Override // java.util.Collection
+    public boolean add(T t5) {
+        throw new UnsupportedOperationException(ProtectedSandApp.s("㟈"));
+    }
+
+    @Override // java.util.Collection
+    public boolean addAll(Collection<? extends T> collection) {
+        throw new UnsupportedOperationException(ProtectedSandApp.s("㟉"));
+    }
+
+    public int b() {
+        return this.f23148o.length;
+    }
+
+    @Override // java.util.Collection
+    public void clear() {
+        throw new UnsupportedOperationException(ProtectedSandApp.s("㟊"));
+    }
+
+    @Override // java.util.Collection
+    public boolean contains(Object element) {
+        return t.s8(this.f23148o, element);
+    }
+
+    @Override // java.util.Collection
+    public boolean containsAll(@d5.d Collection<? extends Object> elements) {
+        kotlin.jvm.internal.l0.p(elements, ProtectedSandApp.s("㟋"));
+        if (elements.isEmpty()) {
+            return true;
+        }
+        Iterator<T> it = elements.iterator();
+        while (it.hasNext()) {
+            if (!contains(it.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @d5.d
+    public final T[] f() {
+        return this.f23148o;
+    }
+
+    /* renamed from: g, reason: from getter */
+    public final boolean getF23149p() {
+        return this.f23149p;
+    }
+
+    @Override // java.util.Collection
+    public boolean isEmpty() {
+        return this.f23148o.length == 0;
+    }
+
+    @Override // java.util.Collection, java.lang.Iterable
+    @d5.d
+    public Iterator<T> iterator() {
+        return kotlin.jvm.internal.i.a(this.f23148o);
+    }
+
+    @Override // java.util.Collection
+    public boolean remove(Object obj) {
+        throw new UnsupportedOperationException(ProtectedSandApp.s("㟌"));
+    }
+
+    @Override // java.util.Collection
+    public boolean removeAll(Collection<? extends Object> collection) {
+        throw new UnsupportedOperationException(ProtectedSandApp.s("㟍"));
+    }
+
+    @Override // java.util.Collection
+    public boolean retainAll(Collection<? extends Object> collection) {
+        throw new UnsupportedOperationException(ProtectedSandApp.s("㟎"));
+    }
+
+    @Override // java.util.Collection
+    public final int size() {
+        return this.f23148o.length;
+    }
+
+    @Override // java.util.Collection
+    public <T> T[] toArray(T[] tArr) {
+        kotlin.jvm.internal.l0.p(tArr, ProtectedSandApp.s("㟏"));
+        return (T[]) kotlin.jvm.internal.v.b(this, tArr);
+    }
+
+    @Override // java.util.Collection
+    @d5.d
+    public final Object[] toArray() {
+        return z.h(this.f23148o, this.f23149p);
+    }
+}

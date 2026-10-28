@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/corners_rectangle_white"
+    android:layout_width="match_parent"
+    android:layout_height="36dp">
+    <ImageView
+        android:id="@+id/ivPrevDay"
+        android:layout_width="36dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/positioning_btn_left"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <View
+        android:id="@+id/dividerStart"
+        android:background="@color/white_f2f0f2"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPrevDay"/>
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:id="@+id/llCalendar"
+        android:background="@android:color/transparent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/color_main_text"
+            android:gravity="center"
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8月19日  昨天"
+            android:layout_marginStart="10dp"
+            style="@style/TextStyle.Center"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/dividerEnd"
+        android:background="@color/white_f2f0f2"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivNextDay"/>
+    <ImageView
+        android:id="@+id/ivNextDay"
+        android:layout_width="36dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/positioning_btn_right"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

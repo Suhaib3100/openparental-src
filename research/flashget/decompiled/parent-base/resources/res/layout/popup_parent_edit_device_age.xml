@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flashget.kid.common.ui.base.dialog.BottomPopupContentLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bp_container"
+    android:tag="layout/popup_parent_edit_device_age_0"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:bp_title="@string/Common_SelectAge">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tv_complete"
+            android:tag="binding_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_36"
+            android:text="@string/Common_Confirm"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/age_picker"
+            style="@style/ButtonStyle"/>
+        <View
+            android:background="@drawable/corners_rectangle_197e5ded_8"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            app:layout_constraintBottom_toBottomOf="@+id/age_picker"
+            app:layout_constraintTop_toTopOf="@+id/age_picker"/>
+        <com.flashget.parentalcontrol.widget.wheel.WheelPicker
+            android:id="@+id/age_picker"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_220"
+            android:layout_marginTop="@dimen/dp_10"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.flashget.kid.common.ui.base.dialog.BottomPopupContentLayout>

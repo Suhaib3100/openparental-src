@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/color_bg_1"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:textSize="18sp"
+        android:textColor="@color/color_text_primary"
+        android:paddingBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试数据填充"/>
+    <TextView
+        android:textSize="14sp"
+        android:textColor="@color/color_text_secondary"
+        android:paddingBottom="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="为通知、警报、浏览器、关键词、短信、使用记录、TikTok/YouTube模块插入模拟数据。"/>
+    <Button
+        android:id="@+id/btn_fill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="填充测试数据（每类 50 条）"/>
+    <Button
+        android:id="@+id/btn_fill_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="填充更多（每类 10000 条）"/>
+    <TextView
+        android:textSize="14sp"
+        android:textColor="@color/color_text_secondary"
+        android:paddingBottom="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="为相册、快照等模块插入模拟数据。\10相册和快照模块的数据不要加太多，因为生成的url有无效的，能显示的无法点击查看大图。"/>
+    <Button
+        android:id="@+id/btn_fill_album"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="填充相册安全（50 条）"/>
+    <Button
+        android:id="@+id/btn_fill_snapshot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="填充快照（50 条）"/>
+    <TextView
+        android:textSize="13sp"
+        android:textColor="@color/color_text_secondary"
+        android:id="@+id/tv_result"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"/>
+</LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:height="24dp"
+    android:width="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@drawable/_icon_report_keyword_orange__0_res_0x7f080016"
+        android:pathData="M13.664,3.912C13.994,4.132 14.276,4.415 14.496,4.744L20.891,14.336C21.81,15.714 21.437,17.577 20.059,18.496C19.566,18.825 18.987,19 18.394,19L5.606,19C3.949,19 2.606,17.657 2.606,16C2.606,15.408 2.781,14.829 3.109,14.336L9.504,4.744C10.423,3.366 12.286,2.993 13.664,3.912ZM12,14C11.448,14 11,14.448 11,15C11,15.552 11.448,16 12,16C12.552,16 13,15.552 13,15C13,14.448 12.552,14 12,14ZM12,7C11.93,7 11.86,7.006 11.791,7.017C11.099,7.133 10.631,7.787 10.747,8.48L11.418,12.507C11.465,12.791 11.711,13 12,13C12.289,13 12.535,12.791 12.582,12.507L13.253,8.48C13.265,8.411 13.271,8.341 13.271,8.271C13.271,7.569 12.702,7 12,7Z"
+        android:fillType="evenOdd"/>
+</vector>

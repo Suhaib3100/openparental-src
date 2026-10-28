@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/dp_5"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.flashget.kid.common.widget.easy.EasyConstraintLayout
+        android:padding="@dimen/dp_1"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_2">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_radius="@dimen/dp_12"
+            app:layout_shadowColor="@color/color_text_tertiary"
+            app:layout_shadowEvaluation="@dimen/dp_1"
+            app:spanCount="9"/>
+    </com.flashget.kid.common.widget.easy.EasyConstraintLayout>
+    <com.flashget.parentalcontrol.widget.RoundImageView
+        android:id="@+id/v_sel_color"
+        android:padding="@dimen/dp_9"
+        android:visibility="gone"
+        android:layout_width="@dimen/dp_44"
+        android:layout_height="@dimen/dp_44"
+        android:layout_margin="@dimen/dp_2"
+        android:src="@drawable/icon_painting_color_select"
+        app:radius="@dimen/dp_12"/>
+</FrameLayout>

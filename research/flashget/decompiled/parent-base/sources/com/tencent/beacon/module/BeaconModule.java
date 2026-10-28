@@ -1,0 +1,14 @@
+package com.tencent.beacon.module;
+
+import android.content.Context;
+import java.util.HashMap;
+import java.util.Map;
+
+/* loaded from: classes6.dex */
+public interface BeaconModule {
+
+    /* renamed from: a, reason: collision with root package name */
+    public static final Map<ModuleName, BeaconModule> f71636a = new HashMap();
+
+    void a(Context context);
+}

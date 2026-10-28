@@ -1,0 +1,15 @@
+package com.google.android.gms.common.api.internal;
+
+import android.os.Bundle;
+import androidx.annotation.q0;
+import com.google.android.gms.common.ConnectionResult;
+
+/* compiled from: com.google.android.gms:play-services-base@@18.4.0 */
+/* loaded from: classes5.dex */
+public interface zabz {
+    void zaa(ConnectionResult connectionResult);
+
+    void zab(@q0 Bundle bundle);
+
+    void zac(int i4, boolean z4);
+}

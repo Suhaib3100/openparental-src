@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="config_sms_enabled_locking_shift_tables">
+    </array>
+    <array name="config_sms_enabled_single_shift_tables">
+    </array>
+    <array name="device_spinner_sample">
+        <item>@string/Common_Loading</item>
+    </array>
+    <array name="material_calendar_day_abbreviations_array">
+        <item>@string/material_calendar_sunday</item>
+        <item>@string/material_calendar_monday</item>
+        <item>@string/material_calendar_tuesday</item>
+        <item>@string/material_calendar_wednesday</item>
+        <item>@string/material_calendar_thursday</item>
+        <item>@string/material_calendar_friday</item>
+        <item>@string/material_calendar_saturday</item>
+    </array>
+    <array name="material_calendar_months_array">
+        <item>@string/material_calendar_january</item>
+        <item>@string/material_calendar_february</item>
+        <item>@string/material_calendar_march</item>
+        <item>@string/material_calendar_april</item>
+        <item>@string/material_calendar_may</item>
+        <item>@string/material_calendar_june</item>
+        <item>@string/material_calendar_july</item>
+        <item>@string/material_calendar_august</item>
+        <item>@string/material_calendar_september</item>
+        <item>@string/material_calendar_october</item>
+        <item>@string/material_calendar_november</item>
+        <item>@string/material_calendar_december</item>
+    </array>
+    <array name="wp_WheelArrayDefault">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>Objective-C</item>
+        <item>Swift</item>
+        <item>Go</item>
+        <item>Ruby</item>
+        <item>PL/SQL</item>
+    </array>
+    <array name="wp_WheelArrayEmpty">
+    </array>
+</resources>

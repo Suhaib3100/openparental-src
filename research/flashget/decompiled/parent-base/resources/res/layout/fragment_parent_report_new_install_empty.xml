@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/fragment_parent_report_new_install_empty_0"
+    android:paddingBottom="@dimen/dp_72"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_gravity="center"
+        android:id="@+id/img_error"
+        android:tag="binding_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_22"
+        android:src="@drawable/pic_blankpage_data_no_install_app"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_text_secondary"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_40"
+        android:text="@string/NoNnewAppsInstalled_Des"
+        android:layout_below="@+id/img_error"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="@dimen/dp_40"/>
+</RelativeLayout>

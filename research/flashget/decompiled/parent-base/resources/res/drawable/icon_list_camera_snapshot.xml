@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="36dp"
+    android:width="36dp"
+    android:viewportWidth="36"
+    android:viewportHeight="36">
+    <path
+        android:fillColor="@color/color_primary"
+        android:pathData="M9.58,5C10.057,5 10.467,5.336 10.561,5.804L10.8,7L11,7C11.74,7 12.387,7.402 12.732,8L29,8C31.209,8 33,9.791 33,12L33,26C33,28.209 31.209,30 29,30L12.732,30.001C12.386,30.598 11.74,31 11,31L5,31C3.895,31 3,30.105 3,29L3,9C3,7.895 3.895,7 5,7L5.2,7L5.439,5.804C5.533,5.336 5.943,5 6.42,5L9.58,5ZM29,10L13,10L13,22.999L17.232,17.922C17.585,17.498 18.216,17.44 18.64,17.794C18.687,17.833 18.73,17.875 18.768,17.922L23.408,23.489L26.219,19.976C26.564,19.545 27.193,19.475 27.625,19.82C27.682,19.866 27.735,19.918 27.781,19.976L31,24L31,12C31,10.895 30.105,10 29,10ZM7.5,10L6.5,10C5.672,10 5,10.672 5,11.5C5,12.328 5.672,13 6.5,13L7.5,13C8.328,13 9,12.328 9,11.5C9,10.672 8.328,10 7.5,10Z"
+        android:fillType="evenOdd"/>
+    <path
+        android:fillColor="@color/color_yellow"
+        android:pathData="M26,14m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0"
+        android:fillType="evenOdd"/>
+</vector>

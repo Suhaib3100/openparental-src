@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/search_no_result_0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_gravity="center_horizontal"
+        android:tag="@string/ContentBodyStyle"
+        android:layout_height="match_parent"
+        style="@style/ContentBodyStyle">
+        <ImageView
+            android:id="@+id/ivNoSearchResult"
+            android:tag="binding_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_16"
+            app:layout_constraintBottom_toTopOf="@+id/tvNoSearchResultTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/pic_blankpage_no_search_results"/>
+        <TextView
+            android:id="@+id/tvNoSearchResultTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/Business_Search_Empty"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/ivNoSearchResult"
+            app:layout_constraintStart_toStartOf="@+id/ivNoSearchResult"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/TextStyle.Center"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

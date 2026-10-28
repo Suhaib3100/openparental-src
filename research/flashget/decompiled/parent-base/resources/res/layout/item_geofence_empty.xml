@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="64dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/ivGeofenceEmpty"
+        android:layout_width="160dp"
+        android:layout_height="110dp"
+        android:src="@drawable/pic_geofence"
+        android:scaleType="centerInside"
+        android:contentDescription="@null"/>
+    <TextView
+        android:textSize="14sp"
+        android:textColor="@color/color_text_secondary"
+        android:gravity="center"
+        android:id="@+id/tvGeofenceEmptyAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/GeofencePage_Empty_Des"
+        style="@style/TextStyle.Center"/>
+</LinearLayout>

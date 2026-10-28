@@ -1,0 +1,18 @@
+package com.google.android.gms.tasks;
+
+import androidx.annotation.o0;
+
+/* compiled from: com.google.android.gms:play-services-tasks@@18.0.2 */
+/* loaded from: classes2.dex */
+public class CancellationTokenSource {
+    private final zzb zza = new zzb();
+
+    public void cancel() {
+        this.zza.zza();
+    }
+
+    @o0
+    public CancellationToken getToken() {
+        return this.zza;
+    }
+}

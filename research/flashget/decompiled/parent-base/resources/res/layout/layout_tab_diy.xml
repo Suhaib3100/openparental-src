@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:gravity="bottom"
+            android:id="@+id/tv_tab_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_centerInParent="true"/>
+        <ImageView
+            android:id="@+id/indicator"
+            android:layout_width="22dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/slider"
+            android:layout_below="@+id/tv_tab_title"
+            android:layout_centerHorizontal="true"/>
+    </LinearLayout>
+</FrameLayout>

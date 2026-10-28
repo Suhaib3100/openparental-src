@@ -1,0 +1,34 @@
+package com.google.android.gms.measurement.internal;
+
+import android.os.RemoteException;
+import com.flashget.parentalcontrol.ProtectedSandApp;
+import com.google.android.gms.common.internal.Preconditions;
+
+/* compiled from: com.google.android.gms:play-services-measurement-impl@@22.1.2 */
+/* loaded from: classes5.dex */
+final class zzma implements Runnable {
+    private final /* synthetic */ zzo zza;
+    private final /* synthetic */ zzls zzb;
+
+    zzma(zzls zzlsVar, zzo zzoVar) {
+        this.zza = zzoVar;
+        this.zzb = zzlsVar;
+    }
+
+    @Override // java.lang.Runnable
+    public final void run() {
+        zzgb zzgbVar;
+        zzgbVar = this.zzb.zzb;
+        if (zzgbVar == null) {
+            this.zzb.zzj().zzg().zza(ProtectedSandApp.s("\ue1b0"));
+            return;
+        }
+        try {
+            Preconditions.checkNotNull(this.zza);
+            zzgbVar.zze(this.zza);
+        } catch (RemoteException e4) {
+            this.zzb.zzj().zzg().zza(ProtectedSandApp.s("\ue1b1"), e4);
+        }
+        this.zzb.zzar();
+    }
+}

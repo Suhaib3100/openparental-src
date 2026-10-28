@@ -1,0 +1,29 @@
+package com.google.firebase.crashlytics.internal.common;
+
+/* compiled from: DeliveryMechanism.java */
+/* loaded from: classes2.dex */
+public enum a0 {
+    DEVELOPER(1),
+    USER_SIDELOAD(2),
+    TEST_DISTRIBUTION(3),
+    APP_STORE(4);
+
+    private final int id;
+
+    a0(int i5) {
+        this.id = i5;
+    }
+
+    public static a0 determineFrom(String str) {
+        return str != null ? APP_STORE : DEVELOPER;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    @Override // java.lang.Enum
+    public String toString() {
+        return Integer.toString(this.id);
+    }
+}

@@ -1,0 +1,27 @@
+package com.tencent.cos.xml.model.ci;
+
+import com.tencent.cos.xml.common.ClientErrorCode;
+import com.tencent.cos.xml.exception.CosXmlClientException;
+import com.tencent.cos.xml.exception.CosXmlServiceException;
+import com.tencent.cos.xml.model.CosXmlResult;
+import com.tencent.qcloud.core.http.HttpResponse;
+import java.io.IOException;
+
+/* loaded from: classes7.dex */
+public class PreviewDocumentInHtmlBytesResult extends CosXmlResult {
+    private byte[] data;
+
+    public byte[] getData() {
+        return this.data;
+    }
+
+    @Override // com.tencent.cos.xml.model.CosXmlResult
+    public void parseResponseBody(HttpResponse httpResponse) throws CosXmlClientException, CosXmlServiceException {
+        super.parseResponseBody(httpResponse);
+        try {
+            this.data = httpResponse.bytes();
+        } catch (IOException e4) {
+            throw new CosXmlClientException(ClientErrorCode.POOR_NETWORK.getCode(), e4);
+        }
+    }
+}

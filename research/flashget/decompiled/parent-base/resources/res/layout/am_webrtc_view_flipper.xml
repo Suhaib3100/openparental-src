@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="layout/am_webrtc_view_flipper_0"
+    android:background="@color/color_bg_2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ViewFlipper
+        android:id="@+id/vfContent"
+        android:tag="binding_1"
+        android:background="@color/color_bg_2"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbWebRtc"
+        style="@style/ContentBodyStyle">
+        <include layout="@layout/am_webrtc_connecting"/>
+        <include layout="@layout/am_webrtc_connecting"/>
+        <include layout="@layout/am_airmirror_webrtc_connection_failed"/>
+        <include layout="@layout/am_airmirror_webrtc_connection_failed"/>
+        <include layout="@layout/am_airmirror_webrtc_connection_failed"/>
+        <include layout="@layout/am_airmirror_webrtc_connection_failed"/>
+        <include layout="@layout/bizc_camera_connection_failed"/>
+        <include layout="@layout/bizc_camera_permission_failed"/>
+        <include layout="@layout/parent_camera_activate_failed"/>
+        <include layout="@layout/parent_camera_activate_failed_2"/>
+        <include layout="@layout/bizc_vds_connection_failed"/>
+        <include layout="@layout/bizc_screen_permission_failed"/>
+        <include layout="@layout/bizc_screen_permission_failed_1"/>
+        <include layout="@layout/parent_overhear_connection_failed"/>
+        <include layout="@layout/parent_overhear_permission_failed"/>
+        <include layout="@layout/bizc_target_disconnect"/>
+        <include layout="@layout/bizc_camera_resource_hold_tips"/>
+        <include layout="@layout/kid_camera_webrtc_start"/>
+        <include layout="@layout/ad_camera_not_allow"/>
+        <include layout="@layout/ad_vds_not_allow"/>
+        <include layout="@layout/ad_airmirror_not_allow"/>
+        <include layout="@layout/am_target_device_version_old"/>
+        <include layout="@layout/am_tech_switch"/>
+        <include layout="@layout/am_airmirror_client_connect_broken"/>
+        <include layout="@layout/am_webrtc_overhear_start"/>
+        <include layout="@layout/parent_remote_operation_network_unavailable"/>
+        <include layout="@layout/bizc_vds_screen_locked_failed"/>
+        <include layout="@layout/bizc_ws_disconnect"/>
+        <include layout="@layout/bizc_microphone_is_occupied_faild"/>
+        <include layout="@layout/webrct_common_error_study"/>
+    </ViewFlipper>
+    <com.flashget.kid.common.ui.base.views.BarView
+        android:id="@+id/barView"
+        android:background="@color/color_bg_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.appcompat.widget.Toolbar
+        android:theme="@style/ToolBarStyle"
+        android:id="@+id/tbWebRtc"
+        android:background="@color/color_bg_2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barView"
+        app:navigationIcon="@drawable/nav_ic_back_black"
+        app:title="device_name"
+        app:titleTextAppearance="@style/toolbar_style_bold"
+        app:titleTextColor="@color/color_text_primary"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

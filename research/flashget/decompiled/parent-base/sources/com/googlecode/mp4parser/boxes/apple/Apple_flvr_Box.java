@@ -1,0 +1,10 @@
+package com.googlecode.mp4parser.boxes.apple;
+
+import com.flashget.parentalcontrol.ProtectedSandApp;
+
+/* loaded from: classes6.dex */
+public class Apple_flvr_Box extends Utf8AppleDataBox {
+    public Apple_flvr_Box() {
+        super(ProtectedSandApp.s("ᄴ\u0001"));
+    }
+}

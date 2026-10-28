@@ -1,7 +1,24 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
+
+/** Nest/Flutter clients call /auth, /devices, … at the site root (not /api). */
+const apiRewrites = [
+  'auth',
+  'devices',
+  'pairings',
+  'alerts',
+  'commands',
+  'locations',
+  'heartbeat',
+  'health',
+].flatMap((prefix) => [
+  { source: `/${prefix}`, destination: `/api/${prefix}` },
+  { source: `/${prefix}/:path*`, destination: `/api/${prefix}/:path*` },
+]);
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async rewrites() {
+    return apiRewrites;
+  },
 };
 
 export default nextConfig;

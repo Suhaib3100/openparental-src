@@ -13,5 +13,7 @@ export const downloads = {
     'https://github.com/abuzar310/openparental/releases/latest/download/openparental-parent.apk',
 };
 
-export const apiBaseUrl =
-  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+/** Same-origin API when unset (Vercel + Supabase). Override for local NestJS. */
+export const apiBaseUrl = (
+  process.env.NEXT_PUBLIC_API_URL ?? ''
+).replace(/\/$/, '');

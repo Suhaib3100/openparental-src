@@ -4,7 +4,7 @@ import 'alerts_tab.dart';
 import 'devices_tab.dart';
 import 'me_tab.dart';
 
-/// 3-tab shell: Alerts · Devices (home) · Me.
+/// 3-tab shell (FlashGet ref: Notice · Device · Me).
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _index = 1; // Devices is the home tab.
+  int _index = 1; // Device tab (FlashGet default).
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
           NavigationDestination(
             icon: Icon(Icons.notifications_none_rounded),
             selectedIcon: Icon(Icons.notifications_rounded),
-            label: 'Alerts',
+            label: 'Notice',
           ),
           NavigationDestination(
             icon: Icon(Icons.smartphone),
             selectedIcon: Icon(Icons.smartphone),
-            label: 'Home',
+            label: 'Device',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline_rounded),

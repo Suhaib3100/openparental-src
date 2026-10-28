@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OpenParental Installer</string>
+    <string name="title">Kids\' device setup</string>
+    <string name="subtitle">Download the child app, install it, then pair from the parent app or web dashboard.</string>
+    <string name="tips">If Android asks to install from unknown sources, allow it for this installer. Reference UI: research/flashget/decompiled/kids-installer.</string>
+    <string name="btn_download">Download child app</string>
+    <string name="btn_open_child_app">Open child app (after install)</string>
+    <string name="toast_download_started">Opening download link…</string>
+    <string name="toast_install_child_first">Install app.monii.managed first, then tap here.</string>
+</resources>

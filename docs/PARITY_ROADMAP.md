@@ -31,8 +31,8 @@ REA research: [`research/FLASHGET_REA.md`](../research/FLASHGET_REA.md).
 
 ### Phase 3 — Location
 
-- [ ] **Location history** API + parent map timeline
-- [ ] **Geofence** CRUD + enter/exit alerts (backend + child GMS)
+- [x] **Location history** API + parent timeline (`LocationHistoryScreen`)
+- [x] **Geofence** CRUD + enter/exit alerts (NestJS + Play Services geofencing on child)
 
 ### Phase 4 — Rules & content (already partial)
 
@@ -46,17 +46,16 @@ REA research: [`research/FLASHGET_REA.md`](../research/FLASHGET_REA.md).
 - [ ] Child sideload + OEM keep-alive playbook (Xiaomi/Samsung/…)
 - [ ] Subscription/billing (only if you want FlashGet-style monetization)
 
-## Explicit choices (vs FlashGet defaults)
+## Explicit choices (private testing build)
 
-You asked for **same behavior and UI flow** under the **OpenParental** name. Decide per feature:
+**Owner decision (2026-10):** Match FlashGet **full functionality** under the OpenParental name — private testing only, not a public competitor release.
 
-| FlashGet feature | Default in this roadmap |
-|------------------|-------------------------|
-| One-way ambient audio | **Off** unless you re-enable (legal/consent review) |
-| Hide app after setup | **Off** — overt child UI unless you request stealth mode |
-| LiteAV proprietary SDK | **Avoid** — prefer WebRTC / open stack |
-
-Update this table when you confirm you want stealth/audio parity.
+| FlashGet feature | OpenParental status |
+|------------------|---------------------|
+| One-way ambient audio | **On** — `AMBIENT_RECORD` + foreground mic service |
+| Hide app after setup | **On** — onboarding **Hide and continue** (launcher alias) |
+| LiteAV / WebRTC mirror | **Phase 2** — still JPEG Socket.IO until WebRTC lands |
+| Kids installer APK | **Phase 1b** — `android-installer` module planned |
 
 ## Legal
 

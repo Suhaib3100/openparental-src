@@ -85,6 +85,20 @@ data class LocationRequest(
 
 data class LocationDto(val id: String)
 
+data class GeofenceDto(
+    val id: String,
+    val name: String,
+    val lat: Double,
+    val lng: Double,
+    val radiusM: Double?,
+    val active: Boolean? = true,
+)
+
+data class GeofenceTransitionRequest(
+    val geofenceId: String,
+    val transition: String,
+)
+
 data class SelfUpdateRequest(
     val batteryPct: Int?,
     val osVersion: String?,

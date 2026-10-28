@@ -405,6 +405,21 @@
                 app:cornerRadius="28dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShowIcon"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/btn_show_icon"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:cornerRadius="28dp"
+                app:strokeColor="@color/op_muted" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnUnpair"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="match_parent"

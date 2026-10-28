@@ -12,6 +12,7 @@ import '../widgets/ui.dart';
 import 'blocked_apps_screen.dart';
 import 'device_info_screen.dart';
 import 'live_mirror_screen.dart';
+import 'location_history_screen.dart';
 import 'location_screen.dart';
 import 'pairing_screen.dart';
 import 'setup_wizard_screen.dart';
@@ -209,15 +210,13 @@ class DevicesTab extends ConsumerWidget {
                       icon: Icons.map_rounded,
                       label: 'History & geofence',
                       color: AppColors.offline,
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Location history & geofence — Phase 3 (see docs/PARITY_ROADMAP.md)',
-                            ),
-                          ),
-                        );
-                      },
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) =>
+                              LocationHistoryScreen(device: device),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -255,7 +254,7 @@ class DevicesTab extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'OpenParental keeps the child app visible — adjust in Me if you prefer FlashGet-style hide later.',
+                  'After setup, use Hide and continue on the child phone to remove the launcher icon.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 12.5,

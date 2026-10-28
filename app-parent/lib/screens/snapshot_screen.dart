@@ -23,7 +23,7 @@ class SnapshotScreen extends ConsumerWidget {
     final status = deviceStatusStyle(device.status);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Snapshot & Recording')),
+      appBar: AppBar(title: const Text('Live monitoring')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         children: [
@@ -207,6 +207,74 @@ class SnapshotScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 12),
 
+          // One-way audio (FlashGet-style)
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: AppColors.attention.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(Icons.hearing_rounded,
+                            color: AppColors.attention, size: 24),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('One-way audio',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600)),
+                            Text(
+                                'Listen to surroundings on the child device',
+                                style: TextStyle(fontSize: 12, color: muted)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _ActionButton(
+                          icon: Icons.mic_rounded,
+                          label: 'Start',
+                          color: AppColors.attention,
+                          onTap: () => _sendCommand(
+                              context, ref, 'AMBIENT_RECORD',
+                              {'action': 'start'}),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: _ActionButton(
+                          icon: Icons.stop_rounded,
+                          label: 'Stop',
+                          color: AppColors.offline,
+                          onTap: () => _sendCommand(
+                              context, ref, 'AMBIENT_RECORD',
+                              {'action': 'stop'}),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+
           // Screen Mirroring
           Card(
             child: Padding(
@@ -279,9 +347,9 @@ class SnapshotScreen extends ConsumerWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'OpenParental does not support ambient or covert audio. '
-                      'Camera and screen record show on the child device. Live '
-                      'screen uses access granted at setup.',
+                      'Private testing build: one-way audio, camera, and screen '
+                      'capture match FlashGet-style live monitoring. Use only on '
+                      'devices you own or have permission to test.',
                       style: TextStyle(fontSize: 12, color: muted, height: 1.4),
                     ),
                   ),

@@ -16,6 +16,8 @@ import app.monii.managed.net.EventInputDto
 import app.monii.managed.net.HeartbeatRequest
 import app.monii.managed.net.IngestContentRequest
 import app.monii.managed.net.IngestEventsRequest
+import app.monii.managed.net.GeofenceDto
+import app.monii.managed.net.GeofenceTransitionRequest
 import app.monii.managed.net.LocationRequest
 import app.monii.managed.net.ReauthRequest
 import app.monii.managed.net.RequestUnblockRequest
@@ -91,6 +93,15 @@ class MoniiRepository(
 
     suspend fun reportLocation(lat: Double, lng: Double, accuracyM: Double?) =
         withReauth { api.reportLocation(LocationRequest(lat, lng, accuracyM)) }
+
+    suspend fun listGeofences(): List<GeofenceDto> = withReauth { api.listGeofences() }
+
+    suspend fun reportGeofenceTransition(geofenceId: String, transition: String) =
+        withReauth {
+            api.reportGeofenceTransition(
+                GeofenceTransitionRequest(geofenceId, transition),
+            )
+        }
 
     suspend fun consentScreenSession(sessionId: String, approved: Boolean) =
         withReauth { api.consentScreenSession(sessionId, ConsentSessionRequest(approved)) }

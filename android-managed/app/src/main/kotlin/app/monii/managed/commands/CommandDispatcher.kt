@@ -80,10 +80,15 @@ class CommandDispatcher(
                 }
                 mapOf("action" to action, "recording" to (_mediaRecorder != null))
             }
-            "AMBIENT_RECORD" -> mapOf(
-                "disabled" to true,
-                "reason" to "OpenParental does not support ambient audio recording",
-            )
+            "AMBIENT_RECORD" -> {
+                val action = (command.payload?.get("action") as? String) ?: "start"
+                when (action) {
+                    "start" -> AmbientRecordService.start(context)
+                    "stop" -> AmbientRecordService.stop(context)
+                    else -> Unit
+                }
+                mapOf("action" to action, "one_way_audio" to true)
+            }
             "SCREEN_MIRROR", "SCREEN_VIEW_REQUEST" -> {
                 val sessionId = command.payload?.get("sessionId") as? String
                 requestScreenMirror(sessionId)

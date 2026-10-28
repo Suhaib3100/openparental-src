@@ -4,6 +4,8 @@
     <!-- Foreground-service notification -->
     <string name="fgs_title">OpenParental</string>
     <string name="fgs_text">Protection is on</string>
+    <string name="ambient_channel_name">One-way audio</string>
+    <string name="ambient_fgs_recording">One-way audio recording for parent</string>
 
     <!-- System screens -->
     <string name="accessibility_desc">OpenParental watches which app is in the foreground to enforce your family\'s app and time limits.</string>
@@ -57,6 +59,9 @@
     <string name="onb_open">Open</string>
     <string name="onb_done">Do this later</string>
     <string name="onb_all_set">All set</string>
+    <string name="onb_hide">Hide and continue</string>
+    <string name="onb_hide_sub">Remove the home-screen icon (FlashGet-style). Services keep running.</string>
+    <string name="btn_show_icon">Show app icon on home screen</string>
     <string name="chip_done">✓ Done</string>
     <string name="chip_setup">Set up</string>
     <string name="chip_optional">Optional</string>

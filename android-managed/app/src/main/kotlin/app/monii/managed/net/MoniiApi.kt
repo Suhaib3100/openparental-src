@@ -45,6 +45,12 @@ interface MoniiApi {
     @POST("locations")
     suspend fun reportLocation(@Body body: LocationRequest): LocationDto
 
+    @GET("geofences")
+    suspend fun listGeofences(): List<GeofenceDto>
+
+    @POST("geofences/transitions")
+    suspend fun reportGeofenceTransition(@Body body: GeofenceTransitionRequest)
+
     @PATCH("devices/me")
     suspend fun selfUpdate(@Body body: SelfUpdateRequest): DeviceDto
 

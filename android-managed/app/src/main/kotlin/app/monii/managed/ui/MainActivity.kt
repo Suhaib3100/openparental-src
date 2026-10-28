@@ -75,6 +75,12 @@ class MainActivity : AppCompatActivity() {
         binding.btnSetup.setOnClickListener {
             startActivity(Intent(this, OnboardingActivity::class.java))
         }
+        binding.btnShowIcon.setOnClickListener {
+            LauncherVisibility.showInLauncher(this)
+            store.setLauncherHidden(false)
+            toast(getString(R.string.btn_show_icon))
+            render()
+        }
 
         binding.btnDiagnostics.setOnClickListener {
             binding.groupDiagnostics.isVisible = !binding.groupDiagnostics.isVisible
@@ -173,6 +179,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.groupPairing.isVisible = !paired
         binding.groupStatus.isVisible = paired
+        binding.btnShowIcon.isVisible = paired && store.isLauncherHidden()
 
         // Hero state
         when {

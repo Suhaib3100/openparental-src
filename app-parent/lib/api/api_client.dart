@@ -171,6 +171,44 @@ class ApiClient {
     return null;
   }
 
+  Future<List<DeviceLocation>> locationHistory(String deviceId,
+      {int limit = 100}) async {
+    final r = await _dio.get<dynamic>(
+      '/devices/$deviceId/locations',
+      queryParameters: {'limit': limit.toString()},
+    );
+    return (r.data as List)
+        .map((e) => DeviceLocation.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<List<GeofencePlace>> listGeofences(String deviceId) async {
+    final r = await _dio.get<dynamic>('/devices/$deviceId/geofences');
+    return (r.data as List)
+        .map((e) => GeofencePlace.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<GeofencePlace> createGeofence(
+    String deviceId, {
+    required String name,
+    required double lat,
+    required double lng,
+    double radiusM = 200,
+  }) async {
+    final r = await _dio.post<dynamic>('/devices/$deviceId/geofences', data: {
+      'name': name,
+      'lat': lat,
+      'lng': lng,
+      'radiusM': radiusM,
+    });
+    return GeofencePlace.fromJson(r.data as Map<String, dynamic>);
+  }
+
+  Future<void> deleteGeofence(String deviceId, String geofenceId) async {
+    await _dio.delete<dynamic>('/devices/$deviceId/geofences/$geofenceId');
+  }
+
   // ---- content / keyword detection ----
 
   Future<List<ContentItem>> getContent(String deviceId,

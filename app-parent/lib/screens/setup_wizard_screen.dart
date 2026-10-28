@@ -35,17 +35,6 @@ class _SetupWizardScreenState extends ConsumerState<SetupWizardScreen> {
     );
   }
 
-  Future<void> _openChildDownload() async {
-    final uri = Uri.parse(ProductConfig.childApkDownloadUrl);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not open ${uri.toString()}')),
-        );
-      }
-    }
-  }
-
   Future<void> _startPairing() async {
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);

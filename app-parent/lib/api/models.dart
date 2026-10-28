@@ -108,12 +108,14 @@ class Pairing {
 }
 
 class DeviceLocation {
+  final String? id;
   final double lat;
   final double lng;
   final double? accuracyM;
   final DateTime? occurredAt;
 
   DeviceLocation({
+    this.id,
     required this.lat,
     required this.lng,
     this.accuracyM,
@@ -121,12 +123,40 @@ class DeviceLocation {
   });
 
   factory DeviceLocation.fromJson(Map<String, dynamic> j) => DeviceLocation(
+        id: j['id'] as String?,
         lat: (j['lat'] as num).toDouble(),
         lng: (j['lng'] as num).toDouble(),
         accuracyM: (j['accuracyM'] as num?)?.toDouble(),
         occurredAt: j['occurredAt'] != null
             ? DateTime.tryParse(j['occurredAt'] as String)
             : null,
+      );
+}
+
+class GeofencePlace {
+  final String id;
+  final String name;
+  final double lat;
+  final double lng;
+  final double radiusM;
+  final bool active;
+
+  GeofencePlace({
+    required this.id,
+    required this.name,
+    required this.lat,
+    required this.lng,
+    required this.radiusM,
+    required this.active,
+  });
+
+  factory GeofencePlace.fromJson(Map<String, dynamic> j) => GeofencePlace(
+        id: j['id'] as String,
+        name: (j['name'] as String?) ?? 'Place',
+        lat: (j['lat'] as num).toDouble(),
+        lng: (j['lng'] as num).toDouble(),
+        radiusM: (j['radiusM'] as num?)?.toDouble() ?? 200,
+        active: j['active'] as bool? ?? true,
       );
 }
 

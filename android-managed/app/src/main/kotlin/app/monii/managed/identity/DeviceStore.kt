@@ -87,6 +87,11 @@ class DeviceStore(context: Context) {
     fun setScreenCaptureGranted(granted: Boolean) =
         prefs.edit().putBoolean("screen_capture_granted", granted).apply()
 
+    fun isLauncherHidden(): Boolean = prefs.getBoolean("launcher_hidden", false)
+
+    fun setLauncherHidden(hidden: Boolean) =
+        prefs.edit().putBoolean("launcher_hidden", hidden).apply()
+
     companion object {
         private const val TAG = "DeviceStore"
         private const val PREFS = "monii_identity"

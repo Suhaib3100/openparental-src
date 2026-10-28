@@ -1,11 +1,12 @@
-# Legal notice — FlashGet Kids artifacts
+# FlashGet Kids — research artifacts in this repo
 
-FlashGet Kids is **proprietary** software (FlashGet Network Technology / Hong Kong FlashGet Network Technology).
+**Owner decision:** FlashGet APKs, JADX decompile, and REA JSON live in this monorepo under `research/flashget/` for **private testing and parity research**.
 
-Files under `binaries/` and `decompiled/` are **not licensed for redistribution** under OpenParental’s MIT license. They are kept in this repository **only at the repository owner’s direction** for **private security and interoperability research**.
+| What | In git? |
+|------|---------|
+| APK / APKM (`binaries/`, Git LFS) | **Yes** |
+| Full JADX decompile (`decompiled/`) | **Yes** |
+| REA JSON (`rea/`) | **Yes** |
+| Copied into `android-managed/` / `app-parent/` / `backend/` | **No** — OpenParental product code is separate |
 
-- Do **not** copy decompiled sources into OpenParental production modules.
-- Do **not** publish this folder if you make the repo public without rights clearance.
-- Prefer **REA summaries** and **behavioral reimplementation** for product work.
-
-OpenParental application code outside `research/flashget/` remains MIT (see root `LICENSE`).
+FlashGet is third-party proprietary software. OpenParental’s MIT license applies to **your** app code outside this folder. Use decompile as **reference** when building OpenParental features; do not ship FlashGet trademarks or binaries as your product.

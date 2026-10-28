@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           NavigationDestination(
             icon: Icon(Icons.smartphone),
             selectedIcon: Icon(Icons.smartphone),
-            label: 'Devices',
+            label: 'Home',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline_rounded),

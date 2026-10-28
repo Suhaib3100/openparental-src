@@ -7,7 +7,12 @@ import { AppModule } from './app.module';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-  app.enableCors();
+  const corsOrigins = process.env.CORS_ORIGINS?.split(',').map((s) => s.trim());
+  app.enableCors(
+    corsOrigins?.length
+      ? { origin: corsOrigins, credentials: true }
+      : undefined,
+  );
   const port = app.get(ConfigService).get<number>('port') ?? 3000;
   await app.listen(port);
   // eslint-disable-next-line no-console

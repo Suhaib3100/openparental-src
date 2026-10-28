@@ -27,11 +27,27 @@ export class PoliciesService {
     });
   }
 
+  /** Shallow-merge incoming fields onto the active rules so partial parent updates
+   *  (e.g. blocked apps only) do not wipe schedules, limits, or DNS lists. */
+  private mergeRules(
+    active: Policy | null,
+    patch: Record<string, unknown>,
+  ): Record<string, unknown> {
+    const existing =
+      active?.rules && typeof active.rules === 'object' && !Array.isArray(active.rules)
+        ? (active.rules as Record<string, unknown>)
+        : {};
+    return { ...existing, ...patch };
+  }
+
   /** Create a new active version and push SET_POLICY to every device. */
   async update(
     familyId: string,
     rules: Record<string, unknown>,
   ): Promise<Policy> {
+    const active = await this.getActive(familyId);
+    const merged = this.mergeRules(active, rules);
+
     const latest = await this.prisma.policy.findFirst({
       where: { familyId },
       orderBy: { version: 'desc' },
@@ -48,7 +64,7 @@ export class PoliciesService {
       data: {
         familyId,
         version,
-        rules: rules as Prisma.InputJsonValue,
+        rules: merged as Prisma.InputJsonValue,
         active: true,
       },
     });

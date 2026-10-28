@@ -76,6 +76,38 @@ describe('PoliciesService', () => {
     );
   });
 
+  it('merges partial updates with the active rules', async () => {
+    prisma.policy.findFirst
+      .mockResolvedValueOnce({
+        id: 'p1',
+        version: 2,
+        active: true,
+        rules: {
+          blockedApps: ['com.old'],
+          appLimits: [{ pkg: 'com.game', dailyMinutes: 30 }],
+        },
+      })
+      .mockResolvedValueOnce({ id: 'p1', version: 2 });
+    prisma.policy.updateMany.mockResolvedValue({ count: 1 });
+    prisma.policy.create.mockImplementation(({ data }) =>
+      Promise.resolve({ id: 'p2', ...data }),
+    );
+    prisma.device.findMany.mockResolvedValue([]);
+
+    await service.update('f1', { blockedApps: ['com.new'] });
+
+    expect(prisma.policy.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          rules: {
+            blockedApps: ['com.new'],
+            appLimits: [{ pkg: 'com.game', dailyMinutes: 30 }],
+          },
+        }),
+      }),
+    );
+  });
+
   it('starts at version 1 when no policy exists yet', async () => {
     prisma.policy.findFirst.mockResolvedValue(null);
     prisma.policy.updateMany.mockResolvedValue({ count: 0 });

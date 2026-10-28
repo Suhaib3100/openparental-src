@@ -16,6 +16,7 @@ import androidx.core.app.NotificationCompat
 import app.monii.managed.R
 import app.monii.managed.admin.AdminManager
 import app.monii.managed.collectors.VisibilityCollector
+import app.monii.managed.location.GeofenceManager
 import app.monii.managed.commands.CommandDispatcher
 import app.monii.managed.identity.DeviceStore
 import app.monii.managed.repo.MoniiRepository
@@ -81,6 +82,7 @@ class SupervisorService : Service() {
         val dispatcher = CommandDispatcher(app, repo, AdminManager(app))
         val tamper = TamperWatchdog(app)
         val visibility = VisibilityCollector(app)
+        val geofences = GeofenceManager(app)
         syncJob = scope.launch {
             while (isActive) {
                 if (store.isPaired()) {
@@ -91,6 +93,7 @@ class SupervisorService : Service() {
                         dispatcher.syncAndExecute()
                         tamper.check(repo)
                         visibility.collect(repo)
+                        geofences.syncFromBackend(repo)
                     }
                 }
                 delay(SYNC_MS)

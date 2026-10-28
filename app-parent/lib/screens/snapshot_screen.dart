@@ -3,27 +3,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
+import '../theme/status.dart';
+import '../widgets/ui.dart';
 import 'live_mirror_screen.dart';
 import '../api/models.dart';
 
-/// Remote camera, screen recording, and ambient recording.
-/// Mirrors the FlashGet Kids "Snapshot & Recording" screen.
+/// Consent-based remote camera and screen recording, plus live screen mirror.
 class SnapshotScreen extends ConsumerWidget {
-  final String deviceId;
-  final String deviceName;
+  final Device device;
   const SnapshotScreen({
     super.key,
-    required this.deviceId,
-    required this.deviceName,
+    required this.device,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
     final muted = scheme.onSurfaceVariant;
+    final status = deviceStatusStyle(device.status);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Snapshot & Recording')),
+      appBar: AppBar(title: const Text('Live monitoring')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         children: [
@@ -48,26 +48,25 @@ class SnapshotScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(deviceName,
+                        Text(device.name,
                             style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w600)),
-                        Text('Request actions below',
+                        Text('Consent-based remote actions',
                             style: TextStyle(fontSize: 12, color: muted)),
                       ],
                     ),
                   ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.green.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text('Online',
-                        style: TextStyle(
-                            fontSize: 11,
-                            color: Colors.green.shade600,
-                            fontWeight: FontWeight.w600)),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      StatusDot(status.color, size: 8),
+                      const SizedBox(width: 6),
+                      Text(status.label,
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: status.color,
+                              fontWeight: FontWeight.w600)),
+                    ],
                   ),
                 ],
               ),
@@ -208,7 +207,7 @@ class SnapshotScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 12),
 
-          // Ambient Recording
+          // One-way audio (FlashGet-style)
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -232,11 +231,12 @@ class SnapshotScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Ambient Recording',
+                            const Text('One-way audio',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600)),
-                            Text('Record audio from surroundings',
+                            Text(
+                                'Listen to surroundings on the child device',
                                 style: TextStyle(fontSize: 12, color: muted)),
                           ],
                         ),
@@ -249,7 +249,7 @@ class SnapshotScreen extends ConsumerWidget {
                       Expanded(
                         child: _ActionButton(
                           icon: Icons.mic_rounded,
-                          label: 'Start Recording',
+                          label: 'Start',
                           color: AppColors.attention,
                           onTap: () => _sendCommand(
                               context, ref, 'AMBIENT_RECORD',
@@ -260,7 +260,7 @@ class SnapshotScreen extends ConsumerWidget {
                       Expanded(
                         child: _ActionButton(
                           icon: Icons.stop_rounded,
-                          label: 'Stop Recording',
+                          label: 'Stop',
                           color: AppColors.offline,
                           onTap: () => _sendCommand(
                               context, ref, 'AMBIENT_RECORD',
@@ -317,13 +317,7 @@ class SnapshotScreen extends ConsumerWidget {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (_) => LiveMirrorScreen(
-                            device: Device(
-                              id: deviceId,
-                              name: deviceName,
-                              status: 'ONLINE',
-                            ),
-                          ),
+                          builder: (_) => LiveMirrorScreen(device: device),
                         ),
                       ),
                       icon: const Icon(Icons.screen_share_rounded),
@@ -353,8 +347,9 @@ class SnapshotScreen extends ConsumerWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Live screen uses access granted at child setup so viewing '
-                      'does not show an approve popup on their phone.',
+                      'Private testing build: one-way audio, camera, and screen '
+                      'capture match FlashGet-style live monitoring. Use only on '
+                      'devices you own or have permission to test.',
                       style: TextStyle(fontSize: 12, color: muted, height: 1.4),
                     ),
                   ),
@@ -371,10 +366,10 @@ class SnapshotScreen extends ConsumerWidget {
       String type, Map<String, dynamic> payload) async {
     final messenger = ScaffoldMessenger.of(context);
     try {
-      await ref.read(apiProvider).sendCommand(deviceId, type, payload);
+      await ref.read(apiProvider).sendCommand(device.id, type, payload);
       messenger.showSnackBar(
         SnackBar(
-          content: Text('$type command sent to $deviceName'),
+          content: Text('$type command sent to ${device.name}'),
           behavior: SnackBarBehavior.floating,
         ),
       );

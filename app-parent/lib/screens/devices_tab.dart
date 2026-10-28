@@ -12,8 +12,11 @@ import '../widgets/ui.dart';
 import 'blocked_apps_screen.dart';
 import 'device_info_screen.dart';
 import 'live_mirror_screen.dart';
+import 'location_history_screen.dart';
 import 'location_screen.dart';
 import 'pairing_screen.dart';
+import 'setup_wizard_screen.dart';
+import 'snapshot_screen.dart';
 
 /// Device hub: gradient header with a device selector, then sectioned
 /// feature grids (the reference "Device" tab pattern).
@@ -119,9 +122,20 @@ class DevicesTab extends ConsumerWidget {
                   ),
                   const SizedBox(height: 24),
                   FilledButton.icon(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const SetupWizardScreen(),
+                      ),
+                    ),
+                    icon: const Icon(Icons.rocket_launch_rounded),
+                    label: const Text('Setup guide (FlashGet-style)'),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
                     onPressed: () => _startPairing(context, ref),
                     icon: const Icon(Icons.add_rounded),
-                    label: const Text('Pair your first device'),
+                    label: const Text('Quick pair only'),
                   ),
                 ],
               );
@@ -147,7 +161,7 @@ class DevicesTab extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               children: [
                 FeatureSection(
-                  title: 'Live view',
+                  title: 'Live monitoring',
                   tiles: [
                     FeatureTile(
                       icon: Icons.screen_share_rounded,
@@ -160,13 +174,13 @@ class DevicesTab extends ConsumerWidget {
                       ),
                     ),
                     FeatureTile(
-                      icon: Icons.location_on_rounded,
-                      label: 'Locate',
+                      icon: Icons.camera_alt_rounded,
+                      label: 'Snapshot & record',
                       color: AppColors.brand,
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                            builder: (_) => LocationScreen(device: device)),
+                            builder: (_) => SnapshotScreen(device: device)),
                       ),
                     ),
                     FeatureTile(
@@ -180,11 +194,39 @@ class DevicesTab extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 FeatureSection(
+                  title: 'Location',
+                  tiles: [
+                    FeatureTile(
+                      icon: Icons.location_on_rounded,
+                      label: 'Locate',
+                      color: AppColors.brand,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                            builder: (_) => LocationScreen(device: device)),
+                      ),
+                    ),
+                    FeatureTile(
+                      icon: Icons.map_rounded,
+                      label: 'History & geofence',
+                      color: AppColors.offline,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) =>
+                              LocationHistoryScreen(device: device),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                FeatureSection(
                   title: 'Rules & device',
                   tiles: [
                     FeatureTile(
                       icon: Icons.block_rounded,
-                      label: 'Blocked apps',
+                      label: 'Family policy',
                       color: AppColors.attention,
                       onTap: () => Navigator.push(
                         context,
@@ -212,7 +254,7 @@ class DevicesTab extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Monitoring stays quiet on the child phone after setup.',
+                  'After setup, use Hide and continue on the child phone to remove the launcher icon.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 12.5,

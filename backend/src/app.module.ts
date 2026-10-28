@@ -10,6 +10,7 @@ import { ContentModule } from './content/content.module';
 import { DevicesModule } from './devices/devices.module';
 import { EventsModule } from './events/events.module';
 import { FcmModule } from './fcm/fcm.module';
+import { GeofencesModule } from './geofences/geofences.module';
 import { HeartbeatModule } from './heartbeat/heartbeat.module';
 import { LocationsModule } from './locations/locations.module';
 import { PairingModule } from './pairing/pairing.module';
@@ -37,6 +38,7 @@ import { TamperModule } from './tamper/tamper.module';
     TamperModule,
     HeartbeatModule,
     LocationsModule,
+    GeofencesModule,
     ContentModule,
     PhotosModule,
     ScreenSessionsModule,

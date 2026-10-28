@@ -69,6 +69,13 @@ data class TamperRequest(
 
 data class TamperDto(val id: String)
 
+data class RequestUnblockRequest(
+    val appPackage: String? = null,
+    val reason: String? = null,
+)
+
+data class RequestUnblockResponse(val id: String, val type: String? = null)
+
 data class LocationRequest(
     val lat: Double,
     val lng: Double,
@@ -77,6 +84,20 @@ data class LocationRequest(
 )
 
 data class LocationDto(val id: String)
+
+data class GeofenceDto(
+    val id: String,
+    val name: String,
+    val lat: Double,
+    val lng: Double,
+    val radiusM: Double?,
+    val active: Boolean? = true,
+)
+
+data class GeofenceTransitionRequest(
+    val geofenceId: String,
+    val transition: String,
+)
 
 data class SelfUpdateRequest(
     val batteryPct: Int?,

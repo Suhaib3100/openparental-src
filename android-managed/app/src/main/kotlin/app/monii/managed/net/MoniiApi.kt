@@ -39,8 +39,17 @@ interface MoniiApi {
     @POST("tamper")
     suspend fun reportTamper(@Body body: TamperRequest): TamperDto
 
+    @POST("alerts/request-unblock")
+    suspend fun requestUnblock(@Body body: RequestUnblockRequest): RequestUnblockResponse
+
     @POST("locations")
     suspend fun reportLocation(@Body body: LocationRequest): LocationDto
+
+    @GET("geofences")
+    suspend fun listGeofences(): List<GeofenceDto>
+
+    @POST("geofences/transitions")
+    suspend fun reportGeofenceTransition(@Body body: GeofenceTransitionRequest)
 
     @PATCH("devices/me")
     suspend fun selfUpdate(@Body body: SelfUpdateRequest): DeviceDto

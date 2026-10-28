@@ -51,7 +51,6 @@ jobs:
           java-version: '17'
       - uses: android-actions/setup-android@v3
         with:
-          # "tools" is removed from modern SDK repos; install what Gradle needs.
           packages: platform-tools platforms;android-35 build-tools;35.0.0
       - uses: gradle/actions/setup-gradle@v4
       - name: Build debug APK

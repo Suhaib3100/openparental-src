@@ -5,6 +5,7 @@ import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../widgets/gradient_header.dart';
 import '../widgets/ui.dart';
+import 'setup_wizard_screen.dart';
 
 /// Profile + app settings ("Me" tab).
 class MeTab extends ConsumerWidget {
@@ -74,6 +75,23 @@ class MeTab extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
         children: [
+          Card(
+            child: ListTile(
+              leading:
+                  const SoftIcon(Icons.rocket_launch_rounded, AppColors.brand),
+              title: const Text('Setup guide'),
+              subtitle: const Text('Install child app & pair (FlashGet-style flow)'),
+              trailing: Icon(Icons.chevron_right_rounded,
+                  color: scheme.onSurfaceVariant),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (_) => const SetupWizardScreen(),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
           Card(
             child: ListTile(
               leading: const SoftIcon(Icons.devices_rounded, AppColors.brand),

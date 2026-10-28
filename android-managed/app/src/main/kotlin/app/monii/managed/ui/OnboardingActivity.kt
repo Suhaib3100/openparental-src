@@ -123,7 +123,15 @@ class OnboardingActivity : AppCompatActivity() {
         )
         buildRows()
         binding.btnDone.setOnClickListener { finish() }
+        binding.btnHide.setOnClickListener {
+            LauncherVisibility.hideFromLauncher(this)
+            toast(getString(R.string.onb_hide))
+            finish()
+        }
     }
+
+    private fun toast(msg: String) =
+        android.widget.Toast.makeText(this, msg, android.widget.Toast.LENGTH_SHORT).show()
 
     override fun onResume() {
         super.onResume()

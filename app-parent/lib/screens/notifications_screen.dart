@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/models.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
-import '../widgets/ui.dart';
 
 /// Shows the child's notification feed — all notifications captured from
 /// the device, organized by app and time.

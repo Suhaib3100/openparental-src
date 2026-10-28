@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/models.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
-import '../widgets/ui.dart';
 
 /// Call logs and SMS messages from the child's device.
 /// Mirrors the FlashGet Kids "Call & SMS Safety" screen.
@@ -62,9 +61,6 @@ class _CallSmsSafetyScreenState extends ConsumerState<CallSmsSafetyScreen>
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final muted = scheme.onSurfaceVariant;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Call & SMS Safety'),

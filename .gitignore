@@ -50,3 +50,5 @@ backend/fcm-service-account.json
 .agents/
 skills-lock.json
 Archive.zip
+research/apks/*.apkm
+research/apks/*.apk

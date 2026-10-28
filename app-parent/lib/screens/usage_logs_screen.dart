@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../api/models.dart';
 import '../state/providers.dart';
 import '../theme/app_theme.dart';
-import '../widgets/ui.dart';
 
 /// Chronological feed of device events — screen lock/unlock, app usage, etc.
 /// Mirroring the "Usage Logs" screen from FlashGet Kids.
@@ -195,8 +194,6 @@ class _FilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final muted = Theme.of(context).colorScheme.onSurfaceVariant;
-
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
       child: Row(

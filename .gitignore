@@ -10,7 +10,11 @@ android-managed/local.properties
 android-managed/.idea/
 android-managed/captures/
 *.apk
+*.apkm
 *.aab
+research/apks/extracted/
+research/apks/*.apk
+research/apks/*.apkm
 *.keystore
 *.jks
 

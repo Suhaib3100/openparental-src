@@ -39,6 +39,9 @@ interface MoniiApi {
     @POST("tamper")
     suspend fun reportTamper(@Body body: TamperRequest): TamperDto
 
+    @POST("alerts/request-unblock")
+    suspend fun requestUnblock(@Body body: RequestUnblockRequest): RequestUnblockResponse
+
     @POST("locations")
     suspend fun reportLocation(@Body body: LocationRequest): LocationDto
 

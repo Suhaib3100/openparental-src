@@ -208,15 +208,12 @@ class DeviceInfoScreen extends StatelessWidget {
                         color: AppColors.brand),
                   ),
                   title: const Text('Snapshot & Recording'),
-                  subtitle: const Text('Remote camera, screen rec & mirror'),
+                  subtitle: const Text('Live screen & consent-based capture'),
                   trailing: const Icon(Icons.chevron_right_rounded),
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute<void>(
-                      builder: (_) => SnapshotScreen(
-                        deviceId: device.id,
-                        deviceName: device.name,
-                      ),
+                      builder: (_) => SnapshotScreen(device: device),
                     ),
                   ),
                 ),

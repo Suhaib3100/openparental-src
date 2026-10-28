@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
 import android.view.View
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorRes
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import app.monii.managed.R
 import app.monii.managed.admin.AdminManager
 import app.monii.managed.commands.CommandDispatcher
@@ -61,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnPair.setOnClickListener { pair() }
         binding.btnSync.setOnClickListener { syncNow() }
+        binding.btnRequestUnblock.setOnClickListener { showUnblockDialog() }
         binding.btnUnpair.setOnClickListener {
             store.clearPairing(); toast("Unpaired"); render()
         }
@@ -104,6 +108,41 @@ class MainActivity : AppCompatActivity() {
                 toast("Pair failed: ${it.message}")
             }
         }
+    }
+
+    private fun showUnblockDialog() {
+        if (!store.isPaired()) {
+            toast(getString(R.string.unblock_title) + ": not paired")
+            return
+        }
+        val appInput = EditText(this).apply {
+            hint = getString(R.string.unblock_hint_app)
+        }
+        val reasonInput = EditText(this).apply {
+            hint = getString(R.string.unblock_hint_reason)
+            minLines = 2
+        }
+        val wrap = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            val pad = (24 * resources.displayMetrics.density).toInt()
+            setPadding(pad, pad / 2, pad, 0)
+            addView(appInput)
+            addView(reasonInput)
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.unblock_title)
+            .setView(wrap)
+            .setPositiveButton(R.string.btn_request_unblock) { _, _ ->
+                val pkg = appInput.text.toString().trim().ifEmpty { null }
+                val reason = reasonInput.text.toString().trim().ifEmpty { null }
+                lifecycleScope.launch {
+                    val result = runCatching { repo.requestUnblock(pkg, reason) }
+                    result.onSuccess { toast(getString(R.string.unblock_sent)) }
+                        .onFailure { toast("Request failed: ${it.message}") }
+                }
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     private fun syncNow() {

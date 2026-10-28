@@ -18,6 +18,7 @@ import app.monii.managed.net.IngestContentRequest
 import app.monii.managed.net.IngestEventsRequest
 import app.monii.managed.net.LocationRequest
 import app.monii.managed.net.ReauthRequest
+import app.monii.managed.net.RequestUnblockRequest
 import app.monii.managed.net.SelfUpdateRequest
 import app.monii.managed.net.TamperRequest
 import retrofit2.HttpException
@@ -82,6 +83,11 @@ class MoniiRepository(
 
     suspend fun reportTamper(kind: String, detail: String?) =
         withReauth { api.reportTamper(TamperRequest(kind, detail)) }
+
+    suspend fun requestUnblock(appPackage: String?, reason: String?) =
+        withReauth {
+            api.requestUnblock(RequestUnblockRequest(appPackage, reason))
+        }
 
     suspend fun reportLocation(lat: Double, lng: Double, accuracyM: Double?) =
         withReauth { api.reportLocation(LocationRequest(lat, lng, accuracyM)) }

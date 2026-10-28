@@ -69,6 +69,13 @@ data class TamperRequest(
 
 data class TamperDto(val id: String)
 
+data class RequestUnblockRequest(
+    val appPackage: String? = null,
+    val reason: String? = null,
+)
+
+data class RequestUnblockResponse(val id: String, val type: String? = null)
+
 data class LocationRequest(
     val lat: Double,
     val lng: Double,

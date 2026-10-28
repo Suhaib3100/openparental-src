@@ -377,6 +377,20 @@
                 app:cornerRadius="28dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRequestUnblock"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/btn_request_unblock"
+                android:textSize="16sp"
+                app:cornerRadius="28dp"
+                app:strokeColor="@color/op_brand" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSetup"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

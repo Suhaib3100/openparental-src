@@ -6,7 +6,7 @@
 
 *Bypass-evident, not bypass-proof — the kid always knows it's there, and the parent always knows when it's off.*
 
-[![CI](https://github.com/Suhaib3100/openparental/actions/workflows/ci.yml/badge.svg)](https://github.com/Suhaib3100/openparental/actions/workflows/ci.yml)
+[![CI](https://github.com/abuzar310/openparental/actions/workflows/ci.yml/badge.svg)](https://github.com/abuzar310/openparental/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Kotlin](https://img.shields.io/badge/child%20app-Kotlin-7F52FF?logo=kotlin&logoColor=white)](android-managed)
@@ -81,7 +81,7 @@ openparental/
 ├── backend/           NestJS + Postgres (Prisma) + Redis + FCM
 │   ├── src/           auth · pairing · devices · policies · commands ·
 │   │                  events · heartbeats · tamper · alerts · locations
-│   └── test/          68 unit tests + e2e
+│   └── test/          77 unit tests + e2e
 ├── android-managed/   Kotlin child app (sideloaded APK)
 │   └── app/           FGS supervisor · accessibility enforcement ·
 │                      tamper watchers · heartbeat · visibility reporters
@@ -170,10 +170,11 @@ a new project (or reuse an existing one).
 ## 🗺️ Roadmap
 
 - [x] **v1 — enforcement, limits, tamper-evidence, location, alerts** (built, CI-green)
-- [ ] **FCM push** — instant command delivery (device polls every 60s today; needs your Firebase project)
+- [ ] **FCM push** — instant command delivery (wire your Firebase project; see [Firebase setup](#-firebase-setup-optional--needed-for-push-notifications))
 - [x] **Guided onboarding** — per-permission grant flow in the child app (incl. OEM auto-start)
 - [x] **DNS content filter** — DNS-only `VpnService`, domain blocklists
-- [ ] **Filter lists** — maintained blocklist sources + per-family categories for the content filter
+- [x] **Per-family DNS blocklist** — parent app Family policy → DNS tab pushes `blockedDomains` to the child VPN filter
+- [ ] **Filter lists** — maintained category blocklist sources beyond Cloudflare Families defaults
 - [x] **Live screen (clip)** — setup-time MediaProjection grant + Socket.IO JPEG relay; parent tap streams with no kid popup
 - [ ] **v1.1 — live painting overlay**
 - [ ] **v1.5 — WebRTC upgrade for screen-view** (replace `clip` transport) + AMBER mode hardening
@@ -185,7 +186,7 @@ a new project (or reuse an existing one).
 | Backend | Node 20, NestJS, TypeScript, Prisma + Postgres 16, Redis 7, firebase-admin |
 | Child app | Kotlin 2.0, AGP 8.6, Gradle 8.9, SDK 35, JDK 17 |
 | Parent app | Flutter 3.22+, Dart |
-| CI | GitHub Actions — backend build + 68 tests, `assembleDebug`, `flutter analyze` |
+| CI | GitHub Actions — backend build + 77 tests, `assembleDebug`, `flutter analyze` |
 
 ## 🤝 Contributing
 

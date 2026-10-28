@@ -97,7 +97,7 @@ class _BrowserSafetyScreenState extends ConsumerState<BrowserSafetyScreen>
                   controller: _tabCtrl,
                   children: [
                     _HistoryTab(items: _history, onRefresh: _load),
-                    _BlockedTab(),
+                    const _BlockedTab(),
                   ],
                 ),
     );
@@ -351,33 +351,105 @@ class _BrowserCard extends StatelessWidget {
   }
 }
 
-/// Blocked sites tab — uses the DNS content filter data
-class _BlockedTab extends StatelessWidget {
+/// Blocked domains from the family DNS policy (plus built-in Cloudflare Families).
+class _BlockedTab extends ConsumerStatefulWidget {
+  const _BlockedTab();
+
+  @override
+  ConsumerState<_BlockedTab> createState() => _BlockedTabState();
+}
+
+class _BlockedTabState extends ConsumerState<_BlockedTab> {
+  List<String> _domains = const [];
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final rules = await ref.read(apiProvider).getPolicy();
+      final domains =
+          (rules?['blockedDomains'] as List?)?.cast<String>() ?? const [];
+      if (mounted) {
+        setState(() {
+          _domains = domains;
+          _loading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final muted = Theme.of(context).colorScheme.onSurfaceVariant;
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(32, 60, 32, 32),
-      children: [
-        Icon(Icons.shield_rounded, size: 52, color: Colors.green.shade300),
-        const SizedBox(height: 16),
-        Text(
-          'DNS Content Filter Active',
-          textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Blocked sites and categories will appear here.\n'
-          'The DNS-based VpnService already filters '
-          'dangerous domains in the child app.',
-          textAlign: TextAlign.center,
-          style: TextStyle(color: muted, height: 1.4),
-        ),
-      ],
+
+    if (_loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_domains.isEmpty) {
+      return ListView(
+        padding: const EdgeInsets.fromLTRB(32, 60, 32, 32),
+        children: [
+          Icon(Icons.shield_rounded, size: 52, color: Colors.green.shade300),
+          const SizedBox(height: 16),
+          Text(
+            'DNS filter active',
+            textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Cloudflare Families blocks adult and malware domains by default. '
+            'Add custom domains under Devices → Family policy → DNS.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: muted, height: 1.4),
+          ),
+          const SizedBox(height: 24),
+          FilledButton.icon(
+            onPressed: _load,
+            icon: const Icon(Icons.refresh_rounded),
+            label: const Text('Refresh'),
+          ),
+        ],
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: _load,
+      child: ListView.separated(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        itemCount: _domains.length + 1,
+        separatorBuilder: (_, __) =>
+            const Divider(height: 1, indent: 16, endIndent: 16),
+        itemBuilder: (ctx, i) {
+          if (i == 0) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+              child: Text(
+                '${_domains.length} custom blocked domain(s)',
+                style: TextStyle(fontSize: 13, color: muted),
+              ),
+            );
+          }
+          final domain = _domains[i - 1];
+          return ListTile(
+            leading: const Icon(Icons.block_rounded, color: AppColors.attention),
+            title: Text(domain),
+            subtitle: Text('Blocked by family DNS policy',
+                style: TextStyle(fontSize: 12, color: muted)),
+          );
+        },
+      ),
     );
   }
 }

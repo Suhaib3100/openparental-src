@@ -184,7 +184,7 @@ class DevicesTab extends ConsumerWidget {
                   tiles: [
                     FeatureTile(
                       icon: Icons.block_rounded,
-                      label: 'Blocked apps',
+                      label: 'Family policy',
                       color: AppColors.attention,
                       onTap: () => Navigator.push(
                         context,

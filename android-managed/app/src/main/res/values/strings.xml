@@ -35,6 +35,11 @@
     <string name="val_never">Never</string>
 
     <string name="btn_sync">Sync now</string>
+    <string name="btn_request_unblock">Ask to unblock an app</string>
+    <string name="unblock_title">Request unblock</string>
+    <string name="unblock_hint_app">App package (optional)</string>
+    <string name="unblock_hint_reason">Why do you need access?</string>
+    <string name="unblock_sent">Request sent to your parent</string>
     <string name="btn_setup">Permissions &amp; setup</string>
     <string name="btn_unpair">Unpair this device</string>
 

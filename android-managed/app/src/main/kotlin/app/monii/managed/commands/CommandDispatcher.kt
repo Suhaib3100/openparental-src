@@ -38,8 +38,6 @@ class CommandDispatcher(
     private var _mediaProjection: MediaProjection? = null
     private var _mediaRecorder: MediaRecorder? = null
     private var _screenFile: File? = null
-    private var _ambientRecorder: MediaRecorder? = null
-    private var _ambientFile: File? = null
 
     suspend fun syncAndExecute(): Int {
         val commands = repo.pullCommands()
@@ -82,15 +80,10 @@ class CommandDispatcher(
                 }
                 mapOf("action" to action, "recording" to (_mediaRecorder != null))
             }
-            "AMBIENT_RECORD" -> {
-                val action = (command.payload?.get("action") as? String) ?: "start"
-                when (action) {
-                    "start" -> startAmbientRecording()
-                    "stop" -> stopAmbientRecording()
-                    else -> Unit
-                }
-                mapOf("action" to action, "recording" to (_ambientRecorder != null))
-            }
+            "AMBIENT_RECORD" -> mapOf(
+                "disabled" to true,
+                "reason" to "OpenParental does not support ambient audio recording",
+            )
             "SCREEN_MIRROR", "SCREEN_VIEW_REQUEST" -> {
                 val sessionId = command.payload?.get("sessionId") as? String
                 requestScreenMirror(sessionId)
@@ -192,51 +185,6 @@ class CommandDispatcher(
                     context,
                     arrayOf(file.absolutePath),
                     arrayOf("video/mp4"),
-                    null
-                )
-            }
-        } catch (_: Exception) { }
-    }
-
-    // ---- Ambient Recording ----
-
-    private fun startAmbientRecording() {
-        if (_ambientRecorder != null) return
-
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
-            != PackageManager.PERMISSION_GRANTED
-        ) return
-
-        try {
-            val file = File(
-                context.getExternalFilesDir(Environment.DIRECTORY_MUSIC),
-                "ambient_${Instant.now().epochSecond}.mp3"
-            )
-            _ambientRecorder = MediaRecorder().apply {
-                setAudioSource(MediaRecorder.AudioSource.MIC)
-                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-                setOutputFile(file.absolutePath)
-                prepare()
-                start()
-            }
-            _ambientFile = file
-        } catch (_: Exception) { }
-    }
-
-    private fun stopAmbientRecording() {
-        try {
-            _ambientRecorder?.apply {
-                stop()
-                release()
-            }
-            _ambientRecorder = null
-
-            _ambientFile?.let { file ->
-                MediaScannerConnection.scanFile(
-                    context,
-                    arrayOf(file.absolutePath),
-                    arrayOf("audio/mp4"),
                     null
                 )
             }

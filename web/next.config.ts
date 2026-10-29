@@ -19,6 +19,17 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return apiRewrites;
   },
+  async headers() {
+    return [
+      {
+        source: '/downloads/:path*',
+        headers: [
+          { key: 'Content-Type', value: 'application/vnd.android.package-archive' },
+          { key: 'Content-Disposition', value: 'attachment' },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -15,8 +15,9 @@ export default function DownloadPage() {
         <p className="text-sm text-brand font-medium">Install</p>
         <h1 className="mt-2 text-4xl font-semibold tracking-tight">Download from us</h1>
         <p className="mt-4 text-lg text-muted">
-          APKs are served from this website ({site.name}). If a build is not uploaded yet, the button
-          will tell you — use the{' '}
+          Install both apps from this page on the Android phone. You do not need Android Studio or an
+          emulator — those use several GB of RAM and can freeze the PC. If a build is not uploaded yet,
+          the button will tell you — use the{' '}
           <Link href="/setup" className="text-brand underline underline-offset-2">
             setup guide
           </Link>{' '}

@@ -11,6 +11,7 @@ android-managed/.idea/
 android-managed/captures/
 *.apk
 *.apkm
+!web/public/downloads/*.apk
 *.aab
 # FlashGet reference binaries are tracked under research/flashget/binaries/ (Git LFS)
 !research/flashget/binaries/

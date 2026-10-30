@@ -72,17 +72,12 @@ class SocialAppNotifListener : NotificationListenerService() {
 
     override fun onCreate() {
         super.onCreate()
-        ensureChannel()
         Log.i(TAG, "SocialAppNotifListener created")
-
-        val n = Notification.Builder(this, CHANNEL_ID)
-            .setContentTitle("Monitoring active")
-            .setContentText("Capturing notifications for parent view")
-            .setSmallIcon(android.R.drawable.ic_menu_search)
-            .setOngoing(true)
-            .setPriority(Notification.PRIORITY_MIN)
-            .build()
-        startForeground(NotifId.MONITOR, n)
+        // Do NOT call startForeground here. A NotificationListenerService is kept
+        // alive by the system while the listener permission is granted; calling
+        // startForeground without a foregroundServiceType crashes on Android 14+
+        // (targetSDK 35) with MissingForegroundServiceTypeException. The Supervisor
+        // FGS already provides the persistent notification.
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {

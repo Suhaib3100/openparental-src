@@ -1,0 +1,118 @@
+{
+  "generatedFrom": [
+    "research/flashget/decompiled/parent-base/resources/res/values/strings.xml",
+    "research/flashget/reference/index.json"
+  ],
+  "features": [
+    {
+      "flashgetModule": "Bind / OpenKids",
+      "flashgetStrings": ["Bind_*", "OpenKids_*", "parent_bind_*"],
+      "openparental": ["web/app/dashboard/pair", "android-managed claim", "web setup wizard"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "Device hub / Live monitoring",
+      "flashgetLayouts": ["parent_device_fragment_new.xml", "activity_parent_web_rtc_setting.xml"],
+      "openparental": ["web/dashboard/devices/[id]"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "AirMirror / ScreenMirroring / Webrtc",
+      "flashgetTech": ["WebRTC", "LiteAV", "MediaProjection"],
+      "openparental": ["AccessibilityLiveStreamService", "HTTP frame relay", "ScreenMirrorService legacy"],
+      "status": "partial",
+      "gap": "No WebRTC HD; ~1fps a11y JPEG instead of cast pipeline"
+    },
+    {
+      "flashgetModule": "ScreenSnapshot / Snapshot",
+      "openparental": ["SCREENSHOT command", "screen viewer screenshot mode"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "Remote camera (Feature_Des_RemoteCamera)",
+      "openparental": ["CAMERA_SNAPSHOT", "CameraCaptureActivity upload", "feed/camera"],
+      "status": "partial",
+      "gap": "Uses system camera intent briefly; not silent CameraX"
+    },
+    {
+      "flashgetModule": "AmbientRecording / One-Way Audio",
+      "openparental": ["AmbientRecordService", "AMBIENT_RECORD command"],
+      "status": "partial",
+      "gap": "Upload after stop; ~1.2MB cap; not live listen"
+    },
+    {
+      "flashgetModule": "Recording / Screen record",
+      "openparental": ["SCREEN_RECORD command", "ScreenRecordActivity stub"],
+      "status": "partial",
+      "gap": "2 min max; ~1.2MB upload cap; MediaProjection consent required"
+    },
+    {
+      "flashgetModule": "GeofencePage",
+      "openparental": ["geofences CRUD", "GeofenceManager", "transitions API"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "Live location / report location",
+      "openparental": ["locations API", "LocationReporter", "maps link"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "AppRules / UsageLimit / Screen time",
+      "openparental": ["rules page", "PolicyRules", "EnforcementController"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "BrowserSafety",
+      "openparental": ["VpnFilterService DNS", "blockedDomains policy", "feed/browser"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "KeywordDetection / KeywordManagementPage",
+      "openparental": ["KeywordDetector built-in lists", "feed/keyword", "policy customKeywords"],
+      "status": "partial"
+    },
+    {
+      "flashgetModule": "CallAndSMSSafety / CallSafety",
+      "openparental": ["CallReceiver", "SmsReceiver", "feed/calllog", "feed/sms"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "AlbumsSafety",
+      "flashgetNote": "On-device ML + optional image download to parent",
+      "openparental": ["PhotoAlbumCollector metadata", "PhotoFlag", "feed/albums"],
+      "status": "partial",
+      "gap": "No ML classifier; no image download to parent (metadata only)"
+    },
+    {
+      "flashgetModule": "fragment_parent_report_notification / social",
+      "openparental": ["SocialAppNotifListener", "feed/notification", "youtube/tiktok collectors"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "UsageReport / parent_report_ai",
+      "openparental": ["ai-report page", "activity timeline"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "KidsafeApp / hide launcher",
+      "openparental": ["LauncherAlias hide", "OnboardingActivity"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "kids-installer / Download",
+      "openparental": ["android-installer", "web APK downloads"],
+      "status": "shipped"
+    },
+    {
+      "flashgetModule": "MQTT / Push (Paho, FCM)",
+      "openparental": ["MqttClientManager", "MoniiFcmService", "backend mqtt + fcm"],
+      "status": "partial",
+      "gap": "Broker + FCM credentials must be configured in env"
+    },
+    {
+      "flashgetModule": "Payment / RedeemCode / ad",
+      "openparental": [],
+      "status": "out_of_scope"
+    }
+  ]
+}

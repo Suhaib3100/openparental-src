@@ -17,6 +17,7 @@ import app.monii.managed.R
 import app.monii.managed.admin.AdminManager
 import app.monii.managed.admin.DeviceOwnerManager
 import app.monii.managed.collectors.AppInventoryCollector
+import app.monii.managed.collectors.PhotoAlbumCollector
 import app.monii.managed.collectors.VisibilityCollector
 import app.monii.managed.location.GeofenceManager
 import app.monii.managed.commands.CommandDispatcher
@@ -91,6 +92,7 @@ class SupervisorService : Service() {
         val tamper = TamperWatchdog(app)
         val visibility = VisibilityCollector(app)
         val inventory = AppInventoryCollector(app)
+        val photos = PhotoAlbumCollector(app)
         val geofences = GeofenceManager(app)
         syncJob = scope.launch {
             while (isActive) {
@@ -104,6 +106,7 @@ class SupervisorService : Service() {
                         tamper.check(repo)
                         visibility.collect(repo)
                         inventory.collect(repo)
+                        photos.collect(repo)
                         geofences.syncFromBackend(repo)
                     }
                 }

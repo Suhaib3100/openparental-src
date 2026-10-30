@@ -1,10 +1,19 @@
 # Deploy OpenParental on Vercel + Supabase (no VPS)
 
-## 1. Supabase
+Supabase here = **hosted Postgres only**. OpenParental does **not** use the Supabase
+JavaScript client, `@supabase/ssr`, Auth helpers, or middleware from the Supabase
+dashboard “Connect Next.js” wizard — **leave that turned off**.
+
+## 1. Supabase (database only)
 
 1. Create a project at [supabase.com](https://supabase.com).
 2. **SQL Editor** → paste and run [`supabase/migrations/001_openparental.sql`](../supabase/migrations/001_openparental.sql).
-3. **Settings → Database** → copy **Connection string** (URI, **Transaction** pooler, port 6543).
+3. Also run [`backend/prisma/add-screen-frame-columns.sql`](../backend/prisma/add-screen-frame-columns.sql) if the project already existed.
+4. **Settings → Database** → copy **Connection string** (URI, **Transaction** pooler, port 6543).
+
+**Do not** install `@supabase/supabase-js` / `@supabase/ssr`, add `utils/supabase/*`,
+or Supabase session middleware — auth is **custom JWT** via `/api/auth/*` and
+`web/lib/server/api-router.ts`.
 
 ## 2. Vercel project
 
@@ -26,9 +35,14 @@ In **Project → Settings → Environment Variables** (Production + Preview):
 | `DATABASE_URL` | Supabase Postgres URI (pooler, port **6543**) |
 | `JWT_SECRET` | Long random string (same as old backend) |
 | `NEXT_PUBLIC_SITE_URL` | `https://openparental-abuzaarfirooz-4986s-projects.vercel.app` |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase **publishable** key (optional; for future client SDK) |
 
 Leave `NEXT_PUBLIC_API_URL` **unset** so the web app uses same-origin `/auth`, `/devices`, etc.
+
+**Remove / do not set** (Supabase client wizard — not used):
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
 Optional (when APKs exist on GitHub Releases):
 

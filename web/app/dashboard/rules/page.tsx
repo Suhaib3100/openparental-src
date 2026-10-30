@@ -28,6 +28,7 @@ export default function RulesPage() {
   const [bedtimeEnd, setBedtimeEnd] = useState('06:30');
   const [blockAllExceptAllowed, setBlockAllExceptAllowed] = useState(false);
   const [blockNewApps, setBlockNewApps] = useState(false);
+  const [customKeywords, setCustomKeywords] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -50,6 +51,7 @@ export default function RulesPage() {
       setLimits(lm);
       setBlockAllExceptAllowed(r.blockAllExceptAllowed ?? false);
       setBlockNewApps(r.blockNewApps ?? false);
+      setCustomKeywords((r.customKeywords ?? []).join('\n'));
       const bed = (r.schedules ?? []).find((s) => s.blockAll);
       if (bed) {
         setBedtimeOn(true);
@@ -117,6 +119,10 @@ export default function RulesPage() {
         : [],
       blockAllExceptAllowed,
       blockNewApps,
+      customKeywords: customKeywords
+        .split('\n')
+        .map((s) => s.trim())
+        .filter(Boolean),
     };
     try {
       await updatePolicy(rules);
@@ -203,9 +209,18 @@ export default function RulesPage() {
             <ul className="mt-3 max-h-80 overflow-auto divide-y divide-line">
               {filtered.map((a) => (
                 <li key={a.pkg} className="flex items-center gap-3 py-2">
-                  <div className="h-9 w-9 rounded-lg bg-surface border border-line flex items-center justify-center text-xs font-semibold text-muted shrink-0">
-                    {a.label.slice(0, 2).toUpperCase()}
-                  </div>
+                  {a.iconB64 ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={`data:image/png;base64,${a.iconB64}`}
+                      alt=""
+                      className="h-9 w-9 rounded-lg border border-line shrink-0 object-cover"
+                    />
+                  ) : (
+                    <div className="h-9 w-9 rounded-lg bg-surface border border-line flex items-center justify-center text-xs font-semibold text-muted shrink-0">
+                      {a.label.slice(0, 2).toUpperCase()}
+                    </div>
+                  )}
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium truncate">{a.label}</p>
                     <p className="text-xs text-muted truncate">{a.pkg}</p>
@@ -303,6 +318,21 @@ export default function RulesPage() {
             />
           </div>
         )}
+      </section>
+
+      <section className="mt-6 rounded-2xl border border-line bg-white p-5">
+        <h2 className="font-semibold">Custom keywords</h2>
+        <p className="text-xs text-muted mt-1 mb-3">
+          One phrase per line — matched in social app notifications on the child device
+          (FlashGet Keyword Detection).
+        </p>
+        <textarea
+          value={customKeywords}
+          onChange={(e) => setCustomKeywords(e.target.value)}
+          rows={4}
+          className="w-full rounded-xl border border-line bg-white p-3 text-sm"
+          placeholder="meet me alone&#10;send pics"
+        />
       </section>
 
       {/* ---- Blocked websites ---- */}

@@ -83,8 +83,10 @@ export default function DeviceDetailPage() {
         { icon: '🖥️', label: 'Screen mirror', href: `${base}/screen?mode=mirror` },
         { icon: '📸', label: 'Screenshot now', href: `${base}/screen?mode=screenshot` },
         { icon: '📷', label: 'Camera snapshot', cmd: { type: 'CAMERA_SNAPSHOT', payload: { camera: 'front' } } },
+        { icon: '🖼️', label: 'Camera gallery', href: `${base}/feed/camera` },
         { icon: '🎙️', label: 'Ambient audio', cmd: { type: 'AMBIENT_RECORD', payload: { action: 'start' } } },
         { icon: '⏺️', label: 'Screen record', cmd: { type: 'SCREEN_RECORD', payload: { action: 'start' } } },
+        { icon: '📼', label: 'Recordings', href: `${base}/feed/recordings` },
       ],
     },
     {
@@ -117,7 +119,7 @@ export default function DeviceDetailPage() {
         { icon: '🔔', label: 'Notifications', href: `${base}/feed/notification` },
         { icon: '⚠️', label: 'Keyword alerts', href: `${base}/feed/keyword` },
         { icon: '▶️', label: 'Watch history', href: `${base}/feed/videos` },
-        { icon: '🖼️', label: 'Albums safety', soon: true },
+        { icon: '🖼️', label: 'Albums safety', href: `${base}/feed/albums` },
       ],
     },
     {

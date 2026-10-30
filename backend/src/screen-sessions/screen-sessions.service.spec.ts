@@ -24,6 +24,7 @@ describe('ScreenSessionsService', () => {
     emitSessionReady: jest.Mock;
     emitSessionEnded: jest.Mock;
     emitSessionDenied: jest.Mock;
+    emitFrame: jest.Mock;
   };
 
   const baseSession = {
@@ -59,6 +60,7 @@ describe('ScreenSessionsService', () => {
       emitSessionReady: jest.fn(),
       emitSessionEnded: jest.fn(),
       emitSessionDenied: jest.fn(),
+      emitFrame: jest.fn(),
     };
 
     const ref = await Test.createTestingModule({

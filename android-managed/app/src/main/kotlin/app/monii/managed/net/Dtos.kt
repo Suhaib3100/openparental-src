@@ -110,6 +110,16 @@ data class DeviceDto(val id: String, val status: String?)
 
 data class ConsentSessionRequest(val approved: Boolean)
 
+data class UploadFrameRequest(val data: String)
+
+data class PhotoFlagItemDto(
+    val category: String,
+    val confidence: Double,
+    val occurredAt: String,
+)
+
+data class IngestPhotoFlagsRequest(val items: List<PhotoFlagItemDto>)
+
 data class ScreenSessionDto(
     val id: String,
     val deviceId: String,

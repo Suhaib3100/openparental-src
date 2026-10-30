@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { AuthDevice, AuthUser } from '../common/types';
 import { ConsentSessionDto } from './dto/consent-session.dto';
 import { CreateScreenSessionDto } from './dto/create-screen-session.dto';
+import { UploadFrameDto } from './dto/upload-frame.dto';
 import { ScreenSessionsService } from './screen-sessions.service';
 
 @Controller()
@@ -45,6 +46,12 @@ export class ScreenSessionsController {
     return this.sessions.getForFamily(user.familyId, id);
   }
 
+  @Get('screen-sessions/:id/frame')
+  @UseGuards(JwtAuthGuard)
+  latestFrame(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.sessions.latestFrame(user.familyId, id);
+  }
+
   @Post('screen-sessions/:id/end')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
@@ -70,5 +77,16 @@ export class ScreenSessionsController {
   @UseGuards(DeviceAuthGuard)
   endAsDevice(@CurrentDevice() device: AuthDevice, @Param('id') id: string) {
     return this.sessions.endAsDevice(device.deviceId, id);
+  }
+
+  @Post('screen-sessions/:id/frame')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(DeviceAuthGuard)
+  uploadFrame(
+    @CurrentDevice() device: AuthDevice,
+    @Param('id') id: string,
+    @Body() dto: UploadFrameDto,
+  ) {
+    return this.sessions.uploadFrame(device.deviceId, id, dto.data);
   }
 }

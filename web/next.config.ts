@@ -10,6 +10,13 @@ const apiRewrites = [
   'locations',
   'heartbeat',
   'health',
+  'screen-sessions',
+  'policies',
+  'events',
+  'content',
+  'geofences',
+  'photo-flags',
+  'tamper',
 ].flatMap((prefix) => [
   { source: `/${prefix}`, destination: `/api/${prefix}` },
   { source: `/${prefix}/:path*`, destination: `/api/${prefix}/:path*` },

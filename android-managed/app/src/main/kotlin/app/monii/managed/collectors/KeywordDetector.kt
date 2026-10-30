@@ -169,10 +169,25 @@ object KeywordDetector {
      * (category → matched keyword). Multiple matches in the same category
      * are deduped.
      */
-    fun scan(text: String): List<KeywordMatch> {
+    fun scan(text: String, extraKeywords: Set<String> = emptySet()): List<KeywordMatch> {
         if (text.isBlank()) return emptyList()
         val lower = text.lowercase()
         val matches = mutableListOf<KeywordMatch>()
+
+        for (kw in extraKeywords) {
+            val k = kw.trim().lowercase()
+            if (k.isNotEmpty() && lower.contains(k)) {
+                matches.add(
+                    KeywordMatch(
+                        category = "custom",
+                        categoryLabel = "Custom keyword",
+                        keyword = kw.trim(),
+                        snippet = text.take(MAX_SNIPPET),
+                    ),
+                )
+                break
+            }
+        }
 
         for ((category, keywords) in ALL_KEYWORDS) {
             for (kw in keywords) {

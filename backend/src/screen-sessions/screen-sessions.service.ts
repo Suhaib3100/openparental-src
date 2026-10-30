@@ -54,7 +54,7 @@ export class ScreenSessionsService {
     });
 
     // 'screenshot' => one accessibility-captured frame (no MediaProjection).
-    // 'mirror'     => continuous live stream via MediaProjection.
+    // 'mirror'     => ~1 fps accessibility screenshot stream (no cast indicator).
     await this.commands.enqueue(familyId, deviceId, {
       type: mode === 'screenshot' ? 'SCREENSHOT' : 'SCREEN_VIEW_REQUEST',
       payload: { sessionId: session.id },
@@ -172,6 +172,35 @@ export class ScreenSessionsService {
       throw new ForbiddenException('session not live');
     }
     return session;
+  }
+
+  /** Device uploads a JPEG frame (works on serverless — no Socket.IO required). */
+  async uploadFrame(
+    deviceId: string,
+    sessionId: string,
+    data: string,
+  ): Promise<{ ok: true }> {
+    await this.assertCanEmitFrame(sessionId, deviceId);
+    const now = new Date();
+    await this.prisma.screenSession.update({
+      where: { id: sessionId },
+      data: { lastFrameData: data, lastFrameAt: now },
+    });
+    this.gateway.emitFrame(sessionId, data, now.getTime());
+    return { ok: true };
+  }
+
+  async latestFrame(
+    familyId: string,
+    sessionId: string,
+  ): Promise<{ data: string | null; ts: number | null; status: string }> {
+    const view = await this.getForFamily(familyId, sessionId);
+    const session = await this.requireSession(sessionId);
+    return {
+      data: session.lastFrameData,
+      ts: session.lastFrameAt?.getTime() ?? null,
+      status: view.status,
+    };
   }
 
   private async end(

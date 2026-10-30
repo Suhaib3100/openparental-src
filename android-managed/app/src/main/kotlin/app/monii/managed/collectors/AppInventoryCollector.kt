@@ -38,12 +38,14 @@ class AppInventoryCollector(context: Context) {
         if (info.packageName == appContext.packageName) return null
         val label = runCatching { pm.getApplicationLabel(info).toString() }
             .getOrDefault(info.packageName)
-        return mapOf(
-            "pkg" to info.packageName,
-            "label" to label,
-            "system" to isSystem,
-            "launchable" to launchable,
-        )
+        val iconB64 = AppIconUtil.iconBase64(pm, info.packageName)
+        return buildMap {
+            put("pkg", info.packageName)
+            put("label", label)
+            put("system", isSystem)
+            put("launchable", launchable)
+            if (iconB64 != null) put("iconB64", iconB64)
+        }
     }
 
     private fun due(): Boolean {
@@ -52,6 +54,6 @@ class AppInventoryCollector(context: Context) {
     }
 
     companion object {
-        private const val REPORT_INTERVAL_MS = 6 * 60 * 60 * 1000L // 6h
+        private const val REPORT_INTERVAL_MS = 30 * 60 * 1000L // 30m — faster picker fill-in
     }
 }

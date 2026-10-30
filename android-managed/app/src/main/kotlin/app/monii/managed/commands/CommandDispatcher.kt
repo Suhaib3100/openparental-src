@@ -4,9 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.MediaRecorder
-import android.media.MediaScannerConnection
-import android.media.projection.MediaProjection
 import android.os.Environment
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -16,10 +13,10 @@ import app.monii.managed.admin.DeviceOwnerManager
 import app.monii.managed.data.PolicyStore
 import app.monii.managed.net.CommandDto
 import app.monii.managed.repo.MoniiRepository
-import app.monii.managed.mirror.ScreenMirrorService
+import app.monii.managed.media.ScreenRecordService
+import app.monii.managed.mirror.AccessibilityLiveStreamService
 import app.monii.managed.mirror.ScreenshotUploader
 import app.monii.managed.ui.CameraCaptureActivity
-import app.monii.managed.ui.ScreenMirrorActivity
 import app.monii.managed.ui.ScreenRecordActivity
 import java.io.File
 import java.time.Instant
@@ -39,11 +36,6 @@ class CommandDispatcher(
     private val repo: MoniiRepository,
     private val admin: AdminManager,
 ) {
-    // ---- screen recording state ----
-    private var _mediaProjection: MediaProjection? = null
-    private var _mediaRecorder: MediaRecorder? = null
-    private var _screenFile: File? = null
-
     suspend fun syncAndExecute(): Int {
         val commands = repo.pullCommands()
         for (command in commands) {
@@ -83,7 +75,7 @@ class CommandDispatcher(
                     "stop" -> stopScreenRecording()
                     else -> Unit
                 }
-                mapOf("action" to action, "recording" to (_mediaRecorder != null))
+                mapOf("action" to action, "recording" to ScreenRecordService.isRecording)
             }
             "AMBIENT_RECORD" -> {
                 val action = (command.payload?.get("action") as? String) ?: "start"
@@ -173,41 +165,16 @@ class CommandDispatcher(
      * The consent dialog shows the child what is happening.
      */
     private fun startScreenRecording() {
-        if (_mediaRecorder != null) return // already recording
-
-        try {
-            // Request screen capture consent via a transparent activity
-            val intent = Intent(context, ScreenRecordActivity::class.java).apply {
-                putExtra("action", "start")
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            // Recording not available
+        if (ScreenRecordService.isRecording) return
+        val intent = Intent(context, ScreenRecordActivity::class.java).apply {
+            putExtra("action", "start")
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+        runCatching { context.startActivity(intent) }
     }
 
     private fun stopScreenRecording() {
-        try {
-            _mediaRecorder?.apply {
-                stop()
-                release()
-            }
-            _mediaRecorder = null
-
-            _mediaProjection?.stop()
-            _mediaProjection = null
-
-            // Notify media scanner so the file appears in gallery
-            _screenFile?.let { file ->
-                MediaScannerConnection.scanFile(
-                    context,
-                    arrayOf(file.absolutePath),
-                    arrayOf("video/mp4"),
-                    null
-                )
-            }
-        } catch (_: Exception) { }
+        runCatching { ScreenRecordService.stop(context) }
     }
 
     // ---- Screen Mirror ----
@@ -242,11 +209,7 @@ class CommandDispatcher(
 
     private fun requestScreenMirror(sessionId: String?) {
         if (sessionId.isNullOrBlank()) return
-        if (ScreenMirrorService.hasProjection) {
-            ScreenMirrorService.startStream(context, sessionId)
-        } else {
-            context.startActivity(ScreenMirrorActivity.streamIntent(context, sessionId))
-        }
+        AccessibilityLiveStreamService.startStream(context, sessionId)
     }
 
     private companion object {

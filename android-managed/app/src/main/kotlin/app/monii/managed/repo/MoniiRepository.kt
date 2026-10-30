@@ -15,6 +15,8 @@ import app.monii.managed.net.ContentItemDto
 import app.monii.managed.net.EventInputDto
 import app.monii.managed.net.HeartbeatRequest
 import app.monii.managed.net.IngestContentRequest
+import app.monii.managed.net.IngestPhotoFlagsRequest
+import app.monii.managed.net.PhotoFlagItemDto
 import app.monii.managed.net.IngestEventsRequest
 import app.monii.managed.net.GeofenceDto
 import app.monii.managed.net.GeofenceTransitionRequest
@@ -23,6 +25,7 @@ import app.monii.managed.net.ReauthRequest
 import app.monii.managed.net.RequestUnblockRequest
 import app.monii.managed.net.SelfUpdateRequest
 import app.monii.managed.net.TamperRequest
+import app.monii.managed.net.UploadFrameRequest
 import retrofit2.HttpException
 import java.time.Instant
 
@@ -108,6 +111,14 @@ class MoniiRepository(
 
     suspend fun stopScreenSession(sessionId: String) =
         withReauth { api.stopScreenSession(sessionId) }
+
+    suspend fun uploadScreenFrame(sessionId: String, base64Jpeg: String) =
+        withReauth { api.uploadScreenFrame(sessionId, UploadFrameRequest(base64Jpeg)) }
+
+    suspend fun ingestPhotoFlags(items: List<PhotoFlagItemDto>) {
+        if (items.isEmpty()) return
+        withReauth { api.ingestPhotoFlags(IngestPhotoFlagsRequest(items)) }
+    }
 
     fun bufferEvent(type: String, data: Map<String, Any?>) {
         buffer.add(EventInputDto(type, data, Instant.now().toString()))

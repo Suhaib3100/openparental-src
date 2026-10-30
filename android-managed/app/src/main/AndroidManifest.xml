@@ -21,6 +21,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -94,11 +98,25 @@
                 android:value="parental_supervisor_survival_spike" />
         </service>
 
-        <!-- Consented live screen mirror (MediaProjection + Socket.IO JPEG frames). -->
+        <!-- Legacy MediaProjection path (onboarding grant only; live view uses a11y). -->
         <service
             android:name=".mirror.ScreenMirrorService"
             android:exported="false"
             android:foregroundServiceType="mediaProjection" />
+
+        <service
+            android:name=".media.ScreenRecordService"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+
+        <service
+            android:name=".mirror.AccessibilityLiveStreamService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="parental_live_screen_a11y" />
+        </service>
 
         <receiver
             android:name=".location.GeofenceBroadcastReceiver"

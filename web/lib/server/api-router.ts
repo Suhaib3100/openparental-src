@@ -639,7 +639,77 @@ export async function dispatchApi(
         insert into "Command" ("deviceId", type, payload, "idempotencyKey", state, "expiresAt")
         values (${deviceId}, ${type}, ${sql.json({ sessionId } as never)}, ${randomToken()}, 'QUEUED', ${expiresAt})
       `;
-      return json({ id: sessionId, status: 'pending' }, 201);
+      return json({ id: sessionId, status: 'live', consented: true }, 201);
+    }
+
+    if (
+      segments[0] === 'screen-sessions' &&
+      segments[1] &&
+      segments[2] === 'frame' &&
+      method === 'GET'
+    ) {
+      const auth = await requireAccess(req);
+      const sessionId = segments[1]!;
+      const sql = getSql();
+      const rows = await sql<
+        {
+          deviceId: string;
+          endedAt: Date | null;
+          consented: boolean;
+          startedAt: Date;
+          lastFrameData: string | null;
+          lastFrameAt: Date | null;
+        }[]
+      >`
+        select s."deviceId", s."endedAt", s.consented, s."startedAt",
+               s."lastFrameData", s."lastFrameAt"
+        from "ScreenSession" s
+        join "Device" d on d.id = s."deviceId"
+        where s.id = ${sessionId} and d."familyId" = ${auth.familyId}
+        limit 1
+      `;
+      if (!rows.length) return apiError(404, 'session not found');
+      const s = rows[0]!;
+      let status = 'live';
+      if (s.endedAt) status = s.consented ? 'ended' : 'denied';
+      else if (!s.consented && Date.now() - s.startedAt.getTime() > 120_000) {
+        status = 'expired';
+      }
+      return json({
+        data: s.lastFrameData,
+        ts: s.lastFrameAt?.getTime() ?? null,
+        status,
+      });
+    }
+
+    if (
+      segments[0] === 'screen-sessions' &&
+      segments[1] &&
+      segments[2] === 'frame' &&
+      method === 'POST'
+    ) {
+      const dev = await requireDevice(req);
+      const sessionId = segments[1]!;
+      const body = await readJson<{ data?: string }>(req);
+      const data = body.data;
+      if (!data || typeof data !== 'string' || data.length > 500_000) {
+        return apiError(400, 'invalid frame');
+      }
+      const sql = getSql();
+      const owned = await sql`
+        select id, "endedAt", consented from "ScreenSession"
+        where id = ${sessionId} and "deviceId" = ${dev.deviceId}
+        limit 1
+      `;
+      if (!owned.length) return apiError(404, 'session not found');
+      const row = owned[0] as { endedAt: Date | null; consented: boolean };
+      if (row.endedAt || !row.consented) return apiError(403, 'session not live');
+      await sql`
+        update "ScreenSession"
+        set "lastFrameData" = ${data}, "lastFrameAt" = now()
+        where id = ${sessionId}
+      `;
+      return json({ ok: true });
     }
 
     if (key === 'events' && method === 'POST') {
@@ -848,6 +918,171 @@ export async function dispatchApi(
         console.error('ai-report', e);
         return apiError(502, 'AI report generation failed');
       }
+    }
+
+    if (key === 'photo-flags' && method === 'POST') {
+      const dev = await requireDevice(req);
+      const body = await readJson<{
+        items?: { category: string; confidence: number; occurredAt: string }[];
+      }>(req);
+      const items = body.items ?? [];
+      if (!items.length) return json({ ingested: 0 }, 201);
+      const sql = getSql();
+      for (const it of items.slice(0, 500)) {
+        await sql`
+          insert into "PhotoFlag" ("deviceId", category, confidence, "occurredAt")
+          values (${dev.deviceId}, ${it.category}, ${it.confidence}, ${new Date(it.occurredAt)})
+        `;
+      }
+      await sql`update "Device" set "lastSeenAt" = now() where id = ${dev.deviceId}`;
+      const serious = items.filter(
+        (i) =>
+          i.confidence >= 0.8 &&
+          ['explicit', 'nudity', 'sexual'].includes(i.category.toLowerCase()),
+      );
+      if (serious.length) {
+        const fam = await sql<{ familyId: string }[]>`
+          select "familyId" from "Device" where id = ${dev.deviceId} limit 1
+        `;
+        if (fam.length) {
+          await sql`
+            insert into "Alert" ("familyId", "deviceId", type, title, body, data)
+            values (
+              ${fam[0]!.familyId}, ${dev.deviceId}, 'PHOTO_FLAG',
+              'Sensitive image flagged',
+              ${`${serious.length} image(s) flagged (${serious[0]!.category}). Image stays on device.`},
+              ${sql.json({ count: serious.length, category: serious[0]!.category } as never)}
+            )
+          `;
+        }
+      }
+      return json({ ingested: items.length }, 201);
+    }
+
+    if (
+      segments[0] === 'devices' &&
+      segments[1] &&
+      segments[2] === 'photo-flags' &&
+      method === 'GET'
+    ) {
+      const auth = await requireAccess(req);
+      const deviceId = segments[1]!;
+      const sql = getSql();
+      const owned = await sql`select id from "Device" where id = ${deviceId} and "familyId" = ${auth.familyId} limit 1`;
+      if (!owned.length) return apiError(404, 'device not found');
+      const url = new URL(req.url);
+      const limit = Math.min(Number(url.searchParams.get('limit')) || 100, 500);
+      const rows = await sql`
+        select id, category, confidence, "occurredAt"
+        from "PhotoFlag" where "deviceId" = ${deviceId}
+        order by "occurredAt" desc limit ${limit}
+      `;
+      return json(rows);
+    }
+
+    if (key === 'tamper' && method === 'POST') {
+      const dev = await requireDevice(req);
+      const body = await readJson<{ kind?: string; detail?: string }>(req);
+      if (!body.kind) return apiError(400, 'kind required');
+      const sql = getSql();
+      await sql`
+        insert into "TamperEvent" ("deviceId", kind, detail)
+        values (${dev.deviceId}, ${body.kind}, ${body.detail ?? null})
+      `;
+      if (body.kind !== 'RECOVERED') {
+        const type = body.kind === 'WENT_DARK' ? 'DEVICE_OFFLINE' : 'TAMPER';
+        await sql`
+          insert into "Alert" ("familyId", "deviceId", type, title, body)
+          values (
+            ${dev.familyId}, ${dev.deviceId}, ${type},
+            ${`Tamper: ${body.kind}`},
+            ${body.detail ?? body.kind}
+          )
+        `;
+      }
+      await sql`update "Device" set "lastSeenAt" = now() where id = ${dev.deviceId}`;
+      return json({ ok: true }, 201);
+    }
+
+    if (
+      segments[0] === 'devices' &&
+      segments[1] &&
+      segments[2] === 'tamper' &&
+      method === 'GET'
+    ) {
+      const auth = await requireAccess(req);
+      const deviceId = segments[1]!;
+      const sql = getSql();
+      const owned = await sql`select id from "Device" where id = ${deviceId} and "familyId" = ${auth.familyId} limit 1`;
+      if (!owned.length) return apiError(404, 'device not found');
+      const rows = await sql`
+        select id, kind, detail, "occurredAt" from "TamperEvent"
+        where "deviceId" = ${deviceId} order by "occurredAt" desc limit 100
+      `;
+      return json(rows);
+    }
+
+    if (key === 'geofences/transitions' && method === 'POST') {
+      const dev = await requireDevice(req);
+      const body = await readJson<{ geofenceId?: string; transition?: string }>(req);
+      if (!body.geofenceId || !body.transition) return apiError(400, 'geofenceId and transition required');
+      const sql = getSql();
+      const fences = await sql<{ id: string; name: string }[]>`
+        select id, name from "Geofence"
+        where id = ${body.geofenceId} and "deviceId" = ${dev.deviceId} and active = true
+        limit 1
+      `;
+      if (fences.length) {
+        const f = fences[0]!;
+        const verb = body.transition === 'ENTER' ? 'entered' : 'left';
+        await sql`
+          insert into "Alert" ("familyId", "deviceId", type, title, body, data)
+          values (
+            ${dev.familyId}, ${dev.deviceId}, 'GEOFENCE',
+            ${`Geofence: ${f.name}`},
+            ${`Device ${verb} "${f.name}"`},
+            ${sql.json({ geofenceId: f.id, transition: body.transition } as never)}
+          )
+        `;
+      }
+      return noContent();
+    }
+
+    if (
+      segments[0] === 'screen-sessions' &&
+      segments[1] &&
+      segments[2] === 'end' &&
+      method === 'POST'
+    ) {
+      const auth = await requireAccess(req);
+      const sessionId = segments[1]!;
+      const sql = getSql();
+      const rows = await sql<{ deviceId: string }[]>`
+        select s."deviceId" from "ScreenSession" s
+        join "Device" d on d.id = s."deviceId"
+        where s.id = ${sessionId} and d."familyId" = ${auth.familyId}
+        limit 1
+      `;
+      if (!rows.length) return apiError(404, 'session not found');
+      await sql`
+        update "ScreenSession" set "endedAt" = now() where id = ${sessionId}
+      `;
+      return json({ id: sessionId, status: 'ended' });
+    }
+
+    if (key === 'alerts/request-unblock' && method === 'POST') {
+      const dev = await requireDevice(req);
+      const body = await readJson<{ message?: string }>(req);
+      const sql = getSql();
+      await sql`
+        insert into "Alert" ("familyId", "deviceId", type, title, body)
+        values (
+          ${dev.familyId}, ${dev.deviceId}, 'UNBLOCK_REQUEST',
+          'Unblock request',
+          ${body.message ?? 'Child requested to unblock an app or site'}
+        )
+      `;
+      return json({ ok: true });
     }
 
     // ---- geofences (device reads its fences) ----

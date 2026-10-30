@@ -130,6 +130,13 @@ export class ScreenGateway implements OnGatewayConnection {
     this.lastFrameAt.delete(sessionId);
   }
 
+  /** Relay frame to parent viewers (also stored in DB for HTTP polling). */
+  emitFrame(sessionId: string, data: string, ts: number): void {
+    this.server
+      ?.to(this.room(sessionId))
+      .emit('frame', { sessionId, data, ts });
+  }
+
   private room(sessionId: string): string {
     return `screen:${sessionId}`;
   }

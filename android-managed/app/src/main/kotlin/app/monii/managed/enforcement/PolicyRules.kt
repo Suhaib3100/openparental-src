@@ -18,6 +18,8 @@ class PolicyRules(
     val schedules: List<Schedule>,
     val blockAllExceptAllowed: Boolean,
     val blockNewApps: Boolean,
+    val customKeywords: Set<String>,
+    val blockedDomains: Set<String>,
 ) {
     data class Schedule(val start: LocalTime, val end: LocalTime, val blockAll: Boolean)
 
@@ -52,6 +54,14 @@ class PolicyRules(
                 runCatching { obj.get("blockAllExceptAllowed")?.asBoolean }.getOrNull() ?: false
             val blockNewApps =
                 runCatching { obj.get("blockNewApps")?.asBoolean }.getOrNull() ?: false
+            val customKeywords = obj.getAsJsonArray("customKeywords")
+                ?.mapNotNull { runCatching { it.asString }.getOrNull() }
+                ?.map { it.trim() }
+                ?.filter { it.isNotEmpty() }
+                ?.toSet() ?: emptySet()
+            val blockedDomains = obj.getAsJsonArray("blockedDomains")
+                ?.mapNotNull { runCatching { it.asString }.getOrNull() }
+                ?.toSet() ?: emptySet()
 
             val limits = mutableMapOf<String, Int>()
             obj.getAsJsonArray("appLimits")?.forEach { el ->
@@ -82,6 +92,8 @@ class PolicyRules(
                 schedules = schedules,
                 blockAllExceptAllowed = blockAllExceptAllowed,
                 blockNewApps = blockNewApps,
+                customKeywords = customKeywords,
+                blockedDomains = blockedDomains,
             )
         }
     }

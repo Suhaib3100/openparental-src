@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getContent, type ContentItem } from '@/lib/api';
+import { getContent, getPhotoFlags, type ContentItem, type PhotoFlag } from '@/lib/api';
 
 const META: Record<
   string,
@@ -45,6 +45,24 @@ const META: Record<
     sources: ['youtube', 'tiktok'],
     empty: 'No watch history yet.',
   },
+  camera: {
+    title: 'Remote camera snapshots',
+    icon: '📷',
+    sources: ['camera'],
+    empty: 'No snapshots yet. Tap Remote camera on the device hub.',
+  },
+  recordings: {
+    title: 'Recordings',
+    icon: '🎙️',
+    sources: ['ambient', 'screen_record'],
+    empty: 'No ambient or screen recordings uploaded yet.',
+  },
+  albums: {
+    title: 'Albums safety',
+    icon: '🖼️',
+    sources: [],
+    empty: 'No new gallery activity flagged yet. Grant Photos access on the child device.',
+  },
 };
 
 export default function FeedPage() {
@@ -59,8 +77,13 @@ export default function FeedPage() {
   };
 
   const [items, setItems] = useState<ContentItem[] | null>(null);
+  const [photos, setPhotos] = useState<PhotoFlag[] | null>(null);
 
   useEffect(() => {
+    if (sourceKey === 'albums') {
+      getPhotoFlags(id).then(setPhotos);
+      return;
+    }
     Promise.all(meta.sources.map((s) => getContent(id, s))).then((lists) => {
       const merged = lists
         .flat()
@@ -82,7 +105,27 @@ export default function FeedPage() {
         {meta.icon} {meta.title}
       </h1>
 
-      {items == null ? (
+      {sourceKey === 'albums' ? (
+        photos == null ? (
+          <p className="mt-6 text-muted">Loading…</p>
+        ) : photos.length === 0 ? (
+          <p className="mt-6 text-muted text-sm">{meta.empty}</p>
+        ) : (
+          <ul className="mt-6 space-y-1">
+            {photos.map((p) => (
+              <li
+                key={p.id}
+                className="rounded-xl border border-line bg-white px-3 py-2 flex justify-between gap-2"
+              >
+                <span className="text-sm font-medium capitalize">{p.category}</span>
+                <time className="text-xs text-muted shrink-0">
+                  {new Date(p.occurredAt).toLocaleString()}
+                </time>
+              </li>
+            ))}
+          </ul>
+        )
+      ) : items == null ? (
         <p className="mt-6 text-muted">Loading…</p>
       ) : items.length === 0 ? (
         <p className="mt-6 text-muted text-sm">{meta.empty}</p>
@@ -101,7 +144,32 @@ export default function FeedPage() {
                   {new Date(c.occurredAt).toLocaleString()}
                 </time>
               </div>
-              <p className="text-sm text-ink/80 mt-0.5 break-words">{c.body}</p>
+              {c.source === 'camera' && c.body.length > 100 ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={`data:image/jpeg;base64,${c.body}`}
+                  alt="snapshot"
+                  className="mt-2 rounded-lg max-h-80 w-full object-contain bg-black/5"
+                />
+              ) : c.source === 'ambient' && c.body.length > 100 ? (
+                // eslint-disable-next-line jsx-a11y/media-has-caption
+                <audio
+                  controls
+                  className="mt-2 w-full"
+                  src={`data:audio/mp4;base64,${c.body}`}
+                />
+              ) : c.source === 'screen_record' && c.body.length > 100 ? (
+                // eslint-disable-next-line jsx-a11y/media-has-caption
+                <video
+                  controls
+                  className="mt-2 rounded-lg max-h-80 w-full bg-black"
+                  src={`data:video/mp4;base64,${c.body}`}
+                />
+              ) : (
+                <p className="text-sm text-ink/80 mt-0.5 break-words">
+                  {c.body.length > 120 ? `${c.body.slice(0, 80)}…` : c.body}
+                </p>
+              )}
               {c.matched && (
                 <span className="inline-block mt-1 text-[11px] rounded bg-alert/10 text-alert px-1.5 py-0.5">
                   flagged: {c.matched}

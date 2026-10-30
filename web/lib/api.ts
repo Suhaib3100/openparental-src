@@ -278,6 +278,7 @@ export type PolicyRules = {
   blockedDomains?: string[];
   blockAllExceptAllowed?: boolean;
   blockNewApps?: boolean;
+  customKeywords?: string[];
 };
 
 export async function getPolicy(): Promise<PolicyRules> {
@@ -313,6 +314,16 @@ export function createScreenSession(
 
 export function requestScreenshot(deviceId: string): Promise<ScreenSession> {
   return createScreenSession(deviceId, 'screenshot');
+}
+
+export type ScreenFrame = {
+  data: string | null;
+  ts: number | null;
+  status: string;
+};
+
+export function getScreenFrame(sessionId: string): Promise<ScreenFrame> {
+  return apiFetch<ScreenFrame>(`/screen-sessions/${sessionId}/frame`);
 }
 
 /** Lift Device Owner self-protection so the app can be uninstalled again. */
@@ -359,7 +370,19 @@ export type InstalledApp = {
   label: string;
   system?: boolean;
   launchable?: boolean;
+  iconB64?: string;
 };
+
+export type PhotoFlag = {
+  id: string;
+  category: string;
+  confidence: number;
+  occurredAt: string;
+};
+
+export function getPhotoFlags(deviceId: string): Promise<PhotoFlag[]> {
+  return apiFetch<PhotoFlag[]>(`/devices/${deviceId}/photo-flags`).catch(() => []);
+}
 
 /**
  * The child's installed-app list, read from the latest APP_INVENTORY event the

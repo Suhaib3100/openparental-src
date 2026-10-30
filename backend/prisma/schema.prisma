@@ -316,13 +316,15 @@ model PhotoFlag {
 }
 
 model ScreenSession {
-  id         String    @id @default(uuid())
-  deviceId   String
-  startedAt  DateTime  @default(now())
-  endedAt    DateTime?
-  consented  Boolean   @default(false)
-  transport  String? // webrtc | clip
-  createdAt  DateTime  @default(now())
+  id            String    @id @default(uuid())
+  deviceId      String
+  startedAt     DateTime  @default(now())
+  endedAt       DateTime?
+  consented     Boolean   @default(false)
+  transport     String? // webrtc | clip
+  lastFrameData String?   @db.Text
+  lastFrameAt   DateTime?
+  createdAt     DateTime  @default(now())
 
   @@index([deviceId, startedAt])
 }

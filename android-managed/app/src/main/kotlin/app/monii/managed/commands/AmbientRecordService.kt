@@ -13,6 +13,9 @@ import android.os.Environment
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import app.monii.managed.R
+import app.monii.managed.media.ParentMediaUploader
+import android.os.Handler
+import android.os.Looper
 import java.io.File
 import java.time.Instant
 
@@ -23,6 +26,8 @@ import java.time.Instant
 class AmbientRecordService : Service() {
     private var recorder: MediaRecorder? = null
     private var outputFile: File? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private val autoStop = Runnable { stopRecording() }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -55,9 +60,11 @@ class AmbientRecordService : Service() {
             start()
         }
         startForeground(NOTIF_ID, buildNotification(true))
+        handler.postDelayed(autoStop, MAX_MS)
     }
 
     private fun stopRecording() {
+        handler.removeCallbacks(autoStop)
         runCatching {
             recorder?.stop()
             recorder?.release()
@@ -70,7 +77,9 @@ class AmbientRecordService : Service() {
                 arrayOf("audio/mp4"),
                 null,
             )
+            ParentMediaUploader.upload(this, "ambient", f, "ambient_recording")
         }
+        outputFile = null
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
@@ -106,6 +115,7 @@ class AmbientRecordService : Service() {
         const val ACTION_STOP = "app.monii.managed.AMBIENT_STOP"
         private const val CHANNEL_ID = "ambient_record"
         private const val NOTIF_ID = 4102
+        private const val MAX_MS = 120_000L
 
         fun start(context: Context) {
             val i = Intent(context, AmbientRecordService::class.java).apply {

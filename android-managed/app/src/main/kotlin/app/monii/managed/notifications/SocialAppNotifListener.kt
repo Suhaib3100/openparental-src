@@ -159,7 +159,9 @@ class SocialAppNotifListener : NotificationListenerService() {
         if (now - kwLast < KEYWORD_COOLDOWN_MS) return
         keywordCooldown[pkg] = now
 
-        val matches = KeywordDetector.scan(allText)
+        val extra = app.monii.managed.enforcement.PolicyRules.load(this)?.customKeywords
+            ?: emptySet()
+        val matches = KeywordDetector.scan(allText, extra)
         if (matches.isEmpty()) return
 
         Log.w(TAG, "Keyword match in $pkg: ${matches.joinToString { "${it.category}:${it.keyword}" }}")

@@ -20,6 +20,7 @@ import app.monii.managed.databinding.ActivityOnboardingBinding
 import app.monii.managed.databinding.ItemPermissionBinding
 import app.monii.managed.identity.DeviceStore
 import app.monii.managed.mirror.ScreenMirrorService
+import app.monii.managed.ui.ScreenMirrorActivity
 import app.monii.managed.permissions.SpecialAccess
 import app.monii.managed.vpn.VpnFilterService
 
@@ -44,6 +45,9 @@ class OnboardingActivity : AppCompatActivity() {
     private val rows = mutableListOf<ItemPermissionBinding>()
 
     private val notifPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { refresh() }
+
+    private val photosPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { refresh() }
 
     private val vpnConsent =
@@ -95,6 +99,14 @@ class OnboardingActivity : AppCompatActivity() {
                 { startSafe(admin.enableIntent()) },
             ),
             Step(
+                "🖼️",
+                "Photos access",
+                "Lets Albums safety see new gallery items (metadata only).",
+                { photosGranted() },
+                { requestPhotos() },
+                optional = true,
+            ),
+            Step(
                 "📺",
                 getString(R.string.onb_screen_title),
                 getString(R.string.onb_screen_desc),
@@ -103,6 +115,7 @@ class OnboardingActivity : AppCompatActivity() {
                         DeviceStore(this).screenCaptureGranted()
                 },
                 { startActivity(ScreenMirrorActivity.setupIntent(this)) },
+                optional = true,
             ),
             Step(
                 "🌐",
@@ -199,6 +212,26 @@ class OnboardingActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             notifPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
+    }
+
+    private fun photosGranted(): Boolean {
+        val perm = if (Build.VERSION.SDK_INT >= 33) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            @Suppress("DEPRECATION")
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+        return checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestPhotos() {
+        val perm = if (Build.VERSION.SDK_INT >= 33) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            @Suppress("DEPRECATION")
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+        photosPermission.launch(perm)
     }
 
     private fun isIgnoringBattery(): Boolean {

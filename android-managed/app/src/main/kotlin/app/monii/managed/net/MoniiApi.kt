@@ -36,6 +36,9 @@ interface MoniiApi {
     @POST("content")
     suspend fun ingestContent(@Body body: IngestContentRequest): IngestResponse
 
+    @POST("photo-flags")
+    suspend fun ingestPhotoFlags(@Body body: IngestPhotoFlagsRequest): Map<String, Int>
+
     @POST("tamper")
     suspend fun reportTamper(@Body body: TamperRequest): TamperDto
 
@@ -62,4 +65,10 @@ interface MoniiApi {
 
     @POST("screen-sessions/{id}/stop")
     suspend fun stopScreenSession(@Path("id") id: String): ScreenSessionDto
+
+    @POST("screen-sessions/{id}/frame")
+    suspend fun uploadScreenFrame(
+        @Path("id") id: String,
+        @Body body: UploadFrameRequest,
+    ): Map<String, Boolean>
 }

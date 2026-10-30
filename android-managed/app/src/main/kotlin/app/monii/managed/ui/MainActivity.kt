@@ -88,6 +88,29 @@ class MainActivity : AppCompatActivity() {
         binding.btnStart.setOnClickListener { SupervisorService.start(this); render() }
         binding.btnRefresh.setOnClickListener { render() }
         binding.btnAutostart.setOnClickListener { openOemAutostartSettings() }
+
+        handleProvisionIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleProvisionIntent(intent)
+    }
+
+    /**
+     * Intent-driven provisioning (QR enrollment / adb): if launched with
+     * `op_base_url` and `op_code` extras, set them and pair automatically — no
+     * on-screen taps needed. Runs even behind the keyguard.
+     */
+    private fun handleProvisionIntent(intent: Intent?) {
+        val code = intent?.getStringExtra("op_code")?.trim() ?: return
+        if (code.isEmpty() || store.isPaired()) return
+        intent.getStringExtra("op_base_url")?.trim()?.let {
+            if (it.isNotEmpty()) binding.etBaseUrl.setText(it)
+        }
+        binding.etCode.setText(code)
+        pair()
     }
 
     override fun onResume() {

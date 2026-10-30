@@ -16,7 +16,14 @@ enum _MirrorPhase { requesting, waiting, live, ended, denied, error }
 /// the child device over Socket.IO `/screen` (no child-side approve prompt).
 class LiveMirrorScreen extends ConsumerStatefulWidget {
   final Device device;
-  const LiveMirrorScreen({super.key, required this.device});
+
+  /// 'mirror' = continuous live stream; 'screenshot' = one on-demand frame.
+  final String mode;
+  const LiveMirrorScreen({
+    super.key,
+    required this.device,
+    this.mode = 'mirror',
+  });
 
   @override
   ConsumerState<LiveMirrorScreen> createState() => _LiveMirrorScreenState();
@@ -62,7 +69,8 @@ class _LiveMirrorScreenState extends ConsumerState<LiveMirrorScreen> {
     });
     try {
       final api = ref.read(apiProvider);
-      final session = await api.createScreenSession(widget.device.id);
+      final session =
+          await api.createScreenSession(widget.device.id, mode: widget.mode);
       _sessionId = session.id;
       await _connectSocket(session.id);
       if (!mounted) return;

@@ -19,4 +19,10 @@ export default () => ({
   fcm: {
     serviceAccountPath: process.env.FCM_SERVICE_ACCOUNT_PATH ?? '',
   },
+  mqtt: {
+    // Broker URL (e.g. mqtt://localhost:1883). Empty => MQTT wake disabled.
+    url: process.env.MQTT_URL ?? '',
+    username: process.env.MQTT_USERNAME ?? '',
+    password: process.env.MQTT_PASSWORD ?? '',
+  },
 });

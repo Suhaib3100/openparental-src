@@ -3,6 +3,8 @@ package app.monii.managed.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import app.monii.managed.data.NewAppBlocklist
+import app.monii.managed.enforcement.PolicyRules
 import app.monii.managed.identity.DeviceStore
 import app.monii.managed.repo.MoniiRepository
 
@@ -21,6 +23,13 @@ class PackageEventReceiver : BroadcastReceiver() {
         val app = context.applicationContext
         val store = DeviceStore(app)
         if (!store.isPaired()) return
+
+        // "Block new apps": if the rule is on, block this freshly installed app.
+        if (type == "APP_INSTALLED") {
+            val rules = PolicyRules.load(app)
+            if (rules?.blockNewApps == true) NewAppBlocklist.add(app, pkg)
+        }
+
         MoniiRepository(app, store).bufferEvent(type, mapOf("package" to pkg))
     }
 }

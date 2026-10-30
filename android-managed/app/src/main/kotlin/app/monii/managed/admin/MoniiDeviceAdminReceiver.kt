@@ -11,6 +11,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MoniiDeviceAdminReceiver : DeviceAdminReceiver() {
+
+    /** Admin activated (incl. device-owner provisioning). Lock in self-protection. */
+    override fun onEnabled(context: Context, intent: Intent) {
+        super.onEnabled(context, intent)
+        SurvivalLog.record(context, "ADMIN_ENABLED")
+        runCatching { DeviceOwnerManager(context).applyProtection() }
+    }
+
     override fun onDisabled(context: Context, intent: Intent) {
         super.onDisabled(context, intent)
         SurvivalLog.record(context, "ADMIN_DISABLED")

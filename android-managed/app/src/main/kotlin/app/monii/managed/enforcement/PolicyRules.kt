@@ -13,8 +13,11 @@ import java.time.LocalTime
  */
 class PolicyRules(
     val blockedApps: Set<String>,
+    val allowedApps: Set<String>,
     val appLimits: Map<String, Int>,
     val schedules: List<Schedule>,
+    val blockAllExceptAllowed: Boolean,
+    val blockNewApps: Boolean,
 ) {
     data class Schedule(val start: LocalTime, val end: LocalTime, val blockAll: Boolean)
 
@@ -32,10 +35,23 @@ class PolicyRules(
         }
 
         private fun parse(json: String): PolicyRules {
-            val obj = Gson().fromJson(json, JsonObject::class.java)
+            val root = Gson().fromJson(json, JsonObject::class.java)
+            // SET_POLICY is stored as { version, rules: {...} }; unwrap to the rules.
+            val obj = if (root.get("rules")?.isJsonObject == true) {
+                root.getAsJsonObject("rules")
+            } else {
+                root
+            }
             val blocked = obj.getAsJsonArray("blockedApps")
                 ?.mapNotNull { runCatching { it.asString }.getOrNull() }
                 ?.toSet() ?: emptySet()
+            val allowed = obj.getAsJsonArray("allowedApps")
+                ?.mapNotNull { runCatching { it.asString }.getOrNull() }
+                ?.toSet() ?: emptySet()
+            val blockAllExceptAllowed =
+                runCatching { obj.get("blockAllExceptAllowed")?.asBoolean }.getOrNull() ?: false
+            val blockNewApps =
+                runCatching { obj.get("blockNewApps")?.asBoolean }.getOrNull() ?: false
 
             val limits = mutableMapOf<String, Int>()
             obj.getAsJsonArray("appLimits")?.forEach { el ->
@@ -59,7 +75,14 @@ class PolicyRules(
                     }
                 }
             }
-            return PolicyRules(blocked, limits, schedules)
+            return PolicyRules(
+                blockedApps = blocked,
+                allowedApps = allowed,
+                appLimits = limits,
+                schedules = schedules,
+                blockAllExceptAllowed = blockAllExceptAllowed,
+                blockNewApps = blockNewApps,
+            )
         }
     }
 }

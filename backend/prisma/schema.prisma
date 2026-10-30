@@ -40,6 +40,8 @@ enum CommandType {
   SCREEN_RECORD
   AMBIENT_RECORD
   SCREEN_MIRROR
+  SCREENSHOT
+  RELEASE_OWNER
 }
 
 enum CommandState {

@@ -7,6 +7,7 @@ import { getAccessToken, logout } from '@/lib/api';
 
 const links = [
   { href: '/dashboard', label: 'Devices' },
+  { href: '/dashboard/rules', label: 'Rules' },
   { href: '/dashboard/alerts', label: 'Alerts' },
   { href: '/dashboard/pair', label: 'Pair child' },
 ];

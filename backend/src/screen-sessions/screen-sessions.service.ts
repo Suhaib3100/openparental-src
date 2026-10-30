@@ -40,6 +40,7 @@ export class ScreenSessionsService {
     familyId: string,
     deviceId: string,
     actorUserId: string,
+    mode: 'mirror' | 'screenshot' = 'mirror',
   ): Promise<ScreenSessionView> {
     await this.devices.getForFamily(familyId, deviceId);
 
@@ -52,8 +53,10 @@ export class ScreenSessionsService {
       },
     });
 
+    // 'screenshot' => one accessibility-captured frame (no MediaProjection).
+    // 'mirror'     => continuous live stream via MediaProjection.
     await this.commands.enqueue(familyId, deviceId, {
-      type: 'SCREEN_VIEW_REQUEST',
+      type: mode === 'screenshot' ? 'SCREENSHOT' : 'SCREEN_VIEW_REQUEST',
       payload: { sessionId: session.id },
     });
 

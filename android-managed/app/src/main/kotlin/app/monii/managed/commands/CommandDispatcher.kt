@@ -10,16 +10,21 @@ import android.media.projection.MediaProjection
 import android.os.Environment
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import app.monii.managed.accessibility.MonitorAccessibilityService
 import app.monii.managed.admin.AdminManager
+import app.monii.managed.admin.DeviceOwnerManager
 import app.monii.managed.data.PolicyStore
 import app.monii.managed.net.CommandDto
 import app.monii.managed.repo.MoniiRepository
 import app.monii.managed.mirror.ScreenMirrorService
+import app.monii.managed.mirror.ScreenshotUploader
 import app.monii.managed.ui.CameraCaptureActivity
 import app.monii.managed.ui.ScreenMirrorActivity
 import app.monii.managed.ui.ScreenRecordActivity
 import java.io.File
 import java.time.Instant
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 /**
  * Pull pending commands, execute each, ack + post the result. The server spine
@@ -93,6 +98,15 @@ class CommandDispatcher(
                 val sessionId = command.payload?.get("sessionId") as? String
                 requestScreenMirror(sessionId)
                 mapOf("mirror_requested" to true, "sessionId" to sessionId)
+            }
+            "SCREENSHOT" -> {
+                val sessionId = command.payload?.get("sessionId") as? String
+                val ok = captureAndUploadScreenshot(sessionId)
+                mapOf("captured" to ok, "sessionId" to sessionId)
+            }
+            "RELEASE_OWNER" -> {
+                DeviceOwnerManager(context).release()
+                mapOf("released" to true)
             }
             else -> mapOf("ignored" to command.type)
         }
@@ -203,6 +217,29 @@ class CommandDispatcher(
      * Only if the grant was lost do we briefly launch the system capture dialog
      * (no in-app Approve/Deny).
      */
+    // ---- On-demand screenshot (accessibility capture, no projection consent) ----
+
+    /**
+     * Capture the current screen via the accessibility service and relay a single
+     * JPEG frame to the parent over the screen session. Blocks briefly for the
+     * async capture callback so the command result reflects the real outcome.
+     */
+    private fun captureAndUploadScreenshot(sessionId: String?): Boolean {
+        if (sessionId.isNullOrBlank()) return false
+        val service = MonitorAccessibilityService.instance ?: return false
+        val latch = CountDownLatch(1)
+        var jpeg: ByteArray? = null
+        service.captureScreenshot(SCREENSHOT_QUALITY) { bytes ->
+            jpeg = bytes
+            latch.countDown()
+        }
+        val completed = runCatching { latch.await(5, TimeUnit.SECONDS) }.getOrDefault(false)
+        val bytes = jpeg
+        if (!completed || bytes == null) return false
+        ScreenshotUploader.push(context, sessionId, bytes)
+        return true
+    }
+
     private fun requestScreenMirror(sessionId: String?) {
         if (sessionId.isNullOrBlank()) return
         if (ScreenMirrorService.hasProjection) {
@@ -210,5 +247,9 @@ class CommandDispatcher(
         } else {
             context.startActivity(ScreenMirrorActivity.streamIntent(context, sessionId))
         }
+    }
+
+    private companion object {
+        const val SCREENSHOT_QUALITY = 60
     }
 }

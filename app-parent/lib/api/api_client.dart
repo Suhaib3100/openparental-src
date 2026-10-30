@@ -238,10 +238,26 @@ class ApiClient {
 
   // ---- live screen sessions ----
 
-  Future<ScreenSession> createScreenSession(String deviceId) async {
-    final r = await _dio.post<dynamic>('/devices/$deviceId/screen-sessions');
+  /// [mode] = 'mirror' (continuous live stream) or 'screenshot' (one frame).
+  Future<ScreenSession> createScreenSession(
+    String deviceId, {
+    String mode = 'mirror',
+  }) async {
+    final r = await _dio.post<dynamic>(
+      '/devices/$deviceId/screen-sessions',
+      data: {'mode': mode},
+    );
     return ScreenSession.fromJson(r.data as Map<String, dynamic>);
   }
+
+  /// On-demand screenshot: opens a session the device fills with a single frame.
+  /// Join the returned session over the /screen socket to receive it.
+  Future<ScreenSession> requestScreenshot(String deviceId) =>
+      createScreenSession(deviceId, mode: 'screenshot');
+
+  /// Remote-release Device Owner self-protection so the app can be removed.
+  Future<void> releaseDeviceOwner(String deviceId) =>
+      sendCommand(deviceId, 'RELEASE_OWNER');
 
   Future<ScreenSession> getScreenSession(String sessionId) async {
     final r = await _dio.get<dynamic>('/screen-sessions/$sessionId');

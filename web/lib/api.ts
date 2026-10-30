@@ -215,3 +215,161 @@ export function latestLocation(deviceId: string): Promise<DeviceLocation | null>
     `/devices/${deviceId}/locations/latest`,
   ).catch(() => null);
 }
+
+export function locationHistory(
+  deviceId: string,
+  limit = 100,
+): Promise<DeviceLocation[]> {
+  return apiFetch<DeviceLocation[]>(
+    `/devices/${deviceId}/locations?limit=${limit}`,
+  ).catch(() => []);
+}
+
+// ---- geofences ----
+
+export type Geofence = {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+  radiusM: number;
+  active?: boolean;
+};
+
+export function listGeofences(deviceId: string): Promise<Geofence[]> {
+  return apiFetch<Geofence[]>(`/devices/${deviceId}/geofences`).catch(() => []);
+}
+
+export function createGeofence(
+  deviceId: string,
+  g: { name: string; lat: number; lng: number; radiusM?: number },
+): Promise<Geofence> {
+  return apiFetch<Geofence>(`/devices/${deviceId}/geofences`, {
+    method: 'POST',
+    body: JSON.stringify(g),
+  });
+}
+
+export function deleteGeofence(
+  deviceId: string,
+  geofenceId: string,
+): Promise<void> {
+  return apiFetch(`/devices/${deviceId}/geofences/${geofenceId}`, {
+    method: 'DELETE',
+  });
+}
+
+// ---- AI usage report ----
+
+export function aiReport(deviceId: string): Promise<{ report: string }> {
+  return apiFetch<{ report: string }>(`/devices/${deviceId}/ai-report`, {
+    method: 'POST',
+    body: JSON.stringify({}),
+  });
+}
+
+// ---- policy / rules (family-wide; pushed to every device) ----
+
+export type PolicyRules = {
+  blockedApps?: string[];
+  allowedApps?: string[];
+  appLimits?: { pkg: string; dailyMinutes: number }[];
+  schedules?: { start: string; end: string; blockAll?: boolean }[];
+  blockedDomains?: string[];
+  blockAllExceptAllowed?: boolean;
+  blockNewApps?: boolean;
+};
+
+export async function getPolicy(): Promise<PolicyRules> {
+  const res = await apiFetch<{ rules?: PolicyRules } | null>('/policies').catch(
+    () => null,
+  );
+  return res?.rules ?? {};
+}
+
+export function updatePolicy(rules: PolicyRules): Promise<void> {
+  return apiFetch('/policies', {
+    method: 'PUT',
+    body: JSON.stringify({ rules }),
+  });
+}
+
+// ---- screen (screenshot = one frame; mirror = continuous) ----
+
+export type ScreenSession = {
+  id: string;
+  status: string;
+};
+
+export function createScreenSession(
+  deviceId: string,
+  mode: 'mirror' | 'screenshot' = 'mirror',
+): Promise<ScreenSession> {
+  return apiFetch<ScreenSession>(`/devices/${deviceId}/screen-sessions`, {
+    method: 'POST',
+    body: JSON.stringify({ mode }),
+  });
+}
+
+export function requestScreenshot(deviceId: string): Promise<ScreenSession> {
+  return createScreenSession(deviceId, 'screenshot');
+}
+
+/** Lift Device Owner self-protection so the app can be uninstalled again. */
+export function releaseDeviceOwner(deviceId: string): Promise<void> {
+  return sendCommand(deviceId, 'RELEASE_OWNER');
+}
+
+// ---- activity timeline (app opens, usage, installs, notifications, history) ----
+
+export type EventLog = {
+  id: string;
+  type: string;
+  data: Record<string, unknown>;
+  occurredAt: string;
+};
+
+export type ContentItem = {
+  id: string;
+  source: string;
+  body: string;
+  matched?: string | null;
+  counterparty?: string | null;
+  occurredAt: string;
+};
+
+export function getEvents(deviceId: string, limit = 200): Promise<EventLog[]> {
+  return apiFetch<EventLog[]>(
+    `/devices/${deviceId}/events?limit=${limit}`,
+  ).catch(() => []);
+}
+
+export function getContent(
+  deviceId: string,
+  source?: string,
+): Promise<ContentItem[]> {
+  const q = source ? `?source=${encodeURIComponent(source)}` : '';
+  return apiFetch<ContentItem[]>(`/devices/${deviceId}/content${q}`).catch(
+    () => [],
+  );
+}
+
+export type InstalledApp = {
+  pkg: string;
+  label: string;
+  system?: boolean;
+  launchable?: boolean;
+};
+
+/**
+ * The child's installed-app list, read from the latest APP_INVENTORY event the
+ * device reported. Returns [] until the device has reported one.
+ */
+export async function getInstalledApps(
+  deviceId: string,
+): Promise<InstalledApp[]> {
+  const events = await getEvents(deviceId, 300);
+  const inv = events.find((e) => e.type === 'APP_INVENTORY');
+  const apps = (inv?.data?.apps as InstalledApp[] | undefined) ?? [];
+  return apps;
+}

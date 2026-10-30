@@ -13,6 +13,7 @@ import { FcmModule } from './fcm/fcm.module';
 import { GeofencesModule } from './geofences/geofences.module';
 import { HeartbeatModule } from './heartbeat/heartbeat.module';
 import { LocationsModule } from './locations/locations.module';
+import { MqttModule } from './mqtt/mqtt.module';
 import { PairingModule } from './pairing/pairing.module';
 import { PhotosModule } from './photos/photos.module';
 import { PoliciesModule } from './policies/policies.module';
@@ -28,6 +29,7 @@ import { TamperModule } from './tamper/tamper.module';
     RedisModule,
     AuditModule,
     FcmModule,
+    MqttModule,
     AlertsModule,
     AuthModule,
     DevicesModule,

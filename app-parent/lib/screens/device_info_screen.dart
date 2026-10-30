@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/models.dart';
+import '../state/providers.dart';
 import '../theme/app_theme.dart';
 import '../theme/status.dart';
 import '../widgets/ui.dart';
 import 'browser_safety_screen.dart';
 import 'call_sms_safety_screen.dart';
 import 'keyword_detection_screen.dart';
+import 'live_mirror_screen.dart';
 import 'notifications_screen.dart';
 import 'snapshot_screen.dart';
 import 'usage_logs_screen.dart';
@@ -242,11 +245,97 @@ class DeviceInfoScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                ListTile(
+                  leading: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: AppColors.brand.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.screenshot_rounded,
+                        color: AppColors.brand),
+                  ),
+                  title: const Text('Screenshot now'),
+                  subtitle: const Text('Capture the current screen on demand'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) =>
+                          LiveMirrorScreen(device: device, mode: 'screenshot'),
+                    ),
+                  ),
+                ),
+                const Divider(height: 1, indent: 16, endIndent: 16),
+                _ReleaseProtectionTile(device: device),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Remote-release Device Owner self-protection (makes the app removable again).
+class _ReleaseProtectionTile extends ConsumerWidget {
+  final Device device;
+  const _ReleaseProtectionTile({required this.device});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      leading: Container(
+        width: 42,
+        height: 42,
+        decoration: BoxDecoration(
+          color: AppColors.alert.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Icon(Icons.lock_open_rounded, color: AppColors.alert),
+      ),
+      title: const Text('Release protection'),
+      subtitle: const Text('Lift uninstall lock so this device can be removed'),
+      trailing: const Icon(Icons.chevron_right_rounded),
+      onTap: () async {
+        final confirm = await showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Release protection?'),
+            content: const Text(
+              'This lifts the uninstall and force-stop locks and relinquishes '
+              'device ownership. The app can then be removed. Continue?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, true),
+                child: const Text('Release'),
+              ),
+            ],
+          ),
+        );
+        if (confirm != true) return;
+        try {
+          await ref.read(apiProvider).releaseDeviceOwner(device.id);
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Release command sent')),
+            );
+          }
+        } catch (e) {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed: $e')),
+            );
+          }
+        }
+      },
     );
   }
 }

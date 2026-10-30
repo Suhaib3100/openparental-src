@@ -41,6 +41,10 @@ class DeviceStore(context: Context) {
     fun baseUrl(): String = prefs.getString("base_url", DEFAULT_BASE) ?: DEFAULT_BASE
     fun setBaseUrl(url: String) = prefs.edit().putString("base_url", url.trim()).apply()
 
+    /** MQTT broker URL (e.g. tcp://host:1883). Empty => MQTT wake disabled. */
+    fun mqttUrl(): String? = prefs.getString("mqtt_url", null)
+    fun setMqttUrl(url: String) = prefs.edit().putString("mqtt_url", url.trim()).apply()
+
     fun fcmToken(): String? = prefs.getString("fcm_token", null)
 
     fun setFcmToken(token: String) {

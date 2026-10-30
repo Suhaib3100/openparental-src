@@ -18,6 +18,8 @@
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
+  --color-online: var(--online);
+  --color-alert: var(--alert);
   --font-sans: var(--font-geist-sans);
 }
 

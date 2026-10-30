@@ -14,6 +14,7 @@ import { DeviceAuthGuard } from '../common/guards/device-auth.guard';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { AuthDevice, AuthUser } from '../common/types';
 import { ConsentSessionDto } from './dto/consent-session.dto';
+import { CreateScreenSessionDto } from './dto/create-screen-session.dto';
 import { ScreenSessionsService } from './screen-sessions.service';
 
 @Controller()
@@ -28,8 +29,14 @@ export class ScreenSessionsController {
   create(
     @CurrentUser() user: AuthUser,
     @Param('deviceId') deviceId: string,
+    @Body() dto: CreateScreenSessionDto,
   ) {
-    return this.sessions.create(user.familyId, deviceId, user.userId);
+    return this.sessions.create(
+      user.familyId,
+      deviceId,
+      user.userId,
+      dto.mode ?? 'mirror',
+    );
   }
 
   @Get('screen-sessions/:id')

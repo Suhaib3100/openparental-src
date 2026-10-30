@@ -4,6 +4,7 @@ import { Test } from '@nestjs/testing';
 import { AuditService } from '../audit/audit.service';
 import { DevicesService } from '../devices/devices.service';
 import { FcmService } from '../fcm/fcm.service';
+import { MqttService } from '../mqtt/mqtt.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { CommandsService } from './commands.service';
 
@@ -21,6 +22,7 @@ describe('CommandsService', () => {
   };
   let devices: { getForFamily: jest.Mock };
   let fcm: { sendData: jest.Mock };
+  let mqtt: { publishCommand: jest.Mock };
   let audit: { log: jest.Mock };
 
   beforeEach(async () => {
@@ -40,6 +42,7 @@ describe('CommandsService', () => {
         .mockResolvedValue({ id: 'd1', familyId: 'f1', fcmToken: 'tok' }),
     };
     fcm = { sendData: jest.fn().mockResolvedValue(true) };
+    mqtt = { publishCommand: jest.fn().mockReturnValue(false) };
     audit = { log: jest.fn().mockResolvedValue(undefined) };
 
     const ref = await Test.createTestingModule({
@@ -48,6 +51,7 @@ describe('CommandsService', () => {
         { provide: PrismaService, useValue: prisma },
         { provide: DevicesService, useValue: devices },
         { provide: FcmService, useValue: fcm },
+        { provide: MqttService, useValue: mqtt },
         { provide: AuditService, useValue: audit },
         { provide: ConfigService, useValue: { get: () => 300 } },
       ],

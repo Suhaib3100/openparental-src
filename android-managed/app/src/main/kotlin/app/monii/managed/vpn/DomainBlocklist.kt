@@ -27,7 +27,12 @@ class DomainBlocklist(context: Context) {
     private fun load(context: Context): Set<String> {
         val json = PolicyStore.loadJson(context) ?: return emptySet()
         return runCatching {
-            val obj = Gson().fromJson(json, JsonObject::class.java)
+            val root = Gson().fromJson(json, JsonObject::class.java)
+            val obj = if (root.get("rules")?.isJsonObject == true) {
+                root.getAsJsonObject("rules")
+            } else {
+                root
+            }
             obj.getAsJsonArray("blockedDomains")
                 ?.mapNotNull { runCatching { it.asString.lowercase() }.getOrNull() }
                 ?.toSet() ?: emptySet()

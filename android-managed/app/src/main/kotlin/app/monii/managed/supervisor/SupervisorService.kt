@@ -15,10 +15,13 @@ import android.os.Looper
 import androidx.core.app.NotificationCompat
 import app.monii.managed.R
 import app.monii.managed.admin.AdminManager
+import app.monii.managed.admin.DeviceOwnerManager
+import app.monii.managed.collectors.AppInventoryCollector
 import app.monii.managed.collectors.VisibilityCollector
 import app.monii.managed.location.GeofenceManager
 import app.monii.managed.commands.CommandDispatcher
 import app.monii.managed.identity.DeviceStore
+import app.monii.managed.mqtt.MqttClientManager
 import app.monii.managed.repo.MoniiRepository
 import app.monii.managed.survival.SurvivalLog
 import app.monii.managed.sync.SyncScheduler
@@ -53,6 +56,7 @@ class SupervisorService : Service() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var syncJob: Job? = null
+    private var mqtt: MqttClientManager? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -67,10 +71,14 @@ class SupervisorService : Service() {
             "(${Build.MANUFACTURER} ${Build.MODEL}, API ${Build.VERSION.SDK_INT})",
         )
         running = true
+        // Re-assert device-owner self-protection (idempotent) so a reboot or OEM
+        // reset of a policy never leaves a gap. No-op unless we're the owner.
+        runCatching { DeviceOwnerManager(applicationContext).applyProtection() }
         handler.removeCallbacks(heartbeat)
         handler.post(heartbeat)
         SyncScheduler.schedule(this)
         startSyncLoop()
+        startMqtt()
         return START_STICKY
     }
 
@@ -82,6 +90,7 @@ class SupervisorService : Service() {
         val dispatcher = CommandDispatcher(app, repo, AdminManager(app))
         val tamper = TamperWatchdog(app)
         val visibility = VisibilityCollector(app)
+        val inventory = AppInventoryCollector(app)
         val geofences = GeofenceManager(app)
         syncJob = scope.launch {
             while (isActive) {
@@ -90,15 +99,24 @@ class SupervisorService : Service() {
                         repo.heartbeat(batteryPct())
                         repo.syncFcmToken()
                         repo.flushEvents()
+                        repo.flushContent()
                         dispatcher.syncAndExecute()
                         tamper.check(repo)
                         visibility.collect(repo)
+                        inventory.collect(repo)
                         geofences.syncFromBackend(repo)
                     }
                 }
                 delay(SYNC_MS)
             }
         }
+    }
+
+    private fun startMqtt() {
+        val store = DeviceStore(applicationContext)
+        if (!store.isPaired() || store.mqttUrl().isNullOrBlank()) return
+        if (mqtt == null) mqtt = MqttClientManager(applicationContext)
+        runCatching { mqtt?.start() }
     }
 
     private fun batteryPct(): Int? {
@@ -115,6 +133,7 @@ class SupervisorService : Service() {
     override fun onDestroy() {
         running = false
         handler.removeCallbacks(heartbeat)
+        runCatching { mqtt?.stop() }
         scope.cancel()
         SurvivalLog.record(this, SurvivalLog.DESTROY)
         super.onDestroy()

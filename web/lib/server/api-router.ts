@@ -560,6 +560,307 @@ export async function dispatchApi(
       return json(updated[0]);
     }
 
+    if (key === 'policies' && method === 'GET') {
+      const auth = await requireAccess(req);
+      const sql = getSql();
+      const rows = await sql`
+        select id, version, rules, active, "createdAt" from "Policy"
+        where "familyId" = ${auth.familyId} and active = true
+        order by version desc limit 1
+      `;
+      return json(rows[0] ?? null);
+    }
+
+    if (key === 'policies' && method === 'PUT') {
+      const auth = await requireAccess(req);
+      const body = await readJson<{ rules?: Record<string, unknown> }>(req);
+      const patch = body.rules ?? {};
+      const sql = getSql();
+
+      const activeRows = await sql<{ rules: Record<string, unknown> }[]>`
+        select rules from "Policy" where "familyId" = ${auth.familyId} and active = true
+        order by version desc limit 1
+      `;
+      const existing =
+        activeRows[0]?.rules && typeof activeRows[0].rules === 'object'
+          ? activeRows[0].rules
+          : {};
+      const merged = { ...existing, ...patch };
+
+      const latest = await sql<{ version: number }[]>`
+        select version from "Policy" where "familyId" = ${auth.familyId}
+        order by version desc limit 1
+      `;
+      const version = (latest[0]?.version ?? 0) + 1;
+
+      await sql`update "Policy" set active = false where "familyId" = ${auth.familyId} and active = true`;
+      const created = await sql`
+        insert into "Policy" ("familyId", version, rules, active)
+        values (${auth.familyId}, ${version}, ${sql.json(merged as never)}, true)
+        returning id, version, rules, active, "createdAt"
+      `;
+
+      // Fan out SET_POLICY to every device in the family.
+      const devices = await sql<{ id: string }[]>`
+        select id from "Device" where "familyId" = ${auth.familyId}
+      `;
+      const expiresAt = new Date(Date.now() + COMMAND_TTL_SEC * 1000);
+      for (const d of devices) {
+        await sql`
+          insert into "Command" ("deviceId", type, payload, "idempotencyKey", state, "expiresAt")
+          values (${d.id}, 'SET_POLICY', ${sql.json({ version, rules: merged } as never)}, ${randomToken()}, 'QUEUED', ${expiresAt})
+        `;
+      }
+      return json(created[0]);
+    }
+
+    if (
+      segments[0] === 'devices' &&
+      segments[1] &&
+      segments[2] === 'screen-sessions' &&
+      method === 'POST'
+    ) {
+      const auth = await requireAccess(req);
+      const deviceId = segments[1]!;
+      const body = await readJson<{ mode?: 'mirror' | 'screenshot' }>(req);
+      const sql = getSql();
+      const owned = await sql`select id from "Device" where id = ${deviceId} and "familyId" = ${auth.familyId} limit 1`;
+      if (!owned.length) return apiError(404, 'device not found');
+
+      const sessions = await sql<{ id: string }[]>`
+        insert into "ScreenSession" ("deviceId", transport, consented)
+        values (${deviceId}, 'clip', true)
+        returning id
+      `;
+      const sessionId = sessions[0]!.id;
+      const type = body.mode === 'screenshot' ? 'SCREENSHOT' : 'SCREEN_VIEW_REQUEST';
+      const expiresAt = new Date(Date.now() + COMMAND_TTL_SEC * 1000);
+      await sql`
+        insert into "Command" ("deviceId", type, payload, "idempotencyKey", state, "expiresAt")
+        values (${deviceId}, ${type}, ${sql.json({ sessionId } as never)}, ${randomToken()}, 'QUEUED', ${expiresAt})
+      `;
+      return json({ id: sessionId, status: 'pending' }, 201);
+    }
+
+    if (key === 'events' && method === 'POST') {
+      const dev = await requireDevice(req);
+      const body = await readJson<{
+        events?: { type: string; data: unknown; occurredAt: string }[];
+      }>(req);
+      const events = body.events ?? [];
+      const sql = getSql();
+      for (const e of events) {
+        await sql`
+          insert into "Event" ("deviceId", type, data, "occurredAt")
+          values (${dev.deviceId}, ${e.type}, ${sql.json((e.data ?? {}) as never)}, ${new Date(e.occurredAt)})
+        `;
+      }
+      await sql`update "Device" set "lastSeenAt" = now() where id = ${dev.deviceId}`;
+      return json({ count: events.length });
+    }
+
+    if (
+      segments[0] === 'devices' &&
+      segments[1] &&
+      segments[2] === 'events' &&
+      method === 'GET'
+    ) {
+      const auth = await requireAccess(req);
+      const deviceId = segments[1]!;
+      const sql = getSql();
+      const owned = await sql`select id from "Device" where id = ${deviceId} and "familyId" = ${auth.familyId} limit 1`;
+      if (!owned.length) return apiError(404, 'device not found');
+      const url = new URL(req.url);
+      const limit = Math.min(Number(url.searchParams.get('limit')) || 200, 500);
+      const rows = await sql`
+        select id, type, data, "occurredAt" from "Event"
+        where "deviceId" = ${deviceId}
+        order by "occurredAt" desc limit ${limit}
+      `;
+      return json(rows);
+    }
+
+    if (key === 'content' && method === 'POST') {
+      const dev = await requireDevice(req);
+      const body = await readJson<{
+        items?: {
+          source: string;
+          body: string;
+          matched?: string | null;
+          counterparty?: string | null;
+          direction?: string | null;
+          occurredAt: string;
+        }[];
+      }>(req);
+      const items = body.items ?? [];
+      const sql = getSql();
+      for (const it of items) {
+        await sql`
+          insert into "ContentArchive"
+            ("deviceId", source, direction, counterparty, body, matched, "occurredAt")
+          values (
+            ${dev.deviceId}, ${it.source}, ${it.direction ?? null},
+            ${it.counterparty ?? null}, ${it.body}, ${it.matched ?? null}, ${new Date(it.occurredAt)}
+          )
+        `;
+      }
+      await sql`update "Device" set "lastSeenAt" = now() where id = ${dev.deviceId}`;
+      return json({ count: items.length });
+    }
+
+    if (
+      segments[0] === 'devices' &&
+      segments[1] &&
+      segments[2] === 'content' &&
+      method === 'GET'
+    ) {
+      const auth = await requireAccess(req);
+      const deviceId = segments[1]!;
+      const sql = getSql();
+      const owned = await sql`select id from "Device" where id = ${deviceId} and "familyId" = ${auth.familyId} limit 1`;
+      if (!owned.length) return apiError(404, 'device not found');
+      const url = new URL(req.url);
+      const source = url.searchParams.get('source');
+      const rows = source
+        ? await sql`
+            select id, source, direction, counterparty, body, matched, "occurredAt"
+            from "ContentArchive" where "deviceId" = ${deviceId} and source = ${source}
+            order by "occurredAt" desc limit 300
+          `
+        : await sql`
+            select id, source, direction, counterparty, body, matched, "occurredAt"
+            from "ContentArchive" where "deviceId" = ${deviceId}
+            order by "occurredAt" desc limit 300
+          `;
+      return json(rows);
+    }
+
+    // ---- location history ----
+    if (
+      segments[0] === 'devices' &&
+      segments[1] &&
+      segments[2] === 'locations' &&
+      segments.length === 3 &&
+      method === 'GET'
+    ) {
+      const auth = await requireAccess(req);
+      const deviceId = segments[1]!;
+      const sql = getSql();
+      const owned = await sql`select id from "Device" where id = ${deviceId} and "familyId" = ${auth.familyId} limit 1`;
+      if (!owned.length) return apiError(404, 'device not found');
+      const url = new URL(req.url);
+      const limit = Math.min(Number(url.searchParams.get('limit')) || 100, 500);
+      const rows = await sql`
+        select lat, lng, "accuracyM", "occurredAt" from "Location"
+        where "deviceId" = ${deviceId}
+        order by "occurredAt" desc limit ${limit}
+      `;
+      return json(rows);
+    }
+
+    // ---- geofences (parent CRUD) ----
+    if (
+      segments[0] === 'devices' &&
+      segments[1] &&
+      segments[2] === 'geofences' &&
+      segments.length === 3
+    ) {
+      const auth = await requireAccess(req);
+      const deviceId = segments[1]!;
+      const sql = getSql();
+      const owned = await sql`select id from "Device" where id = ${deviceId} and "familyId" = ${auth.familyId} limit 1`;
+      if (!owned.length) return apiError(404, 'device not found');
+
+      if (method === 'GET') {
+        const rows = await sql`
+          select id, name, lat, lng, "radiusM", active from "Geofence"
+          where "deviceId" = ${deviceId} order by "createdAt" asc
+        `;
+        return json(rows);
+      }
+      if (method === 'POST') {
+        const b = await readJson<{
+          name?: string;
+          lat?: number;
+          lng?: number;
+          radiusM?: number;
+        }>(req);
+        if (!b.name || b.lat == null || b.lng == null) {
+          return apiError(400, 'name, lat, lng required');
+        }
+        const rows = await sql`
+          insert into "Geofence" ("deviceId", name, lat, lng, "radiusM")
+          values (${deviceId}, ${b.name}, ${b.lat}, ${b.lng}, ${b.radiusM ?? 200})
+          returning id, name, lat, lng, "radiusM", active
+        `;
+        return json(rows[0], 201);
+      }
+    }
+
+    if (
+      segments[0] === 'devices' &&
+      segments[1] &&
+      segments[2] === 'geofences' &&
+      segments[3] &&
+      method === 'DELETE'
+    ) {
+      const auth = await requireAccess(req);
+      const deviceId = segments[1]!;
+      const gid = segments[3]!;
+      const sql = getSql();
+      const owned = await sql`select id from "Device" where id = ${deviceId} and "familyId" = ${auth.familyId} limit 1`;
+      if (!owned.length) return apiError(404, 'device not found');
+      await sql`delete from "Geofence" where id = ${gid} and "deviceId" = ${deviceId}`;
+      return noContent();
+    }
+
+    // ---- AI usage report ----
+    if (
+      segments[0] === 'devices' &&
+      segments[1] &&
+      segments[2] === 'ai-report' &&
+      method === 'POST'
+    ) {
+      const auth = await requireAccess(req);
+      const deviceId = segments[1]!;
+      const sql = getSql();
+      const owned = await sql`select id from "Device" where id = ${deviceId} and "familyId" = ${auth.familyId} limit 1`;
+      if (!owned.length) return apiError(404, 'device not found');
+      const { aiConfigured, generateReport } = await import('./ai-report');
+      if (!aiConfigured()) {
+        return apiError(503, 'AI not configured (set ANTHROPIC_API_KEY)');
+      }
+      const events = await sql`
+        select type, data, "occurredAt" from "Event"
+        where "deviceId" = ${deviceId} order by "occurredAt" desc limit 300
+      `;
+      const content = await sql`
+        select source, body, matched, counterparty, "occurredAt" from "ContentArchive"
+        where "deviceId" = ${deviceId} order by "occurredAt" desc limit 200
+      `;
+      try {
+        const report = await generateReport(
+          events as never,
+          content as never,
+        );
+        return json({ report });
+      } catch (e) {
+        console.error('ai-report', e);
+        return apiError(502, 'AI report generation failed');
+      }
+    }
+
+    // ---- geofences (device reads its fences) ----
+    if (key === 'geofences' && method === 'GET') {
+      const dev = await requireDevice(req);
+      const sql = getSql();
+      const rows = await sql`
+        select id, name, lat, lng, "radiusM", active from "Geofence"
+        where "deviceId" = ${dev.deviceId} and active = true
+      `;
+      return json(rows);
+    }
+
     return apiError(404, 'Not Found');
   } catch (e) {
     if (e instanceof Response) return e;

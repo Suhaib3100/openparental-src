@@ -71,4 +71,7 @@ dependencies {
     }
 
     implementation("com.google.android.gms:play-services-location:21.3.0")
+
+    // MQTT realtime command spine (parallel to FCM wake)
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
 }

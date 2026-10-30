@@ -5,6 +5,7 @@ import { AuditService } from '../audit/audit.service';
 import { randomToken } from '../common/hash.util';
 import { DevicesService } from '../devices/devices.service';
 import { FcmService } from '../fcm/fcm.service';
+import { MqttService } from '../mqtt/mqtt.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { CommandResultDto } from './dto/command-result.dto';
 import { CreateCommandDto } from './dto/create-command.dto';
@@ -15,6 +16,8 @@ const HIGH_PRIORITY: ReadonlySet<CommandType> = new Set([
   CommandType.UNLOCK,
   CommandType.SCREEN_VIEW_REQUEST,
   CommandType.SCREEN_MIRROR,
+  CommandType.SCREENSHOT,
+  CommandType.RELEASE_OWNER,
 ]);
 
 
@@ -32,6 +35,7 @@ export class CommandsService {
     private readonly prisma: PrismaService,
     private readonly devices: DevicesService,
     private readonly fcm: FcmService,
+    private readonly mqtt: MqttService,
     private readonly audit: AuditService,
     config: ConfigService,
   ) {
@@ -62,13 +66,21 @@ export class CommandsService {
       },
     });
 
-    const sent = device.fcmToken
+    // Wake the device instantly: MQTT (persistent spine) and/or FCM. Either
+    // just nudges it to pull the real command over the idempotent REST path.
+    const mqttSent = this.mqtt.publishCommand(
+      deviceId,
+      command.id,
+      command.type,
+    );
+    const fcmSent = device.fcmToken
       ? await this.fcm.sendData(
           device.fcmToken,
           { kind: 'command', commandId: command.id, type: command.type },
           HIGH_PRIORITY.has(command.type),
         )
       : false;
+    const sent = mqttSent || fcmSent;
 
     const updated = await this.prisma.command.update({
       where: { id: command.id },
